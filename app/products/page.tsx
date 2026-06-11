@@ -1,75 +1,67 @@
-import Reveal from '@/components/ui/Reveal'
 import Link from 'next/link'
+import Reveal from '@/components/ui/Reveal'
 
 export const metadata = {
-  title: 'Products — Fitness Wear & Streetwear Manufacturer',
-  description: 'Browse our product capabilities: fitness wear, activewear, streetwear, hoodies, joggers, tees, leggings. MOQ from 50 pieces. Custom OEM/ODM available.',
+  title: 'Products — Custom Manufacturing & In-Stock Shop',
+  description: 'Browse custom OEM manufacturing services and ready-to-ship fitness wear & streetwear. MOQ from 50 pieces or buy 1-50 from stock.',
 }
-
-const CATEGORIES = [
-  { name: 'Fitness & Activewear', img: 'https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=600&q=80', items: ['Leggings & Yoga Pants', 'Sports Bras & Tops', 'Compression Wear', 'Track Suits'] },
-  { name: 'Streetwear', img: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&q=80', items: ['Hoodies & Sweatshirts', 'Oversized Tees', 'Joggers & Pants', 'Bomber Jackets'] },
-  { name: 'Casual & Lifestyle', img: 'https://images.unsplash.com/photo-1556906781-9a412961c28c?w=600&q=80', items: ['Polo Shirts', 'Crewneck Sweaters', 'Casual Pants', 'Outerwear'] },
-  { name: 'Custom OEM/ODM', img: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600&q=80', items: ['Tech Pack Development', 'Pattern Making', 'Sample Production', 'Bulk Manufacturing'] },
-]
 
 export default function ProductsPage() {
   return (
-    <>
-      <section className="section pt-32">
-        <div className="container-1200 text-center">
-          <Reveal>
-            <div className="section-label"><i className="fas fa-tshirt" /> Capabilities</div>
-            <h1 className="section-title">Our Products</h1>
-            <p className="section-subtitle mx-auto">
-              Fitness wear, streetwear, and casual apparel — from concept to delivery
+    <section className="section" style={{ paddingTop: '8rem', minHeight: '80vh' }}>
+      <div className="container-1200">
+        <Reveal>
+          <div className="text-center" style={{ marginBottom: '3rem' }}>
+            <div className="section-label"><i className="fas fa-tshirt" /> Our Products</div>
+            <h1 className="section-title">How Would You Like to Order?</h1>
+            <p className="section-subtitle" style={{ margin: '0 auto' }}>
+              Custom manufacturing for your brand, or ready-to-ship from our stock
             </p>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="section pt-0">
-        <div className="container-1200">
-          <div className="grid-2">
-            {CATEGORIES.map((cat) => (
-              <Reveal key={cat.name}>
-                <div className="card overflow-hidden p-0">
-                  <div className="aspect-[16/9] overflow-hidden">
-                    <img src={cat.img} alt={cat.name} className="w-full h-full object-cover" />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold mb-3">{cat.name}</h3>
-                    <ul className="space-y-2 mb-4">
-                      {cat.items.map((i) => (
-                        <li key={i} className="flex items-center gap-2 text-sm text-gray-custom">
-                          <i className="fas fa-check text-success" /> {i}
-                        </li>
-                      ))}
-                    </ul>
-                    <Link href="/sample-order" className="btn btn-outline text-sm w-full justify-center">
-                      Request Sample <i className="fas fa-arrow-right" />
-                    </Link>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
           </div>
-        </div>
-      </section>
+        </Reveal>
 
-      <section className="section bg-darker">
-        <div className="container-1200 text-center">
+        <div className="grid-2" style={{ maxWidth: 900, margin: '0 auto' }}>
           <Reveal>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Don&apos;t See What You Need?</h2>
-            <p className="text-lg text-gray-custom mb-8 max-w-2xl mx-auto">
-              We custom-manufacture almost any apparel category. Share your tech pack and we&apos;ll quote within 48 hours.
-            </p>
-            <Link href="/sample-order" className="btn btn-primary">
-              Start Custom Project <i className="fas fa-arrow-right" />
+            <Link href="/products/custom" style={{ textDecoration: 'none' }}>
+              <div className="card" style={{ textAlign: 'center', padding: '3rem 2rem', cursor: 'pointer', minHeight: 320, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ fontSize: '3.5rem', marginBottom: '1.5rem' }}>🏭</div>
+                <h2 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '0.75rem', color: '#fff' }}>Custom Manufacturing</h2>
+                <p style={{ color: '#888', lineHeight: 1.7, marginBottom: '1.5rem' }}>
+                  Your designs, your brand. We manufacture from your tech pack or sketch. MOQ 50 pieces.
+                </p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', justifyContent: 'center', marginBottom: '1.5rem' }}>
+                  {['OEM/ODM', 'Private Label', 'MOQ 50pcs', 'Your Design'].map(t => (
+                    <span key={t} style={{ fontSize: '0.7rem', padding: '4px 10px', background: 'rgba(255,71,87,0.1)', border: '1px solid rgba(255,71,87,0.2)', borderRadius: 50, color: '#ff4757' }}>{t}</span>
+                  ))}
+                </div>
+                <span className="btn btn-primary" style={{ pointerEvents: 'none' }}>
+                  Browse & Get Quote <i className="fas fa-arrow-right" />
+                </span>
+              </div>
+            </Link>
+          </Reveal>
+
+          <Reveal>
+            <Link href="/products/in-stock" style={{ textDecoration: 'none' }}>
+              <div className="card" style={{ textAlign: 'center', padding: '3rem 2rem', cursor: 'pointer', minHeight: 320, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ fontSize: '3.5rem', marginBottom: '1.5rem' }}>🛒</div>
+                <h2 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '0.75rem', color: '#fff' }}>In-Stock Shop</h2>
+                <p style={{ color: '#888', lineHeight: 1.7, marginBottom: '1.5rem' }}>
+                  Ready-to-ship collection. Buy 1–50 pieces at tiered wholesale prices. Ships in 3 days.
+                </p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', justifyContent: 'center', marginBottom: '1.5rem' }}>
+                  {['No MOQ', '3-Day Ship', '15-30% Off', 'Buy Now'].map(t => (
+                    <span key={t} style={{ fontSize: '0.7rem', padding: '4px 10px', background: 'rgba(46,213,115,0.1)', border: '1px solid rgba(46,213,115,0.2)', borderRadius: 50, color: '#2ed573' }}>{t}</span>
+                  ))}
+                </div>
+                <span className="btn btn-outline" style={{ pointerEvents: 'none', borderColor: '#2ed573', color: '#2ed573' }}>
+                  Shop Now <i className="fas fa-shopping-bag" />
+                </span>
+              </div>
             </Link>
           </Reveal>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   )
 }
