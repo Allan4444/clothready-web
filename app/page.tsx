@@ -4,6 +4,7 @@ import WhoWeWorkWith from '@/components/sections/WhoWeWorkWith'
 import Process from '@/components/sections/Process'
 import SocialFeed from '@/components/sections/SocialFeed'
 import CTA from '@/components/sections/CTA'
+import BuildBrand from '@/components/sections/BuildBrand'
 
 export default function HomePage() {
   return (
@@ -14,6 +15,7 @@ export default function HomePage() {
       <Process />
       <SocialFeed />
       <CTA />
+      <BuildBrand />
     </>
   )
 }
