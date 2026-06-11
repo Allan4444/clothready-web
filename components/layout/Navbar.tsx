@@ -38,7 +38,7 @@ export default function Navbar() {
             src="/logo.png"
             alt="ClothReady"
             className="h-9 w-auto"
-            style={{ mixBlendMode: 'screen' }}
+            style={{  }}
           />
         </Link>
 

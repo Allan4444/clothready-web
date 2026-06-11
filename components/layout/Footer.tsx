@@ -10,7 +10,7 @@ export default function Footer() {
               src="/logo.png"
               alt="ClothReady"
               className="h-9 mb-4"
-              style={{ mixBlendMode: 'screen' }}
+              style={{  }}
             />
             <p className="text-sm text-gray-custom leading-relaxed">
               B2B fitness wear and streetwear manufacturer. Direct factory in Guangzhou, China.
