@@ -15,10 +15,10 @@ export default function Footer() {
           <div>
             <Link href="/">
               <Image
-                src="/logo - white.png"
+                src="/logo.png"
                 alt="ClothReady"
-                width={170}
-                height={46}
+                width={160}
+                height={40}
                 style={{ objectFit: 'contain', marginBottom: '1.1rem', display: 'block' }}
               />
             </Link>
@@ -94,7 +94,7 @@ export default function Footer() {
                   Bulk Order
                 </a>
               </li>
-              <li><Link href="/contact" className="footer-link">Custom Manufacturing</Link></li>
+              <li><Link href="/faq" className="footer-link">FAQ</Link></li>
               <li><Link href="/tech-pack" className="footer-link">Tech Pack</Link></li>
             </ul>
           </div>
