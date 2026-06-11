@@ -3,10 +3,6 @@
 import Reveal from '@/components/ui/Reveal'
 import Link from 'next/link'
 
-export const metadata = {
-  title: 'Custom Manufacturing — OEM Fitness & Streetwear',
-  description: 'Custom apparel manufacturing: fitness wear, activewear, streetwear. Your design, your brand. MOQ 50 pieces. Free tech pack development.',
-}
 
 const PRODUCTS = [
   { id: 'leggings', name: 'Leggings & Yoga Pants', cat: 'Fitness', img: 'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=600&q=80', moq: 50, lead: '20-30 days', fabrics: ['Nylon/Spandex', '4-way stretch', 'Moisture-wicking'] },

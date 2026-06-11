@@ -3,10 +3,6 @@
 import Reveal from '@/components/ui/Reveal'
 import Link from 'next/link'
 
-export const metadata = {
-  title: 'About — Premium Fitness & Streetwear Manufacturer',
-  description: 'Learn about ClothReady — 20+ years specialized experience manufacturing premium fitness wear and streetwear for European and American brands.',
-}
 
 const FEATURES = [
   { icon: 'fa-handshake', title: 'Direct Factory Access', desc: 'No middlemen. You work directly with factory owners and production managers.' },
