@@ -119,15 +119,15 @@ export default function Navbar() {
           })}
         </ul>
 
-        {/* Right side: Account icon + Get Quote */}
+        {/* Right side: Account + Get Quote */}
         <div className="hidden md:flex items-center gap-3">
-          {/* Account button — same style as Get Quote */}
           <div ref={accountRef} className="relative">
             <button
+              type="button"
               onClick={() => setAccountOpen(!accountOpen)}
-              className="btn btn-primary text-xs flex items-center gap-2"
+              className="btn btn-primary text-xs border-0"
             >
-              <User size={15} />
+              <User size={14} />
               My Account
             </button>
 
