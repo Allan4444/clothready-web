@@ -37,7 +37,7 @@ export default function SocialFeed() {
   const visible = FEEDS.slice(page * perPage, page * perPage + perPage)
 
   return (
-    <section style={{ background: '#050505', padding: '5rem 0' }}>
+    <section id="social-feed" style={{ background: '#050505', padding: '5rem 0' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 2rem' }}>
         <Reveal>
           <div className="text-center" style={{ marginBottom: '2.5rem' }}>
