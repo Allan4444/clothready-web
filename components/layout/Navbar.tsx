@@ -21,7 +21,7 @@ const NAV_LINKS = [
 
 const ACCOUNT_LINKS = [
   { href: '/account', label: 'My Account', icon: '👤' },
-  { href: '/account/orders', label: 'My Orders & Tracking', icon: '📦' },
+  { href: '/account/orders', label: 'My Order', icon: '📦' },
 ]
 
 export default function Navbar() {
@@ -121,7 +121,6 @@ export default function Navbar() {
 
         {/* Right side: Account icon + Get Quote */}
         <div className="hidden md:flex items-center gap-3">
-          {/* Round icon-only account button */}
           <div ref={accountRef} className="relative">
             <button
               type="button"
