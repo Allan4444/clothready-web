@@ -21,8 +21,7 @@ const NAV_LINKS = [
 
 const ACCOUNT_LINKS = [
   { href: '/account', label: 'My Account', icon: '👤' },
-  { href: '/account/orders', label: 'My Orders & Tracking', icon: '📦' },
-  { href: '/account/addresses', label: 'My Addresses', icon: '📍' },
+  { href: '/account/orders', label: 'My Order', icon: '📦' },
 ]
 
 export default function Navbar() {
@@ -46,7 +45,6 @@ export default function Navbar() {
     setAccountOpen(false)
   }, [pathname])
 
-  // 点击外部关闭下拉
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (productsRef.current && !productsRef.current.contains(e.target as Node)) setProductsOpen(false)
@@ -73,7 +71,6 @@ export default function Navbar() {
           {NAV_LINKS.map((l) => {
             const active = pathname === l.href || pathname?.startsWith(l.href + '/')
 
-            // 有子菜单的（Products）
             if (l.children) {
               return (
                 <li key={l.href} ref={productsRef} className="relative">
@@ -88,7 +85,6 @@ export default function Navbar() {
                   </button>
                   {active && <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-primary" />}
 
-                  {/* 下拉菜单 */}
                   {productsOpen && (
                     <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[280px] bg-[#141414] border border-white/10 rounded-xl overflow-hidden shadow-2xl">
                       {l.children.map((child) => (
@@ -107,7 +103,6 @@ export default function Navbar() {
               )
             }
 
-            // 普通链接
             return (
               <li key={l.href}>
                 <Link
@@ -126,13 +121,15 @@ export default function Navbar() {
 
         {/* Right side: Account icon + Get Quote */}
         <div className="hidden md:flex items-center gap-3">
-          {/* Account icon */}
           <div ref={accountRef} className="relative">
             <button
+              type="button"
               onClick={() => setAccountOpen(!accountOpen)}
-              className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:border-white/40 transition-colors"
+              style={{ background: 'linear-gradient(135deg,#ff4757,#ff6b6b)' }}
+              className="w-10 h-10 rounded-full border-0 flex items-center justify-center transition-all hover:-translate-y-0.5 hover:shadow-lg cursor-pointer"
+              aria-label="My Account"
             >
-              <User size={18} className="text-white/80" />
+              <User size={18} className="text-white" />
             </button>
 
             {accountOpen && (

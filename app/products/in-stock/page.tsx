@@ -26,18 +26,26 @@ function ProductCard({ p, onAdd }: { p: any; onAdd: (p: any, q: number) => void 
 
   return (
     <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ position: 'relative', overflow: 'hidden' }}>
+      <Link href={`/products/in-stock/${p.id}`} style={{ textDecoration: 'none', display: 'block', position: 'relative', overflow: 'hidden' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={p.img || ''} alt={p.name} style={{ width: '100%', height: 220, objectFit: 'cover', display: 'block' }} />
+        <img src={p.img || ''} alt={p.name} style={{ width: '100%', height: 220, objectFit: 'cover', display: 'block', transition: 'transform 0.4s' }}
+          onMouseOver={e => (e.currentTarget.style.transform = 'scale(1.05)')}
+          onMouseOut={e => (e.currentTarget.style.transform = 'scale(1)')}
+        />
         {lowStock && <span style={{ position: 'absolute', top: 10, left: 10, background: '#ff4757', color: '#fff', fontSize: '0.65rem', fontWeight: 700, padding: '3px 10px', borderRadius: 50 }}>LOW STOCK</span>}
         <div style={{ position: 'absolute', bottom: 10, left: 10, display: 'flex', gap: '0.3rem', flexWrap: 'wrap' }}>
           {(p.tags || []).slice(0, 2).map((t: string) => (
             <span key={t} style={{ background: 'rgba(0,0,0,0.65)', color: '#ddd', fontSize: '0.6rem', padding: '2px 8px', borderRadius: 50 }}>{t}</span>
           ))}
         </div>
-      </div>
+        <div style={{ position: 'absolute', top: 10, right: 10, background: 'rgba(0,0,0,0.55)', borderRadius: 8, padding: '4px 8px', display: 'flex', alignItems: 'center', gap: 4 }}>
+          <i className="fas fa-expand-alt" style={{ color: '#fff', fontSize: '0.65rem' }} />
+        </div>
+      </Link>
       <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem', flex: 1 }}>
-        <h3 style={{ fontWeight: 700, fontSize: '0.95rem', color: '#fff', margin: 0 }}>{p.name}</h3>
+        <Link href={`/products/in-stock/${p.id}`} style={{ textDecoration: 'none' }}>
+          <h3 style={{ fontWeight: 700, fontSize: '0.95rem', color: '#fff', margin: 0 }}>{p.name}</h3>
+        </Link>
         <p style={{ color: '#666', fontSize: '0.82rem', lineHeight: 1.6, margin: 0, flex: 1 }}>{p.description}</p>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
           <div>
