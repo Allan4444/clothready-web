@@ -119,16 +119,18 @@ export default function Navbar() {
           })}
         </ul>
 
-        {/* Right side: Account + Get Quote */}
+        {/* Right side: Account icon + Get Quote */}
         <div className="hidden md:flex items-center gap-3">
+          {/* Round icon-only account button */}
           <div ref={accountRef} className="relative">
             <button
               type="button"
               onClick={() => setAccountOpen(!accountOpen)}
-              className="btn btn-primary text-xs border-0"
+              style={{ background: 'linear-gradient(135deg,#ff4757,#ff6b6b)' }}
+              className="w-10 h-10 rounded-full border-0 flex items-center justify-center transition-all hover:-translate-y-0.5 hover:shadow-lg cursor-pointer"
+              aria-label="My Account"
             >
-              <User size={14} />
-              My Account
+              <User size={18} className="text-white" />
             </button>
 
             {accountOpen && (
