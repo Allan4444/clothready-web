@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Toaster } from 'sonner'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import PageThemeSync from '@/components/layout/PageThemeSync'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -68,6 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
+        <PageThemeSync />
         <Navbar />
         <main>{children}</main>
         <Footer />

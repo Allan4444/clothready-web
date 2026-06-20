@@ -26,6 +26,7 @@ const ACCOUNT_LINKS = [
 
 export default function Navbar() {
   const pathname = usePathname()
+  const isLight = pathname !== '/'
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [productsOpen, setProductsOpen] = useState(false)
@@ -54,16 +55,32 @@ export default function Navbar() {
     return () => document.removeEventListener('click', handler)
   }, [])
 
+  const navBg = isLight
+    ? 'bg-white/95 backdrop-blur-sm border-b border-black/[0.08]'
+    : scrolled ? 'bg-black/90 backdrop-blur-md border-b border-white/10' : ''
+
+  const linkActive   = isLight ? 'text-gray-900'               : 'text-white'
+  const linkInactive = isLight ? 'text-gray-500 hover:text-gray-900' : 'text-white/70 hover:text-white'
+  const dropBg    = isLight ? 'bg-white border-black/[0.08] shadow-xl'  : 'bg-[#141414] border-white/10 shadow-2xl'
+  const dropHover = isLight ? 'hover:bg-gray-50'  : 'hover:bg-white/5'
+  const dropDiv   = isLight ? 'border-black/[0.06]' : 'border-white/5'
+  const dropLabel = isLight ? 'text-gray-900'  : 'text-white'
+  const dropDesc  = isLight ? 'text-gray-400'  : 'text-white/40'
+  const dropMeta  = isLight ? 'text-gray-400'  : 'text-white/40'
+  const mobBg     = isLight ? 'bg-white border-t border-black/[0.08]' : 'bg-black border-t border-white/10'
+  const mobLink   = isLight ? 'text-gray-700 hover:text-gray-900'    : 'text-white/80 hover:text-white'
+  const mobDiv    = isLight ? 'border-black/[0.06]' : 'border-white/5'
+  const mobSec    = isLight ? 'text-gray-400'  : 'text-white/40'
+
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all ${
-        scrolled ? 'bg-black/90 backdrop-blur-md border-b border-white/10' : ''
-      }`}
-    >
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all ${navBg}`}>
       <div className="container-1200 flex items-center justify-between h-[72px]">
+
         {/* Logo */}
         <Link href="/" className="flex items-center">
-          <img src="/logo.png" alt="ClothReady" className="h-9 w-auto" />
+          <img src="/logo.png" alt="ClothReady" className="h-9 w-auto"
+            style={{ filter: isLight ? 'brightness(0)' : 'none', transition: 'filter 0.2s' }}
+          />
         </Link>
 
         {/* Desktop Nav */}
@@ -76,25 +93,20 @@ export default function Navbar() {
                 <li key={l.href} ref={productsRef} className="relative">
                   <button
                     onClick={() => setProductsOpen(!productsOpen)}
-                    className={`flex items-center gap-1 font-medium transition-colors ${
-                      active ? 'text-white' : 'text-white/70 hover:text-white'
-                    }`}
+                    className={`flex items-center gap-1 font-medium transition-colors ${active ? linkActive : linkInactive}`}
                   >
                     {l.label}
                     <ChevronDown size={14} className={`transition-transform ${productsOpen ? 'rotate-180' : ''}`} />
                   </button>
                   {active && <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-primary" />}
-
                   {productsOpen && (
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[280px] bg-[#141414] border border-white/10 rounded-xl overflow-hidden shadow-2xl">
+                    <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[280px] border rounded-xl overflow-hidden ${dropBg}`}>
                       {l.children.map((child) => (
-                        <Link
-                          key={child.href}
-                          href={child.href}
-                          className="block px-5 py-4 hover:bg-white/5 transition-colors border-b border-white/5 last:border-0"
+                        <Link key={child.href} href={child.href}
+                          className={`block px-5 py-4 transition-colors border-b last:border-0 ${dropHover} ${dropDiv}`}
                         >
-                          <div className="text-white font-medium text-sm">{child.label}</div>
-                          <div className="text-white/40 text-xs mt-0.5">{child.desc}</div>
+                          <div className={`font-medium text-sm ${dropLabel}`}>{child.label}</div>
+                          <div className={`text-xs mt-0.5 ${dropDesc}`}>{child.desc}</div>
                         </Link>
                       ))}
                     </div>
@@ -105,11 +117,8 @@ export default function Navbar() {
 
             return (
               <li key={l.href}>
-                <Link
-                  href={l.href}
-                  className={`relative font-medium transition-colors ${
-                    active ? 'text-white' : 'text-white/70 hover:text-white'
-                  }`}
+                <Link href={l.href}
+                  className={`relative font-medium transition-colors ${active ? linkActive : linkInactive}`}
                 >
                   {l.label}
                   {active && <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-primary" />}
@@ -119,48 +128,38 @@ export default function Navbar() {
           })}
         </ul>
 
-        {/* Right side: Account icon + Get Quote */}
+        {/* Right side */}
         <div className="hidden md:flex items-center gap-3">
           <div ref={accountRef} className="relative">
-            <button
-              type="button"
-              onClick={() => setAccountOpen(!accountOpen)}
+            <button type="button" onClick={() => setAccountOpen(!accountOpen)}
               style={{ background: 'linear-gradient(135deg,#ff4757,#ff6b6b)' }}
               className="w-10 h-10 rounded-full border-0 flex items-center justify-center transition-all hover:-translate-y-0.5 hover:shadow-lg cursor-pointer"
               aria-label="My Account"
             >
               <User size={18} className="text-white" />
             </button>
-
             {accountOpen && (
-              <div className="absolute top-full right-0 mt-3 w-[240px] bg-[#141414] border border-white/10 rounded-xl overflow-hidden shadow-2xl">
-                <div className="px-5 py-3 border-b border-white/5">
-                  <div className="text-xs text-white/40 uppercase tracking-wider">My Account</div>
+              <div className={`absolute top-full right-0 mt-3 w-[240px] border rounded-xl overflow-hidden ${dropBg}`}>
+                <div className={`px-5 py-3 border-b ${dropDiv}`}>
+                  <div className={`text-xs uppercase tracking-wider ${dropMeta}`}>My Account</div>
                 </div>
                 {ACCOUNT_LINKS.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="flex items-center gap-3 px-5 py-3 hover:bg-white/5 transition-colors"
+                  <Link key={link.href} href={link.href}
+                    className={`flex items-center gap-3 px-5 py-3 transition-colors ${dropHover}`}
                   >
                     <span>{link.icon}</span>
-                    <span className="text-sm text-white/80">{link.label}</span>
+                    <span className={`text-sm ${isLight ? 'text-gray-700' : 'text-white/80'}`}>{link.label}</span>
                   </Link>
                 ))}
               </div>
             )}
           </div>
-
-          <Link href="/products/custom" className="btn btn-primary text-xs">
-            Get Quote
-          </Link>
+          <Link href="/products/custom" className="btn btn-primary text-xs">Get Quote</Link>
         </div>
 
         {/* Mobile burger */}
-        <button
-          className="md:hidden text-white"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Menu"
+        <button className={`md:hidden ${isLight ? 'text-gray-800' : 'text-white'}`}
+          onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu"
         >
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -168,32 +167,26 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-black border-t border-white/10">
+        <div className={`md:hidden ${mobBg}`}>
           <ul className="container-1200 py-4 flex flex-col gap-1">
-            <li><Link href="/" className="block py-3 text-white/80 hover:text-white">Home</Link></li>
-            <li className="border-t border-white/5 pt-2 mt-1">
-              <div className="text-xs text-white/40 uppercase tracking-wider py-2">Products</div>
-              <Link href="/products/custom" className="block py-3 pl-4 text-white/80 hover:text-white">
-                Custom Manufacturing
-              </Link>
-              <Link href="/products/in-stock" className="block py-3 pl-4 text-white/80 hover:text-white">
-                In Stock / Shop
-              </Link>
+            <li><Link href="/" className={`block py-3 ${mobLink}`}>Home</Link></li>
+            <li className={`border-t ${mobDiv} pt-2 mt-1`}>
+              <div className={`text-xs uppercase tracking-wider py-2 ${mobSec}`}>Products</div>
+              <Link href="/products/custom" className={`block py-3 pl-4 ${mobLink}`}>Custom Manufacturing</Link>
+              <Link href="/products/in-stock" className={`block py-3 pl-4 ${mobLink}`}>In Stock / Shop</Link>
             </li>
-            <li><Link href="/about" className="block py-3 text-white/80 hover:text-white border-t border-white/5">About</Link></li>
-            <li><Link href="/contact" className="block py-3 text-white/80 hover:text-white border-t border-white/5">Contact</Link></li>
-            <li className="border-t border-white/5 pt-2 mt-1">
-              <div className="text-xs text-white/40 uppercase tracking-wider py-2">My Account</div>
+            <li><Link href="/about" className={`block py-3 ${mobLink} border-t ${mobDiv}`}>About</Link></li>
+            <li><Link href="/contact" className={`block py-3 ${mobLink} border-t ${mobDiv}`}>Contact</Link></li>
+            <li className={`border-t ${mobDiv} pt-2 mt-1`}>
+              <div className={`text-xs uppercase tracking-wider py-2 ${mobSec}`}>My Account</div>
               {ACCOUNT_LINKS.map((link) => (
-                <Link key={link.href} href={link.href} className="block py-3 pl-4 text-white/80 hover:text-white">
+                <Link key={link.href} href={link.href} className={`block py-3 pl-4 ${mobLink}`}>
                   {link.icon} {link.label}
                 </Link>
               ))}
             </li>
             <li className="pt-3">
-              <Link href="/products/custom" className="btn btn-primary text-xs inline-block">
-                Get Quote
-              </Link>
+              <Link href="/products/custom" className="btn btn-primary text-xs inline-block">Get Quote</Link>
             </li>
           </ul>
         </div>
