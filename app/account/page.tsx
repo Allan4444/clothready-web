@@ -1,89 +1,153 @@
 'use client'
 
+import { useSession, signOut } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import Link from 'next/link'
-import Reveal from '@/components/ui/Reveal'
-
-const SECTIONS = [
-  { href: '/account', icon: 'fa-user', title: 'My Information', desc: 'Name, email, company details', active: true },
-  { href: '/account/orders', icon: 'fa-box', title: 'My Orders & Tracking', desc: 'Order history, status, tracking numbers' },
-  { href: '/account/addresses', icon: 'fa-map-marker-alt', title: 'My Addresses', desc: 'Shipping and billing addresses' },
-]
+import { useCart } from '@/components/CartContext'
+import { ShoppingBag, LogOut, Package, ChevronRight, User } from 'lucide-react'
 
 export default function AccountPage() {
-  return (
-    <>
-      <section className="section" style={{ paddingTop: '8rem' }}>
-        <div className="container-1200" style={{ maxWidth: 800 }}>
-          <Reveal>
-            <div className="text-center" style={{ marginBottom: '2.5rem' }}>
-              <div className="section-label"><i className="fas fa-user-circle" /> Account</div>
-              <h1 className="section-title" style={{ fontSize: 'clamp(1.8rem,4vw,2.5rem)' }}>My Account</h1>
-            </div>
-          </Reveal>
+  const { data: session, status } = useSession()
+  const router = useRouter()
+  const { items, count } = useCart()
 
-          {/* Navigation cards */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '3rem' }}>
-            {SECTIONS.map(s => (
-              <Link key={s.href} href={s.href} style={{ textDecoration: 'none' }}>
-                <div className="card" style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', cursor: 'pointer', padding: '1.5rem' }}>
-                  <div style={{ width: 48, height: 48, background: 'rgba(255,71,87,0.1)', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <i className={`fas ${s.icon}`} style={{ color: '#ff4757', fontSize: '1.1rem' }} />
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 700, marginBottom: 2 }}>{s.title}</div>
-                    <div style={{ fontSize: '0.85rem', color: '#888' }}>{s.desc}</div>
-                  </div>
-                  <i className="fas fa-chevron-right" style={{ color: '#555', fontSize: '0.8rem' }} />
+  useEffect(() => {
+    if (status === 'unauthenticated') router.push('/login')
+  }, [status, router])
+
+  if (status === 'loading') {
+    return (
+      <main style={{ minHeight: '100vh', paddingTop: '5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ color: '#aaa', fontSize: '0.9rem' }}>Loading…</div>
+      </main>
+    )
+  }
+
+  if (!session) return null
+
+  const subtotal = items.reduce((s, i) => s + i.price * i.qty, 0)
+
+  return (
+    <main style={{ minHeight: '100vh', paddingTop: '5rem', background: '#f7f7f8' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto', padding: '3rem 1.5rem 6rem' }}>
+
+        {/* Profile header */}
+        <div style={{ background: '#fff', borderRadius: 20, padding: '2rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '1.5rem', boxShadow: '0 2px 16px rgba(0,0,0,0.06)' }}>
+          <div style={{ position: 'relative', flexShrink: 0 }}>
+            {session.user?.image
+              ? <img src={session.user.image} alt="" style={{ width: 80, height: 80, borderRadius: '50%', display: 'block' }} />
+              : <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'linear-gradient(135deg,#ff4757,#ff6b6b)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.8rem', fontWeight: 900, color: '#fff' }}>
+                  {(session.user?.name || 'U')[0].toUpperCase()}
                 </div>
+            }
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontWeight: 900, fontSize: '1.3rem', color: '#111', marginBottom: '0.2rem' }}>{session.user?.name}</div>
+            <div style={{ color: '#888', fontSize: '0.88rem' }}>{session.user?.email}</div>
+            <div style={{ marginTop: '0.5rem', display: 'inline-block', fontSize: '0.72rem', fontWeight: 700, color: '#ff4757', background: 'rgba(255,71,87,0.08)', borderRadius: 20, padding: '3px 10px', letterSpacing: '0.05em' }}>B2B Member</div>
+          </div>
+          <button
+            onClick={() => signOut({ callbackUrl: '/' })}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', padding: '9px 16px', border: '1px solid rgba(0,0,0,0.12)', borderRadius: 10, background: '#fff', color: '#777', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer', flexShrink: 0 }}
+          >
+            <LogOut size={15} /> Sign Out
+          </button>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+
+          {/* Cart summary */}
+          <div style={{ background: '#fff', borderRadius: 20, padding: '1.75rem', boxShadow: '0 2px 16px rgba(0,0,0,0.06)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <ShoppingBag size={18} color="#ff4757" />
+                <span style={{ fontWeight: 800, color: '#111', fontSize: '0.95rem' }}>Current Cart</span>
+              </div>
+              <Link href="/cart" style={{ fontSize: '0.78rem', color: '#ff4757', textDecoration: 'none', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
+                View Cart <ChevronRight size={14} />
               </Link>
-            ))}
+            </div>
+            {items.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: '2rem 0', color: '#bbb', fontSize: '0.85rem' }}>
+                <ShoppingBag size={32} color="#e0e0e0" style={{ margin: '0 auto 0.75rem' }} />
+                Cart is empty
+              </div>
+            ) : (
+              <div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1rem' }}>
+                  {items.slice(0, 3).map((item, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                      <img src={item.img} alt={item.name} style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover', flexShrink: 0 }} />
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontWeight: 600, fontSize: '0.82rem', color: '#111', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.name}</div>
+                        <div style={{ fontSize: '0.72rem', color: '#999' }}>{item.color} · {item.size} · ×{item.qty}</div>
+                      </div>
+                      <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#ff4757', flexShrink: 0 }}>${(item.price * item.qty).toFixed(2)}</div>
+                    </div>
+                  ))}
+                  {items.length > 3 && <div style={{ fontSize: '0.75rem', color: '#aaa', textAlign: 'center' }}>+{items.length - 3} more items</div>}
+                </div>
+                <div style={{ borderTop: '1px solid rgba(0,0,0,0.07)', paddingTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '0.82rem', color: '#888' }}>{count} pcs total</span>
+                  <span style={{ fontWeight: 900, color: '#111', fontSize: '1rem' }}>${subtotal.toFixed(2)}</span>
+                </div>
+                <Link href="/cart"
+                  style={{ display: 'block', marginTop: '1rem', padding: '11px', background: 'linear-gradient(135deg,#ff4757,#ff6b6b)', color: '#fff', borderRadius: 50, fontWeight: 700, fontSize: '0.88rem', textDecoration: 'none', textAlign: 'center', boxShadow: '0 4px 14px rgba(255,71,87,0.3)' }}
+                >
+                  Proceed to Checkout
+                </Link>
+              </div>
+            )}
           </div>
 
-          {/* My Information form */}
-          <Reveal>
-            <div className="card">
-              <h2 style={{ fontSize: '1.3rem', fontWeight: 700, marginBottom: '1.5rem' }}>
-                <i className="fas fa-user" style={{ color: '#ff4757', marginRight: '0.5rem' }} />
-                My Information
-              </h2>
-              <form style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <div className="grid-2">
-                  <div>
-                    <label style={{ display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#888', marginBottom: '0.4rem' }}>First Name</label>
-                    <input type="text" placeholder="Jane" style={{ width: '100%', padding: '12px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: '#fff', outline: 'none' }} />
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#888', marginBottom: '0.4rem' }}>Last Name</label>
-                    <input type="text" placeholder="Smith" style={{ width: '100%', padding: '12px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: '#fff', outline: 'none' }} />
-                  </div>
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#888', marginBottom: '0.4rem' }}>Email</label>
-                  <input type="email" placeholder="jane@mybrand.com" style={{ width: '100%', padding: '12px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: '#fff', outline: 'none' }} />
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#888', marginBottom: '0.4rem' }}>Company</label>
-                  <input type="text" placeholder="My Brand Ltd" style={{ width: '100%', padding: '12px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: '#fff', outline: 'none' }} />
-                </div>
-                <div className="grid-2">
-                  <div>
-                    <label style={{ display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#888', marginBottom: '0.4rem' }}>Phone / WhatsApp</label>
-                    <input type="tel" placeholder="+1 555-0100" style={{ width: '100%', padding: '12px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: '#fff', outline: 'none' }} />
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#888', marginBottom: '0.4rem' }}>Country</label>
-                    <input type="text" placeholder="United States" style={{ width: '100%', padding: '12px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: '#fff', outline: 'none' }} />
-                  </div>
-                </div>
-                <button type="button" className="btn btn-primary" style={{ alignSelf: 'flex-start', marginTop: '0.5rem' }}
-                  onClick={() => alert('Account features will be connected in Week 5')}>
-                  Save Changes
-                </button>
-              </form>
+          {/* Order history placeholder */}
+          <div style={{ background: '#fff', borderRadius: 20, padding: '1.75rem', boxShadow: '0 2px 16px rgba(0,0,0,0.06)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
+              <Package size={18} color="#ff4757" />
+              <span style={{ fontWeight: 800, color: '#111', fontSize: '0.95rem' }}>Order History</span>
             </div>
-          </Reveal>
+            <div style={{ textAlign: 'center', padding: '2rem 0', color: '#bbb', fontSize: '0.85rem' }}>
+              <Package size={32} color="#e0e0e0" style={{ margin: '0 auto 0.75rem' }} />
+              No orders yet
+              <div style={{ marginTop: '1.25rem' }}>
+                <Link href="/products/custom"
+                  style={{ display: 'inline-block', padding: '10px 22px', background: 'linear-gradient(135deg,#ff4757,#ff6b6b)', color: '#fff', borderRadius: 50, fontWeight: 700, fontSize: '0.82rem', textDecoration: 'none' }}
+                >
+                  Browse Products
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Account info */}
+          <div style={{ background: '#fff', borderRadius: 20, padding: '1.75rem', boxShadow: '0 2px 16px rgba(0,0,0,0.06)', gridColumn: 'span 2' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
+              <User size={18} color="#ff4757" />
+              <span style={{ fontWeight: 800, color: '#111', fontSize: '0.95rem' }}>Account Info</span>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
+              {[
+                { label: 'Full Name', value: session.user?.name || '—' },
+                { label: 'Email', value: session.user?.email || '—' },
+                { label: 'Sign-in Method', value: 'Google' },
+              ].map(({ label, value }) => (
+                <div key={label} style={{ padding: '1rem', background: '#f8f8f8', borderRadius: 12 }}>
+                  <div style={{ fontSize: '0.7rem', color: '#aaa', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.35rem' }}>{label}</div>
+                  <div style={{ fontWeight: 600, color: '#111', fontSize: '0.88rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{value}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      </section>
-    </>
+      </div>
+
+      <style>{`
+        @media (max-width: 640px) {
+          .acc-grid { grid-template-columns: 1fr !important; }
+          .acc-grid > div:last-child { grid-column: span 1 !important; }
+        }
+      `}</style>
+    </main>
   )
 }
