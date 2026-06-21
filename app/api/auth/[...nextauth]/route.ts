@@ -1,17 +1,21 @@
 import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
+import type { NextAuthOptions } from 'next-auth'
 
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: process.env.GOOGLE_CLIENT_ID ?? '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET ?? 'dev-secret-change-in-production',
   pages: { signIn: '/' },
   callbacks: {
-    session({ session }) { return session },
+    async session({ session }) { return session },
   },
-})
+}
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const handler = NextAuth(authOptions) as any
 export { handler as GET, handler as POST }
