@@ -34,7 +34,7 @@ const faqs = [
   },
   {
     q: 'What are your payment terms?',
-    a: 'We require a 30% deposit to begin production, with the remaining 70% due before shipment. For first-time orders, payment is via wire transfer (T/T) or PayPal. Established clients may be eligible for net-15 terms.',
+    a: 'We require a 30% deposit to begin production, with the remaining 70% due before shipment. For first-time orders, payment is via wire transfer (T/T) or PayPal. Long-term clients may pay 50% of the remaining balance before shipment, with the other 50% payable within 15 days of receiving goods.',
   },
   {
     q: 'How do you ship orders and what are typical lead times?',
@@ -52,7 +52,6 @@ export default function FAQPage() {
   return (
     <main style={{ minHeight: '100vh' }}>
 
-      {/* Hero */}
       <section style={{ padding: '7rem 2rem 4rem', textAlign: 'center', maxWidth: 700, margin: '0 auto' }}>
         <span style={{ display: 'inline-block', background: 'rgba(255,71,87,0.1)', color: '#ff4757', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '6px 16px', borderRadius: 50, marginBottom: '1.5rem' }}>
           FAQ
@@ -66,7 +65,6 @@ export default function FAQPage() {
         </p>
       </section>
 
-      {/* FAQ accordion */}
       <section style={{ maxWidth: 820, margin: '0 auto', padding: '0 2rem 6rem' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           {faqs.map((item, i) => (
@@ -101,7 +99,6 @@ export default function FAQPage() {
           ))}
         </div>
 
-        {/* Bottom CTA */}
         <div style={{ marginTop: '3.5rem', textAlign: 'center', background: '#fff', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 20, padding: '2.5rem 2rem', boxShadow: '0 2px 20px rgba(0,0,0,0.05)' }}>
           <h3 style={{ fontWeight: 800, fontSize: '1.2rem', marginBottom: '0.5rem', color: '#111' }}>Still Have Questions?</h3>
           <p style={{ color: '#777', fontSize: '0.9rem', marginBottom: '1.5rem' }}>Our team responds within 24 hours.</p>

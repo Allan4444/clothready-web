@@ -67,15 +67,15 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      {/* Product grid — full width */}
+      {/* Product grid */}
       <section style={{ padding: '5rem 3rem 2rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
           <h2 style={{ fontSize: 'clamp(1.5rem,3vw,2rem)', fontWeight: 900, textTransform: 'uppercase', marginBottom: '0.75rem' }}>What We Manufacture</h2>
-          <p style={{ color: '#777', fontSize: '0.95rem' }}>Click any category to start a sample order</p>
+          <p style={{ color: '#777', fontSize: '0.95rem' }}>Click any product to view details and pricing</p>
         </div>
         <div className="custom-product-grid">
           {PRODUCTS.map(p => (
-            <Link key={p.id} href={`/sample-order?product=${p.id}`} style={{ textDecoration: 'none' }} className="product-card-link">
+            <Link key={p.id} href={`/products/custom/${p.id}`} style={{ textDecoration: 'none' }} className="product-card-link">
               <div className="product-card" style={{ background: '#fff', borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(0,0,0,0.08)', boxShadow: '0 2px 20px rgba(0,0,0,0.06)' }}>
                 <div style={{ position: 'relative', overflow: 'hidden' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -94,7 +94,7 @@ export default function ProductsPage() {
                     ))}
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#ff4757', fontSize: '0.85rem', fontWeight: 700 }}>
-                    Request Sample →
+                    View Details →
                   </div>
                 </div>
               </div>
@@ -103,7 +103,7 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      {/* How it works — 5 steps centered */}
+      {/* How it works */}
       <section style={{ padding: '5rem 3rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
           <h2 style={{ fontSize: 'clamp(1.5rem,3vw,2rem)', fontWeight: 900, textTransform: 'uppercase', marginBottom: '0.5rem' }}>How It Works</h2>
@@ -148,13 +148,7 @@ export default function ProductsPage() {
         .product-card-link:hover .product-card { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0,0,0,0.12) !important; }
         .product-card img { transition: transform 0.5s; }
         .product-card-link:hover .product-card img { transform: scale(1.06); }
-        @media (max-width: 900px) {
-          .how-it-works-step { flex: 0 0 calc(50% - 0.75rem) !important; max-width: none !important; }
-        }
-        @media (max-width: 768px) {
-          .custom-product-grid { grid-template-columns: 1fr; }
-          .how-it-works-step { flex: 0 0 100% !important; }
-        }
+        @media (max-width: 768px) { .custom-product-grid { grid-template-columns: 1fr; } }
       `}</style>
     </main>
   )
