@@ -8,11 +8,6 @@ import './globals.css'
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.clothready.com'),
-  icons: {
-    icon: '/logo.png',
-    shortcut: '/logo.png',
-    apple: '/logo.png',
-  },
   title: {
     default: 'ClothReady — B2B Fitness & Streetwear Manufacturer China · MOQ 50pcs',
     template: '%s | ClothReady',
