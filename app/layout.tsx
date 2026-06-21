@@ -3,7 +3,7 @@ import { Toaster } from 'sonner'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import PageThemeSync from '@/components/layout/PageThemeSync'
-import { CartProvider } from '@/components/CartContext'
+import { Providers } from '@/components/Providers'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -63,13 +63,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <CartProvider>
+        <Providers>
           <PageThemeSync />
           <Navbar />
           <main>{children}</main>
           <Footer />
           <Toaster position="top-center" theme="dark" />
-        </CartProvider>
+        </Providers>
       </body>
     </html>
   )

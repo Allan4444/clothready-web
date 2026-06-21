@@ -113,7 +113,18 @@ export default function ProductDetailPage() {
   const unitPrice  = (product.basePrice * TIERS[activeTier].mult).toFixed(2)
 
   function handleAddToCart() {
-    addItem(qty)
+    if (!selectedColor) { toast.error('Please select a color'); return }
+    if (!selectedSize)  { toast.error('Please select a size'); return }
+    addItem({
+      id: id as string,
+      name: product.name,
+      sku: product.sku,
+      color: selectedColor,
+      size: selectedSize,
+      qty,
+      price: product.basePrice * TIERS[activeTier].mult,
+      img: product.imgs[0],
+    })
     toast.success(`${qty} × ${product.name} added to cart!`)
   }
 

@@ -3,9 +3,9 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState, useRef } from 'react'
-import { Menu, X, User, ShoppingCart } from 'lucide-react'
+import { Menu, X, User, ShoppingCart, LogOut } from 'lucide-react'
 import { useCart } from '@/components/CartContext'
-import { toast } from 'sonner'
+import { useSession, signIn, signOut } from 'next-auth/react'
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
@@ -26,9 +26,10 @@ function GoogleG() {
 }
 
 export default function Navbar() {
-  const pathname  = usePathname()
-  const isLight   = pathname !== '/'
-  const { count } = useCart()
+  const pathname     = usePathname()
+  const isLight      = pathname !== '/'
+  const { count }    = useCart()
+  const { data: session } = useSession()
   const [scrolled, setScrolled]       = useState(false)
   const [mobileOpen, setMobileOpen]   = useState(false)
   const [accountOpen, setAccountOpen] = useState(false)
@@ -65,6 +66,9 @@ export default function Navbar() {
     flexShrink: 0,
   }
 
+  const hoverOn  = (e: React.MouseEvent<HTMLElement>) => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 20px rgba(255,71,87,0.4)' }
+  const hoverOff = (e: React.MouseEvent<HTMLElement>) => { (e.currentTarget as HTMLElement).style.transform = 'none'; (e.currentTarget as HTMLElement).style.boxShadow = 'none' }
+
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all ${navBg}`}>
       <div className="container-1200 flex items-center justify-between h-[72px]">
@@ -97,14 +101,24 @@ export default function Navbar() {
           {/* Get Quote */}
           <Link href="/products/custom" className="btn btn-primary text-xs">Get Quote</Link>
 
-          {/* Account — sign-in popup */}
+          {/* Account */}
           <div ref={accountRef} className="relative">
             <button type="button" onClick={() => setAccountOpen(!accountOpen)}
-              style={btnStyle} aria-label="Sign In"
-              onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 20px rgba(255,71,87,0.4)' }}
-              onMouseOut={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}
+              style={{
+                ...btnStyle,
+                background: session ? 'transparent' : 'linear-gradient(135deg,#ff4757,#ff6b6b)',
+                overflow: 'hidden',
+                padding: 0,
+              }}
+              aria-label="Account"
+              onMouseOver={hoverOn} onMouseOut={hoverOff}
             >
-              <User size={18} color="#fff" />
+              {session?.user?.image
+                ? <img src={session.user.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+                : session?.user?.name
+                  ? <span style={{ fontSize: '0.9rem', fontWeight: 800, color: '#fff', background: 'linear-gradient(135deg,#ff4757,#ff6b6b)', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%' }}>{session.user.name[0].toUpperCase()}</span>
+                  : <User size={18} color="#fff" />
+              }
             </button>
 
             {accountOpen && (
@@ -114,47 +128,81 @@ export default function Navbar() {
                 boxShadow: '0 12px 48px rgba(0,0,0,0.18)', padding: '1.25rem',
                 border: '1px solid rgba(0,0,0,0.07)', zIndex: 100,
               }}>
-                <input type="email" placeholder="Your Email Address"
-                  style={{ width: '100%', padding: '10px 14px', background: '#f4f4f4', border: 'none', borderRadius: 9, marginBottom: '0.65rem', fontSize: '0.88rem', color: '#333', outline: 'none', boxSizing: 'border-box' }}
-                />
-                <input type="password" placeholder="Password"
-                  style={{ width: '100%', padding: '10px 14px', background: '#f4f4f4', border: 'none', borderRadius: 9, marginBottom: '0.9rem', fontSize: '0.88rem', color: '#333', outline: 'none', boxSizing: 'border-box' }}
-                />
-                <button
-                  onClick={() => toast.info('Account system coming soon!')}
-                  style={{ width: '100%', padding: '11px', background: 'linear-gradient(135deg,#ff4757,#ff6b6b)', color: '#fff', border: 'none', borderRadius: 9, fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', marginBottom: '1rem', letterSpacing: '0.02em' }}
-                >
-                  Sign in
-                </button>
-                <div style={{ textAlign: 'center', fontSize: '0.78rem', color: '#aaa', marginBottom: '0.65rem' }}>Sign In With:</div>
-                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
-                  <button
-                    onClick={() => toast.info('Google sign-in coming soon!')}
-                    style={{ width: 40, height: 40, borderRadius: '50%', border: '1px solid rgba(0,0,0,0.12)', background: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                  >
-                    <GoogleG />
-                  </button>
-                </div>
-                <button
-                  onClick={() => toast.info('Registration coming soon!')}
-                  style={{ width: '100%', padding: '10px', background: '#fff', border: '1.5px solid #ff4757', color: '#ff4757', borderRadius: 9, fontWeight: 700, fontSize: '0.88rem', cursor: 'pointer', marginBottom: '0.85rem', letterSpacing: '0.02em' }}
-                >
-                  Join Free
-                </button>
-                <div style={{ textAlign: 'center' }}>
-                  <a href="/contact" style={{ fontSize: '0.78rem', color: '#aaa', textDecoration: 'none' }}>Forgot your password?</a>
-                </div>
+                {session ? (
+                  /* Signed-in state */
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem', paddingBottom: '1rem', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+                      {session.user?.image
+                        ? <img src={session.user.image} alt="" style={{ width: 44, height: 44, borderRadius: '50%', flexShrink: 0 }} />
+                        : <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'linear-gradient(135deg,#ff4757,#ff6b6b)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem', fontWeight: 800, color: '#fff', flexShrink: 0 }}>{(session.user?.name || 'U')[0].toUpperCase()}</div>
+                      }
+                      <div style={{ overflow: 'hidden' }}>
+                        <div style={{ fontWeight: 700, color: '#111', fontSize: '0.9rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{session.user?.name}</div>
+                        <div style={{ fontSize: '0.75rem', color: '#888', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{session.user?.email}</div>
+                      </div>
+                    </div>
+                    <Link href="/cart" onClick={() => setAccountOpen(false)}
+                      style={{ display: 'block', width: '100%', padding: '11px', textAlign: 'center', background: 'linear-gradient(135deg,#ff4757,#ff6b6b)', color: '#fff', border: 'none', borderRadius: 9, fontWeight: 700, fontSize: '0.88rem', cursor: 'pointer', marginBottom: '0.65rem', textDecoration: 'none', boxSizing: 'border-box' as const }}
+                    >
+                      My Cart & Orders
+                    </Link>
+                    <button
+                      onClick={() => { signOut(); setAccountOpen(false) }}
+                      style={{ width: '100%', padding: '10px', background: '#fff', border: '1.5px solid rgba(0,0,0,0.12)', color: '#555', borderRadius: 9, fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem' }}
+                    >
+                      <LogOut size={14} /> Sign Out
+                    </button>
+                  </div>
+                ) : (
+                  /* Sign-in state */
+                  <div>
+                    <div style={{ textAlign: 'center', fontSize: '0.78rem', color: '#aaa', marginBottom: '0.9rem' }}>Sign in with</div>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.1rem' }}>
+                      <button
+                        onClick={() => signIn('google')}
+                        style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', padding: '10px 20px', border: '1.5px solid rgba(0,0,0,0.14)', borderRadius: 9, background: '#fff', cursor: 'pointer', fontSize: '0.88rem', fontWeight: 600, color: '#333', width: '100%', justifyContent: 'center' }}
+                      >
+                        <GoogleG /> Continue with Google
+                      </button>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+                      <div style={{ flex: 1, height: 1, background: 'rgba(0,0,0,0.1)' }} />
+                      <span style={{ fontSize: '0.72rem', color: '#bbb' }}>or</span>
+                      <div style={{ flex: 1, height: 1, background: 'rgba(0,0,0,0.1)' }} />
+                    </div>
+                    <input type="email" placeholder="Email Address"
+                      style={{ width: '100%', padding: '10px 14px', background: '#f4f4f4', border: 'none', borderRadius: 9, marginBottom: '0.65rem', fontSize: '0.88rem', color: '#333', outline: 'none', boxSizing: 'border-box' as const }}
+                    />
+                    <input type="password" placeholder="Password"
+                      style={{ width: '100%', padding: '10px 14px', background: '#f4f4f4', border: 'none', borderRadius: 9, marginBottom: '0.9rem', fontSize: '0.88rem', color: '#333', outline: 'none', boxSizing: 'border-box' as const }}
+                    />
+                    <button
+                      onClick={() => signIn('google')}
+                      style={{ width: '100%', padding: '11px', background: 'linear-gradient(135deg,#ff4757,#ff6b6b)', color: '#fff', border: 'none', borderRadius: 9, fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', marginBottom: '0.65rem', letterSpacing: '0.02em' }}
+                    >
+                      Sign In
+                    </button>
+                    <button
+                      onClick={() => signIn('google')}
+                      style={{ width: '100%', padding: '10px', background: '#fff', border: '1.5px solid #ff4757', color: '#ff4757', borderRadius: 9, fontWeight: 700, fontSize: '0.88rem', cursor: 'pointer', marginBottom: '0.85rem', letterSpacing: '0.02em' }}
+                    >
+                      Join Free
+                    </button>
+                    <div style={{ textAlign: 'center' }}>
+                      <a href="/contact" style={{ fontSize: '0.78rem', color: '#aaa', textDecoration: 'none' }}>Forgot your password?</a>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
 
           {/* Cart button */}
           <div className="relative">
-            <Link href="/account/orders"
+            <Link href="/cart"
               style={btnStyle}
-              aria-label="My Orders"
-              onMouseOver={(e: any) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 20px rgba(255,71,87,0.4)' }}
-              onMouseOut={(e: any) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}
+              aria-label="Cart"
+              onMouseOver={hoverOn} onMouseOut={hoverOff}
             >
               <ShoppingCart size={18} color="#fff" />
             </Link>
@@ -165,6 +213,7 @@ export default function Navbar() {
                 fontSize: '0.65rem', fontWeight: 800, borderRadius: 9,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 padding: '0 4px', border: '2px solid #fff', lineHeight: 1,
+                pointerEvents: 'none',
               }}>
                 {count}
               </span>
@@ -191,10 +240,10 @@ export default function Navbar() {
             ))}
             <li className={`border-t ${mobDiv} pt-3 mt-1 flex gap-3`}>
               <Link href="/products/custom" className="btn btn-primary text-xs flex-1 text-center">Get Quote</Link>
-              <Link href="/account/orders" className="btn btn-outline text-xs flex items-center gap-1">
+              <Link href="/cart" className="btn btn-outline text-xs flex items-center gap-1">
                 <ShoppingCart size={14} />
                 {count > 0 && <span className="font-bold text-primary">{count}</span>}
-                Orders
+                Cart
               </Link>
             </li>
           </ul>
