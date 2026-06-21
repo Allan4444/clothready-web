@@ -45,8 +45,8 @@ export default function AboutPage() {
             {FEATURES.map((f) => (
               <Reveal key={f.title}>
                 <div className="card" style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2rem 1.5rem' }}>
-                  <div style={{ width: 64, height: 64, background: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
-                    <i className={`fas ${f.icon}`} style={{ fontSize: '1.4rem', color: '#0a0a0a' }} />
+                  <div style={{ width: 64, height: 64, background: '#f0f0f0', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
+                    <i className={`fas ${f.icon}`} style={{ fontSize: '1.4rem', color: '#333' }} />
                   </div>
                   <h4 style={{ fontWeight: 700, marginBottom: '0.5rem', fontSize: '1.05rem' }}>{f.title}</h4>
                   <p style={{ fontSize: '0.9rem', color: '#888', lineHeight: 1.7 }}>{f.desc}</p>
@@ -57,8 +57,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Social Feed */}
-      <SocialFeed />
+      {/* Social Feed — white variant */}
+      <SocialFeed light />
 
       {/* CTA */}
       <section className="section">

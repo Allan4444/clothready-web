@@ -26,7 +26,7 @@ const faqs = [
   },
   {
     q: 'What is a Tech Pack and do I need one?',
-    a: 'A tech pack is a detailed technical document that tells the factory exactly how to build your garment — measurements, materials, stitching, and construction details. It is the most important step to get samples right the first time. If you don\'t have one, we can create it for you. Download our free Tech Pack templates on the Tech Pack page.',
+    a: "A tech pack is a detailed technical document that tells the factory exactly how to build your garment — measurements, materials, stitching, and construction details. It is the most important step to get samples right the first time. If you don't have one, we can create it for you. Download our free Tech Pack templates on the Tech Pack page.",
   },
   {
     q: 'How do I send my design files?',
@@ -50,19 +50,19 @@ export default function FAQPage() {
   const [open, setOpen] = useState<number | null>(null)
 
   return (
-    <main style={{ background: '#0a0a0a', color: '#fff', minHeight: '100vh' }}>
+    <main style={{ minHeight: '100vh' }}>
 
       {/* Hero */}
       <section style={{ padding: '7rem 2rem 4rem', textAlign: 'center', maxWidth: 700, margin: '0 auto' }}>
-        <span style={{ display: 'inline-block', background: 'rgba(255,71,87,0.12)', color: '#ff4757', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '6px 16px', borderRadius: 50, marginBottom: '1.5rem' }}>
+        <span style={{ display: 'inline-block', background: 'rgba(255,71,87,0.1)', color: '#ff4757', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '6px 16px', borderRadius: 50, marginBottom: '1.5rem' }}>
           FAQ
         </span>
-        <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '-0.5px', lineHeight: 1.1, marginBottom: '1rem' }}>
+        <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '-0.5px', lineHeight: 1.1, marginBottom: '1rem', color: '#111' }}>
           Frequently Asked Questions
         </h1>
-        <p style={{ color: '#777', fontSize: '1rem', lineHeight: 1.7 }}>
+        <p style={{ color: '#666', fontSize: '1rem', lineHeight: 1.7 }}>
           Everything you need to know before starting your custom garment order.
-          Can't find your answer? <Link href="/contact" style={{ color: '#ff4757', textDecoration: 'none' }}>Contact us directly.</Link>
+          Can&apos;t find your answer? <Link href="/contact" style={{ color: '#ff4757', textDecoration: 'none' }}>Contact us directly.</Link>
         </p>
       </section>
 
@@ -72,11 +72,11 @@ export default function FAQPage() {
           {faqs.map((item, i) => (
             <div
               key={i}
-              style={{ background: open === i ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.03)', border: `1px solid ${open === i ? 'rgba(255,71,87,0.35)' : 'rgba(255,255,255,0.07)'}`, borderRadius: 14, overflow: 'hidden', transition: 'border-color 0.2s' }}
+              style={{ background: open === i ? 'rgba(255,71,87,0.03)' : '#fff', border: `1px solid ${open === i ? 'rgba(255,71,87,0.3)' : 'rgba(0,0,0,0.09)'}`, borderRadius: 14, overflow: 'hidden', transition: 'border-color 0.2s', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}
             >
               <button
                 onClick={() => setOpen(open === i ? null : i)}
-                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.25rem 1.5rem', background: 'none', border: 'none', color: '#fff', cursor: 'pointer', textAlign: 'left', gap: '1rem' }}
+                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.25rem 1.5rem', background: 'none', border: 'none', color: '#111', cursor: 'pointer', textAlign: 'left', gap: '1rem' }}
               >
                 <span style={{ fontWeight: 700, fontSize: '0.95rem', lineHeight: 1.4 }}>
                   <span style={{ color: '#ff4757', marginRight: '0.75rem', fontWeight: 900 }}>
@@ -84,15 +84,15 @@ export default function FAQPage() {
                   </span>
                   {item.q}
                 </span>
-                <span style={{ flexShrink: 0, width: 24, height: 24, borderRadius: '50%', background: open === i ? '#ff4757' : 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s, transform 0.3s', transform: open === i ? 'rotate(45deg)' : 'none' }}>
-                  <svg width="12" height="12" fill="none" stroke="white" strokeWidth="2.5" viewBox="0 0 24 24">
+                <span style={{ flexShrink: 0, width: 24, height: 24, borderRadius: '50%', background: open === i ? '#ff4757' : 'rgba(0,0,0,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s, transform 0.3s', transform: open === i ? 'rotate(45deg)' : 'none' }}>
+                  <svg width="12" height="12" fill="none" stroke={open === i ? 'white' : '#555'} strokeWidth="2.5" viewBox="0 0 24 24">
                     <path d="M12 5v14M5 12h14" strokeLinecap="round"/>
                   </svg>
                 </span>
               </button>
               {open === i && (
                 <div style={{ padding: '0 1.5rem 1.5rem 1.5rem' }}>
-                  <p style={{ color: '#aaa', fontSize: '0.9rem', lineHeight: 1.75, margin: 0, paddingLeft: '2.25rem' }}>
+                  <p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.75, margin: 0, paddingLeft: '2.25rem' }}>
                     {item.a}
                   </p>
                 </div>
@@ -102,8 +102,8 @@ export default function FAQPage() {
         </div>
 
         {/* Bottom CTA */}
-        <div style={{ marginTop: '3.5rem', textAlign: 'center', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '2.5rem 2rem' }}>
-          <h3 style={{ fontWeight: 800, fontSize: '1.2rem', marginBottom: '0.5rem' }}>Still Have Questions?</h3>
+        <div style={{ marginTop: '3.5rem', textAlign: 'center', background: '#fff', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 20, padding: '2.5rem 2rem', boxShadow: '0 2px 20px rgba(0,0,0,0.05)' }}>
+          <h3 style={{ fontWeight: 800, fontSize: '1.2rem', marginBottom: '0.5rem', color: '#111' }}>Still Have Questions?</h3>
           <p style={{ color: '#777', fontSize: '0.9rem', marginBottom: '1.5rem' }}>Our team responds within 24 hours.</p>
           <Link href="/contact" style={{ display: 'inline-block', background: 'linear-gradient(135deg, #ff4757, #ff6b6b)', color: '#fff', padding: '12px 32px', borderRadius: 50, fontWeight: 700, fontSize: '0.875rem', textDecoration: 'none', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
             Contact Us
