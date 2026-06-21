@@ -94,3 +94,18 @@ html, body {
 }
 
 .section-subtitle { color: var(--gray); font-size: 1.05rem; max-width: 720px; line-height: 1.7; }
+
+/* ─── Light page theme (all pages except homepage) ─── */
+body.light-page { background: #f4f4f4; color: #111; }
+body.light-page .card {
+  background: #fff;
+  border-color: rgba(0,0,0,0.08);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+}
+body.light-page .card:hover { border-color: rgba(255,71,87,0.25); }
+body.light-page .section-title { color: #111; }
+body.light-page .section-subtitle { color: #555; }
+body.light-page .btn-outline { border-color: rgba(0,0,0,0.2); color: #111; }
+body.light-page .btn-outline:hover { background: rgba(0,0,0,0.04); }
+body.light-page input::placeholder,
+body.light-page textarea::placeholder { color: #bbb; }

@@ -5,6 +5,24 @@ import { toast } from 'sonner'
 import Reveal from '@/components/ui/Reveal'
 import { samplesApi } from '@/lib/api'
 
+const inputStyle: React.CSSProperties = {
+  width: '100%',
+  padding: '11px 14px',
+  background: '#f8f8f8',
+  border: '1px solid rgba(0,0,0,0.12)',
+  borderRadius: 10,
+  color: '#111',
+  fontSize: '0.9rem',
+  outline: 'none',
+  boxSizing: 'border-box',
+}
+
+const dividerStyle: React.CSSProperties = {
+  borderTop: '1px solid rgba(0,0,0,0.1)',
+  paddingTop: '1.5rem',
+  marginTop: '0.5rem',
+}
+
 export default function SampleOrderPage() {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<{ order_no: string } | null>(null)
@@ -82,11 +100,12 @@ export default function SampleOrderPage() {
       <section className="section pt-0">
         <div className="container-1200">
           <div className="card max-w-3xl mx-auto">
-            <form onSubmit={onSubmit} className="space-y-6">
+            <form onSubmit={onSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+
               {/* Contact */}
               <div>
-                <h3 className="text-xs uppercase tracking-widest text-primary mb-4">Contact Info</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <h3 style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: '#ff4757', fontWeight: 700, marginBottom: '1rem' }}>Contact Info</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px,1fr))', gap: '1rem' }}>
                   <Field label="Contact Name *" name="contact_name" required />
                   <Field label="Company *" name="company" required />
                   <Field label="Email *" name="email" type="email" required />
@@ -95,11 +114,9 @@ export default function SampleOrderPage() {
               </div>
 
               {/* Product */}
-              <div>
-                <h3 className="text-xs uppercase tracking-widest text-primary mb-4 pt-4 border-t border-white/10">
-                  Product Details
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div style={dividerStyle}>
+                <h3 style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: '#ff4757', fontWeight: 700, marginBottom: '1rem' }}>Product Details</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px,1fr))', gap: '1rem' }}>
                   <Select label="Garment Type *" name="garment_type" required
                     options={['T-Shirt', 'Hoodie', 'Leggings', 'Sports Bra', 'Joggers', 'Tank Top', 'Jacket', 'Custom']} />
                   <Select label="Fabric Preference" name="fabric"
@@ -108,26 +125,26 @@ export default function SampleOrderPage() {
                   <Select label="Expected Bulk Qty" name="bulk_qty"
                     options={['50-300', '300-1000', '1000-5000', '5000+']} />
                 </div>
-                <div className="mt-4">
-                  <label className="block text-xs uppercase tracking-wider text-gray-custom mb-2">
+                <div style={{ marginTop: '1rem' }}>
+                  <label style={{ display: 'block', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#777', marginBottom: '0.5rem' }}>
                     Special Requirements
                   </label>
                   <textarea
                     name="requirements"
                     rows={4}
                     placeholder="Colors, sizes, branding, prints, embroidery..."
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-custom focus:outline-none focus:border-primary"
+                    style={{ ...inputStyle, resize: 'vertical' }}
                   />
                 </div>
               </div>
 
               {/* Shipping */}
-              <div>
-                <h3 className="text-xs uppercase tracking-widest text-primary mb-4 pt-4 border-t border-white/10">
-                  Shipping
-                </h3>
-                <Select label="Preferred Courier" name="courier"
-                  options={['DHL', 'FedEx', 'UPS', 'TNT', 'EMS']} />
+              <div style={dividerStyle}>
+                <h3 style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: '#ff4757', fontWeight: 700, marginBottom: '1rem' }}>Shipping</h3>
+                <div style={{ maxWidth: 280 }}>
+                  <Select label="Preferred Courier" name="courier"
+                    options={['DHL', 'FedEx', 'UPS', 'TNT', 'EMS']} />
+                </div>
               </div>
 
               <button
@@ -137,7 +154,7 @@ export default function SampleOrderPage() {
               >
                 {loading ? 'Submitting...' : (<>Submit Sample Order <i className="fas fa-arrow-right" /></>)}
               </button>
-              <p className="text-xs text-gray-custom text-center">
+              <p style={{ fontSize: '0.78rem', color: '#999', textAlign: 'center', margin: 0 }}>
                 Sample cost (USD 50–200) credited toward bulk order. We confirm within 48 hours.
               </p>
             </form>
@@ -151,13 +168,15 @@ export default function SampleOrderPage() {
 function Field({ label, name, type = 'text', required = false, defaultValue }: any) {
   return (
     <div>
-      <label className="block text-xs uppercase tracking-wider text-gray-custom mb-2">{label}</label>
+      <label style={{ display: 'block', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#777', marginBottom: '0.5rem' }}>{label}</label>
       <input
         type={type}
         name={name}
         required={required}
         defaultValue={defaultValue}
-        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-custom focus:outline-none focus:border-primary"
+        style={inputStyle}
+        onFocus={e => (e.currentTarget.style.borderColor = '#ff4757')}
+        onBlur={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.12)')}
       />
     </div>
   )
@@ -166,11 +185,11 @@ function Field({ label, name, type = 'text', required = false, defaultValue }: a
 function Select({ label, name, options, required = false }: any) {
   return (
     <div>
-      <label className="block text-xs uppercase tracking-wider text-gray-custom mb-2">{label}</label>
+      <label style={{ display: 'block', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#777', marginBottom: '0.5rem' }}>{label}</label>
       <select
         name={name}
         required={required}
-        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-primary"
+        style={{ ...inputStyle, cursor: 'pointer' }}
       >
         <option value="">Select...</option>
         {options.map((o: string) => <option key={o} value={o}>{o}</option>)}

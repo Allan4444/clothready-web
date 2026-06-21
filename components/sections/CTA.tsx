@@ -6,17 +6,17 @@ export default function CTA() {
     <section className="section bg-darker">
       <div className="container-1200 text-center">
         <Reveal>
-          <h2 className="section-title">Ready to Start?</h2>
+          <h2 className="section-title">Ready to Build Your Brand?</h2>
           <p className="text-lg text-gray-custom mb-8 max-w-2xl mx-auto">
-            Working with multiple Europe/USA niche brands.{' '}
-            <strong className="text-white">Many clients reorder monthly.</strong>
+            From your first sketch to bulk shipment —&nbsp;
+            <strong className="text-white">we handle the full OEM process.</strong>
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link href="/sample-order" className="btn btn-white">
-              Get Instant Quote <i className="fas fa-arrow-right" />
+              Start Sample Order <i className="fas fa-arrow-right" />
             </Link>
-            <Link href="/contact" className="btn btn-outline">
-              <i className="fas fa-download" /> Free Resources
+            <Link href="/products/custom" className="btn btn-outline">
+              <i className="fas fa-th-large" /> View Products
             </Link>
           </div>
         </Reveal>

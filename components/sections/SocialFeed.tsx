@@ -30,14 +30,25 @@ const FEEDS = [
     stats: '❤️ 196K  💬 4.2K  ➡️ 8.7K' },
 ]
 
-export default function SocialFeed() {
+export default function SocialFeed({ light = false }: { light?: boolean }) {
   const [page, setPage] = useState(0)
   const totalPages = 2
   const perPage = 4
   const visible = FEEDS.slice(page * perPage, page * perPage + perPage)
 
+  const bg         = light ? '#fff'                        : '#050505'
+  const cardBg     = light ? '#fff'                        : '#111'
+  const cardBorder = light ? 'rgba(0,0,0,0.08)'           : 'rgba(255,255,255,0.08)'
+  const cardHover  = light ? 'rgba(255,71,87,0.25)'       : 'rgba(255,71,87,0.3)'
+  const captionCol = light ? '#333'                        : '#ddd'
+  const statsCol   = light ? '#888'                        : '#888'
+  const navBtnBdr  = light ? 'rgba(0,0,0,0.15)'           : 'rgba(255,255,255,0.2)'
+  const navBtnCol  = (disabled: boolean) => light
+    ? (disabled ? '#ccc' : '#333')
+    : (disabled ? '#444' : '#fff')
+
   return (
-    <section style={{ background: '#050505', padding: '5rem 0' }}>
+    <section id="social-feed" style={{ background: bg, padding: '5rem 0' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 2rem' }}>
         <Reveal>
           <div className="text-center" style={{ marginBottom: '2.5rem' }}>
@@ -51,7 +62,7 @@ export default function SocialFeed() {
 
         <div className="social-grid">
           {visible.map((f, i) => (
-            <div key={page + '-' + i} className="social-item">
+            <div key={page + '-' + i} className="social-item" style={{ background: cardBg, border: `1px solid ${cardBorder}` }}>
               <div style={{ overflow: 'hidden', height: 380 }}>
                 <img src={f.img} alt={f.caption}
                   style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.5s' }}
@@ -60,10 +71,10 @@ export default function SocialFeed() {
                 />
               </div>
               <div style={{ padding: '1rem 1.25rem' }}>
-                <p style={{ fontSize: '0.9rem', color: '#ddd', lineHeight: 1.55, marginBottom: '0.75rem', minHeight: 44 }}>
+                <p style={{ fontSize: '0.9rem', color: captionCol, lineHeight: 1.55, marginBottom: '0.75rem', minHeight: 44 }}>
                   {f.caption}
                 </p>
-                <div style={{ fontSize: '0.8rem', color: '#888' }}>{f.stats}</div>
+                <div style={{ fontSize: '0.8rem', color: statsCol }}>{f.stats}</div>
               </div>
             </div>
           ))}
@@ -71,17 +82,17 @@ export default function SocialFeed() {
 
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', marginTop: '2rem' }}>
           <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0}
-            style={{ width: 44, height: 44, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.2)', background: 'transparent', color: page === 0 ? '#444' : '#fff', cursor: page === 0 ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            style={{ width: 44, height: 44, borderRadius: '50%', border: `1px solid ${navBtnBdr}`, background: 'transparent', color: navBtnCol(page === 0), cursor: page === 0 ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <i className="fas fa-chevron-left" />
           </button>
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             {Array.from({ length: totalPages }).map((_, i) => (
               <button key={i} onClick={() => setPage(i)}
-                style={{ width: page === i ? 24 : 8, height: 8, borderRadius: 4, background: page === i ? '#ff4757' : 'rgba(255,255,255,0.2)', border: 'none', cursor: 'pointer', transition: 'all 0.3s' }} />
+                style={{ width: page === i ? 24 : 8, height: 8, borderRadius: 4, background: page === i ? '#ff4757' : (light ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.2)'), border: 'none', cursor: 'pointer', transition: 'all 0.3s' }} />
             ))}
           </div>
           <button onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))} disabled={page === totalPages - 1}
-            style={{ width: 44, height: 44, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.2)', background: 'transparent', color: page === totalPages - 1 ? '#444' : '#fff', cursor: page === totalPages - 1 ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            style={{ width: 44, height: 44, borderRadius: '50%', border: `1px solid ${navBtnBdr}`, background: 'transparent', color: navBtnCol(page === totalPages - 1), cursor: page === totalPages - 1 ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <i className="fas fa-chevron-right" />
           </button>
         </div>
@@ -89,8 +100,8 @@ export default function SocialFeed() {
 
       <style>{`
         .social-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
-        .social-item { background: #111; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; transition: transform 0.3s, border-color 0.3s; cursor: pointer; }
-        .social-item:hover { transform: translateY(-4px); border-color: rgba(255,71,87,0.3); }
+        .social-item { border-radius: 16px; overflow: hidden; transition: transform 0.3s, border-color 0.3s; cursor: pointer; }
+        .social-item:hover { transform: translateY(-4px); border-color: ${cardHover} !important; }
         @media (max-width: 1024px) { .social-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 640px) { .social-grid { grid-template-columns: 1fr; } }
       `}</style>

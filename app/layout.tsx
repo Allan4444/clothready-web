@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Toaster } from 'sonner'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import PageThemeSync from '@/components/layout/PageThemeSync'
+import { Providers } from '@/components/Providers'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -43,10 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -58,20 +57,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               logo: 'https://www.clothready.com/logo.png',
               description: 'B2B apparel manufacturer specialising in fitness wear and streetwear.',
               address: { '@type': 'PostalAddress', addressCountry: 'CN', addressLocality: 'Dongguan' },
-              contactPoint: {
-                '@type': 'ContactPoint',
-                email: 'info@clothready.com',
-                contactType: 'sales',
-              },
+              contactPoint: { '@type': 'ContactPoint', email: 'info@clothready.com', contactType: 'sales' },
             }),
           }}
         />
       </head>
       <body>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-        <Toaster position="top-center" theme="dark" />
+        <Providers>
+          <PageThemeSync />
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+          <Toaster position="top-center" theme="dark" />
+        </Providers>
       </body>
     </html>
   )
