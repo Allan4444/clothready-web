@@ -2,8 +2,8 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Custom Manufacturing | ClothReady',
-  description: 'OEM/ODM custom garment manufacturing from 50 pieces. Fitness wear, streetwear, private label. 20–35 day lead time.',
+  title: 'Products | ClothReady',
+  description: 'OEM/ODM custom garment manufacturing from 50 pieces. Fitness wear, streetwear, private label. Tech pack support. 20–35 day lead time.',
 }
 
 const STEPS = [
@@ -26,25 +26,25 @@ const PRODUCTS = [
 ]
 
 const GUARANTEES = [
-  'MOQ from 50 pieces', 'Free design review', 'Sample in 7–14 days',
+  'MOQ from 50 pieces', 'Tech pack support', 'Sample in 7–14 days',
   'Sample cost credited', 'QC report + photos', 'DDP shipping available',
 ]
 
-export default function CustomProductsPage() {
+export default function ProductsPage() {
   return (
     <main style={{ minHeight: '100vh' }}>
 
       {/* Hero */}
       <section style={{ padding: '7rem 2rem 4rem', textAlign: 'center', maxWidth: 760, margin: '0 auto' }}>
         <span style={{ display: 'inline-block', background: 'rgba(255,71,87,0.1)', color: '#ff4757', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '6px 16px', borderRadius: 50, marginBottom: '1.5rem' }}>
-          Custom Manufacturing
+          OEM / ODM Manufacturing
         </span>
         <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.2rem)', fontWeight: 900, textTransform: 'uppercase', lineHeight: 1.1, marginBottom: '1.25rem', letterSpacing: '-0.5px' }}>
           Your Design.<br />Our Factory.
         </h1>
         <p style={{ color: '#777', fontSize: '1.05rem', lineHeight: 1.75, marginBottom: '2.5rem' }}>
-          OEM / ODM manufacturing for fitness wear and streetwear brands.
-          MOQ 50 pieces. Direct from our Dongguan factory.
+          Private label garment manufacturing for fitness &amp; streetwear brands.
+          MOQ 50 pieces. Tech pack support included. Direct from our Dongguan factory.
         </p>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           <Link href="/sample-order" style={{ display: 'inline-block', background: 'linear-gradient(135deg,#ff4757,#ff6b6b)', color: '#fff', padding: '13px 32px', borderRadius: 50, fontWeight: 700, fontSize: '0.9rem', textDecoration: 'none', letterSpacing: '0.04em', textTransform: 'uppercase', boxShadow: '0 8px 30px rgba(255,71,87,0.3)' }}>
@@ -103,15 +103,15 @@ export default function CustomProductsPage() {
         </div>
       </section>
 
-      {/* How it works — full width */}
+      {/* How it works — 5 steps centered */}
       <section style={{ padding: '5rem 3rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
           <h2 style={{ fontSize: 'clamp(1.5rem,3vw,2rem)', fontWeight: 900, textTransform: 'uppercase', marginBottom: '0.5rem' }}>How It Works</h2>
-          <p style={{ color: '#777', fontSize: '0.95rem' }}>From your idea to delivery in 5 clear steps</p>
+          <p style={{ color: '#777', fontSize: '0.95rem' }}>From your design to delivery in 5 clear steps</p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px,1fr))', gap: '1.25rem' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.25rem', justifyContent: 'center' }}>
           {STEPS.map(s => (
-            <div key={s.n} style={{ background: '#fff', border: '1px solid rgba(0,0,0,0.08)', boxShadow: '0 2px 12px rgba(0,0,0,0.04)', borderRadius: 16, padding: '1.75rem 1.4rem' }}>
+            <div key={s.n} style={{ background: '#fff', border: '1px solid rgba(0,0,0,0.08)', boxShadow: '0 2px 12px rgba(0,0,0,0.04)', borderRadius: 16, padding: '1.75rem 1.4rem', flex: '0 0 calc(20% - 1rem)', minWidth: 180, maxWidth: 240 }}>
               <div style={{ fontSize: '0.7rem', fontWeight: 900, color: '#ff4757', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>{s.n}</div>
               <h4 style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.5rem', color: '#111' }}>{s.title}</h4>
               <p style={{ color: '#777', fontSize: '0.82rem', lineHeight: 1.65, margin: 0 }}>{s.desc}</p>
@@ -124,8 +124,8 @@ export default function CustomProductsPage() {
       <section style={{ maxWidth: 860, margin: '0 auto', padding: '0 3rem 6rem' }}>
         <div style={{ background: 'linear-gradient(135deg, rgba(255,71,87,0.08), rgba(255,71,87,0.03))', border: '1px solid rgba(255,71,87,0.2)', borderRadius: 24, padding: '3rem 2.5rem', textAlign: 'center' }}>
           <h2 style={{ fontWeight: 900, fontSize: 'clamp(1.4rem,3vw,1.9rem)', textTransform: 'uppercase', marginBottom: '0.75rem', color: '#111' }}>Ready to Start?</h2>
-          <p style={{ color: '#777', fontSize: '0.95rem', lineHeight: 1.7, maxWidth: 500, margin: '0 auto 2rem' }}>
-            Don&apos;t have a tech pack? Share a reference image or sketch and we&apos;ll quote within 48 hours.
+          <p style={{ color: '#777', fontSize: '0.95rem', lineHeight: 1.7, maxWidth: 520, margin: '0 auto 2rem' }}>
+            No tech pack yet? Send us a reference image or sketch and we&apos;ll help you build one — quoted within 48 hours.
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/sample-order" style={{ display: 'inline-block', background: 'linear-gradient(135deg,#ff4757,#ff6b6b)', color: '#fff', padding: '13px 32px', borderRadius: 50, fontWeight: 700, fontSize: '0.875rem', textDecoration: 'none', letterSpacing: '0.05em', textTransform: 'uppercase', boxShadow: '0 8px 30px rgba(255,71,87,0.3)' }}>
@@ -148,8 +148,12 @@ export default function CustomProductsPage() {
         .product-card-link:hover .product-card { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0,0,0,0.12) !important; }
         .product-card img { transition: transform 0.5s; }
         .product-card-link:hover .product-card img { transform: scale(1.06); }
+        @media (max-width: 900px) {
+          .how-it-works-step { flex: 0 0 calc(50% - 0.75rem) !important; max-width: none !important; }
+        }
         @media (max-width: 768px) {
           .custom-product-grid { grid-template-columns: 1fr; }
+          .how-it-works-step { flex: 0 0 100% !important; }
         }
       `}</style>
     </main>

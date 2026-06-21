@@ -3,18 +3,11 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState, useRef } from 'react'
-import { Menu, X, User, ChevronDown } from 'lucide-react'
+import { Menu, X, User } from 'lucide-react'
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
-  {
-    href: '/products',
-    label: 'Products',
-    children: [
-      { href: '/products/custom', label: 'Custom Manufacturing', desc: 'MOQ 50pcs, your design' },
-      { href: '/products/in-stock', label: 'In Stock / Shop', desc: 'Ready to ship, 1-50pcs' },
-    ],
-  },
+  { href: '/products/custom', label: 'Products' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ]
@@ -29,9 +22,7 @@ export default function Navbar() {
   const isLight = pathname !== '/'
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [productsOpen, setProductsOpen] = useState(false)
   const [accountOpen, setAccountOpen] = useState(false)
-  const productsRef = useRef<HTMLLIElement>(null)
   const accountRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -42,13 +33,11 @@ export default function Navbar() {
 
   useEffect(() => {
     setMobileOpen(false)
-    setProductsOpen(false)
     setAccountOpen(false)
   }, [pathname])
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (productsRef.current && !productsRef.current.contains(e.target as Node)) setProductsOpen(false)
       if (accountRef.current && !accountRef.current.contains(e.target as Node)) setAccountOpen(false)
     }
     document.addEventListener('click', handler)
@@ -64,8 +53,6 @@ export default function Navbar() {
   const dropBg    = isLight ? 'bg-white border-black/[0.08] shadow-xl'  : 'bg-[#141414] border-white/10 shadow-2xl'
   const dropHover = isLight ? 'hover:bg-gray-50'  : 'hover:bg-white/5'
   const dropDiv   = isLight ? 'border-black/[0.06]' : 'border-white/5'
-  const dropLabel = isLight ? 'text-gray-900'  : 'text-white'
-  const dropDesc  = isLight ? 'text-gray-400'  : 'text-white/40'
   const dropMeta  = isLight ? 'text-gray-400'  : 'text-white/40'
   const mobBg     = isLight ? 'bg-white border-t border-black/[0.08]' : 'bg-black border-t border-white/10'
   const mobLink   = isLight ? 'text-gray-700 hover:text-gray-900'    : 'text-white/80 hover:text-white'
@@ -87,34 +74,6 @@ export default function Navbar() {
         <ul className="hidden md:flex items-center gap-7 text-sm">
           {NAV_LINKS.map((l) => {
             const active = pathname === l.href || pathname?.startsWith(l.href + '/')
-
-            if (l.children) {
-              return (
-                <li key={l.href} ref={productsRef} className="relative">
-                  <button
-                    onClick={() => setProductsOpen(!productsOpen)}
-                    className={`flex items-center gap-1 font-medium transition-colors ${active ? linkActive : linkInactive}`}
-                  >
-                    {l.label}
-                    <ChevronDown size={14} className={`transition-transform ${productsOpen ? 'rotate-180' : ''}`} />
-                  </button>
-                  {active && <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-primary" />}
-                  {productsOpen && (
-                    <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[280px] border rounded-xl overflow-hidden ${dropBg}`}>
-                      {l.children.map((child) => (
-                        <Link key={child.href} href={child.href}
-                          className={`block px-5 py-4 transition-colors border-b last:border-0 ${dropHover} ${dropDiv}`}
-                        >
-                          <div className={`font-medium text-sm ${dropLabel}`}>{child.label}</div>
-                          <div className={`text-xs mt-0.5 ${dropDesc}`}>{child.desc}</div>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </li>
-              )
-            }
-
             return (
               <li key={l.href}>
                 <Link href={l.href}
@@ -169,14 +128,11 @@ export default function Navbar() {
       {mobileOpen && (
         <div className={`md:hidden ${mobBg}`}>
           <ul className="container-1200 py-4 flex flex-col gap-1">
-            <li><Link href="/" className={`block py-3 ${mobLink}`}>Home</Link></li>
-            <li className={`border-t ${mobDiv} pt-2 mt-1`}>
-              <div className={`text-xs uppercase tracking-wider py-2 ${mobSec}`}>Products</div>
-              <Link href="/products/custom" className={`block py-3 pl-4 ${mobLink}`}>Custom Manufacturing</Link>
-              <Link href="/products/in-stock" className={`block py-3 pl-4 ${mobLink}`}>In Stock / Shop</Link>
-            </li>
-            <li><Link href="/about" className={`block py-3 ${mobLink} border-t ${mobDiv}`}>About</Link></li>
-            <li><Link href="/contact" className={`block py-3 ${mobLink} border-t ${mobDiv}`}>Contact</Link></li>
+            {NAV_LINKS.map((l, i) => (
+              <li key={l.href}>
+                <Link href={l.href} className={`block py-3 ${mobLink} ${i > 0 ? `border-t ${mobDiv}` : ''}`}>{l.label}</Link>
+              </li>
+            ))}
             <li className={`border-t ${mobDiv} pt-2 mt-1`}>
               <div className={`text-xs uppercase tracking-wider py-2 ${mobSec}`}>My Account</div>
               {ACCOUNT_LINKS.map((link) => (

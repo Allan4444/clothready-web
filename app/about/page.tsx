@@ -5,10 +5,10 @@ import Link from 'next/link'
 import SocialFeed from '@/components/sections/SocialFeed'
 
 const FEATURES = [
-  { icon: 'fa-handshake', title: 'Direct Factory Access', desc: 'No middlemen. You work directly with factory owners and production managers.' },
-  { icon: 'fa-microscope', title: 'Rigorous Quality Control', desc: '7-point inspection process ensures every piece meets your standards.' },
-  { icon: 'fa-rocket', title: 'Fast Turnaround', desc: '20-35 days from first call to delivery. Rush orders available.' },
-  { icon: 'fa-users', title: 'Small Brand Friendly', desc: '50-piece MOQ means you can test the market without massive inventory risk.' },
+  { icon: 'fa-handshake', title: 'Direct Factory Access', desc: 'No middlemen. You work directly with factory owners and production managers in Dongguan.' },
+  { icon: 'fa-drafting-compass', title: 'Tech Pack Support', desc: 'No tech pack? No problem. Share a sketch or reference image and our team will build one for you.' },
+  { icon: 'fa-microscope', title: 'Rigorous Quality Control', desc: '7-point inspection process ensures every piece meets your standards before shipment.' },
+  { icon: 'fa-users', title: 'Small Brand Friendly', desc: '50-piece MOQ lets you test the market without massive inventory risk. Scale when ready.' },
 ]
 
 export default function AboutPage() {
@@ -21,7 +21,7 @@ export default function AboutPage() {
             <div className="section-label"><i className="fas fa-info-circle" /> Our Story</div>
             <h1 className="section-title">About ClothReady</h1>
             <p className="section-subtitle" style={{ margin: '0 auto' }}>
-              20+ years specializing in fitness wear and streetwear for global brands
+              20+ years specializing in OEM fitness wear and streetwear for global brands
             </p>
           </Reveal>
         </div>
@@ -34,9 +34,9 @@ export default function AboutPage() {
             <div className="text-center">
               <h2 style={{ fontSize: 'clamp(1.8rem,4vw,2.5rem)', fontWeight: 800, marginBottom: '1.25rem' }}>Why Choose ClothReady?</h2>
               <p style={{ fontSize: '1.05rem', color: '#888', maxWidth: 720, margin: '0 auto 3rem', lineHeight: 1.8 }}>
-                We&apos;re not just a factory — we&apos;re your strategic manufacturing partner. With over 15 years of
-                specialized experience in fitness and leisure wear, we understand the unique challenges small and
-                medium brands face.
+                We&apos;re not just a factory — we&apos;re your strategic OEM partner. With 20+ years of
+                specialized experience in fitness and leisure wear, we guide you from tech pack to bulk
+                shipment, with a minimum order of just 50 pieces.
               </p>
             </div>
           </Reveal>
@@ -66,10 +66,10 @@ export default function AboutPage() {
           <Reveal>
             <h2 className="section-title">Ready to Work Together?</h2>
             <p style={{ color: '#888', fontSize: '1.1rem', marginBottom: '2rem', maxWidth: 600, margin: '0 auto 2rem' }}>
-              From your first sketch to the final shipment — we&apos;re with you every step.
+              From your first tech pack to bulk shipment — we handle every step of the OEM process.
             </p>
-            <Link href="/products/custom" className="btn btn-primary">
-              Start Your Project <i className="fas fa-arrow-right" />
+            <Link href="/sample-order" className="btn btn-primary">
+              Start Sample Order <i className="fas fa-arrow-right" />
             </Link>
           </Reveal>
         </div>
