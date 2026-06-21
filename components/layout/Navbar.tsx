@@ -1,11 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState, useRef } from 'react'
 import { Menu, X, User, ShoppingCart, LogOut } from 'lucide-react'
 import { useCart } from '@/components/CartContext'
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { useSession, signOut } from 'next-auth/react'
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
@@ -14,19 +14,9 @@ const NAV_LINKS = [
   { href: '/contact', label: 'Contact' },
 ]
 
-function GoogleG() {
-  return (
-    <svg viewBox="0 0 24 24" width="18" height="18">
-      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-    </svg>
-  )
-}
-
 export default function Navbar() {
   const pathname     = usePathname()
+  const router       = useRouter()
   const isLight      = pathname !== '/'
   const { count }    = useCart()
   const { data: session } = useSession()
@@ -51,10 +41,10 @@ export default function Navbar() {
     return () => document.removeEventListener('click', handler)
   }, [])
 
-  const navBg     = isLight ? 'bg-white/95 backdrop-blur-sm border-b border-black/[0.08]' : scrolled ? 'bg-black/90 backdrop-blur-md border-b border-white/10' : ''
+  const navBg      = isLight ? 'bg-white/95 backdrop-blur-sm border-b border-black/[0.08]' : scrolled ? 'bg-black/90 backdrop-blur-md border-b border-white/10' : ''
   const linkActive   = isLight ? 'text-gray-900' : 'text-white'
   const linkInactive = isLight ? 'text-gray-500 hover:text-gray-900' : 'text-white/70 hover:text-white'
-  const mobBg  = isLight ? 'bg-white border-t border-black/[0.08]' : 'bg-black border-t border-white/10'
+  const mobBg   = isLight ? 'bg-white border-t border-black/[0.08]' : 'bg-black border-t border-white/10'
   const mobLink = isLight ? 'text-gray-700 hover:text-gray-900' : 'text-white/80 hover:text-white'
   const mobDiv  = isLight ? 'border-black/[0.06]' : 'border-white/5'
 
@@ -63,11 +53,11 @@ export default function Navbar() {
     width: 40, height: 40, borderRadius: '50%',
     border: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
     cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s',
-    flexShrink: 0,
+    flexShrink: 0, overflow: 'hidden', padding: 0,
   }
 
-  const hoverOn  = (e: React.MouseEvent<HTMLElement>) => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 20px rgba(255,71,87,0.4)' }
-  const hoverOff = (e: React.MouseEvent<HTMLElement>) => { (e.currentTarget as HTMLElement).style.transform = 'none'; (e.currentTarget as HTMLElement).style.boxShadow = 'none' }
+  const hoverOn  = (e: React.MouseEvent<HTMLElement>) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 20px rgba(255,71,87,0.4)' }
+  const hoverOff = (e: React.MouseEvent<HTMLElement>) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all ${navBg}`}>
@@ -98,112 +88,72 @@ export default function Navbar() {
         {/* Right: Get Quote | Account | Cart */}
         <div className="hidden md:flex items-center gap-3">
 
-          {/* Get Quote */}
           <Link href="/products/custom" className="btn btn-primary text-xs">Get Quote</Link>
 
           {/* Account */}
-          <div ref={accountRef} className="relative">
-            <button type="button" onClick={() => setAccountOpen(!accountOpen)}
-              style={{
-                ...btnStyle,
-                background: session ? 'transparent' : 'linear-gradient(135deg,#ff4757,#ff6b6b)',
-                overflow: 'hidden',
-                padding: 0,
-              }}
-              aria-label="Account"
-              onMouseOver={hoverOn} onMouseOut={hoverOff}
-            >
-              {session?.user?.image
-                ? <img src={session.user.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
-                : session?.user?.name
-                  ? <span style={{ fontSize: '0.9rem', fontWeight: 800, color: '#fff', background: 'linear-gradient(135deg,#ff4757,#ff6b6b)', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%' }}>{session.user.name[0].toUpperCase()}</span>
-                  : <User size={18} color="#fff" />
-              }
-            </button>
+          {session ? (
+            /* Signed-in: show avatar with dropdown */
+            <div ref={accountRef} className="relative">
+              <button
+                type="button"
+                onClick={() => setAccountOpen(!accountOpen)}
+                style={btnStyle}
+                aria-label="Account"
+                onMouseOver={hoverOn} onMouseOut={hoverOff}
+              >
+                {session.user?.image
+                  ? <img src={session.user.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  : <span style={{ fontSize: '0.9rem', fontWeight: 800, color: '#fff' }}>{(session.user?.name || 'U')[0].toUpperCase()}</span>
+                }
+              </button>
 
-            {accountOpen && (
-              <div style={{
-                position: 'absolute', top: 'calc(100% + 14px)', right: 0,
-                width: 288, background: '#fff', borderRadius: 16,
-                boxShadow: '0 12px 48px rgba(0,0,0,0.18)', padding: '1.25rem',
-                border: '1px solid rgba(0,0,0,0.07)', zIndex: 100,
-              }}>
-                {session ? (
-                  /* Signed-in state */
-                  <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem', paddingBottom: '1rem', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
-                      {session.user?.image
-                        ? <img src={session.user.image} alt="" style={{ width: 44, height: 44, borderRadius: '50%', flexShrink: 0 }} />
-                        : <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'linear-gradient(135deg,#ff4757,#ff6b6b)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem', fontWeight: 800, color: '#fff', flexShrink: 0 }}>{(session.user?.name || 'U')[0].toUpperCase()}</div>
-                      }
-                      <div style={{ overflow: 'hidden' }}>
-                        <div style={{ fontWeight: 700, color: '#111', fontSize: '0.9rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{session.user?.name}</div>
-                        <div style={{ fontSize: '0.75rem', color: '#888', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{session.user?.email}</div>
-                      </div>
-                    </div>
-                    <Link href="/cart" onClick={() => setAccountOpen(false)}
-                      style={{ display: 'block', width: '100%', padding: '11px', textAlign: 'center', background: 'linear-gradient(135deg,#ff4757,#ff6b6b)', color: '#fff', border: 'none', borderRadius: 9, fontWeight: 700, fontSize: '0.88rem', cursor: 'pointer', marginBottom: '0.65rem', textDecoration: 'none', boxSizing: 'border-box' as const }}
-                    >
-                      My Cart & Orders
-                    </Link>
-                    <button
-                      onClick={() => { signOut(); setAccountOpen(false) }}
-                      style={{ width: '100%', padding: '10px', background: '#fff', border: '1.5px solid rgba(0,0,0,0.12)', color: '#555', borderRadius: 9, fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem' }}
-                    >
-                      <LogOut size={14} /> Sign Out
-                    </button>
-                  </div>
-                ) : (
-                  /* Sign-in state */
-                  <div>
-                    <div style={{ textAlign: 'center', fontSize: '0.78rem', color: '#aaa', marginBottom: '0.9rem' }}>Sign in with</div>
-                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.1rem' }}>
-                      <button
-                        onClick={() => signIn('google')}
-                        style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', padding: '10px 20px', border: '1.5px solid rgba(0,0,0,0.14)', borderRadius: 9, background: '#fff', cursor: 'pointer', fontSize: '0.88rem', fontWeight: 600, color: '#333', width: '100%', justifyContent: 'center' }}
-                      >
-                        <GoogleG /> Continue with Google
-                      </button>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-                      <div style={{ flex: 1, height: 1, background: 'rgba(0,0,0,0.1)' }} />
-                      <span style={{ fontSize: '0.72rem', color: '#bbb' }}>or</span>
-                      <div style={{ flex: 1, height: 1, background: 'rgba(0,0,0,0.1)' }} />
-                    </div>
-                    <input type="email" placeholder="Email Address"
-                      style={{ width: '100%', padding: '10px 14px', background: '#f4f4f4', border: 'none', borderRadius: 9, marginBottom: '0.65rem', fontSize: '0.88rem', color: '#333', outline: 'none', boxSizing: 'border-box' as const }}
-                    />
-                    <input type="password" placeholder="Password"
-                      style={{ width: '100%', padding: '10px 14px', background: '#f4f4f4', border: 'none', borderRadius: 9, marginBottom: '0.9rem', fontSize: '0.88rem', color: '#333', outline: 'none', boxSizing: 'border-box' as const }}
-                    />
-                    <button
-                      onClick={() => signIn('google')}
-                      style={{ width: '100%', padding: '11px', background: 'linear-gradient(135deg,#ff4757,#ff6b6b)', color: '#fff', border: 'none', borderRadius: 9, fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', marginBottom: '0.65rem', letterSpacing: '0.02em' }}
-                    >
-                      Sign In
-                    </button>
-                    <button
-                      onClick={() => signIn('google')}
-                      style={{ width: '100%', padding: '10px', background: '#fff', border: '1.5px solid #ff4757', color: '#ff4757', borderRadius: 9, fontWeight: 700, fontSize: '0.88rem', cursor: 'pointer', marginBottom: '0.85rem', letterSpacing: '0.02em' }}
-                    >
-                      Join Free
-                    </button>
-                    <div style={{ textAlign: 'center' }}>
-                      <a href="/contact" style={{ fontSize: '0.78rem', color: '#aaa', textDecoration: 'none' }}>Forgot your password?</a>
+              {accountOpen && (
+                <div style={{
+                  position: 'absolute', top: 'calc(100% + 12px)', right: 0,
+                  width: 240, background: '#fff', borderRadius: 14,
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.14)', padding: '1rem',
+                  border: '1px solid rgba(0,0,0,0.07)', zIndex: 100,
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem', paddingBottom: '0.85rem', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+                    {session.user?.image
+                      ? <img src={session.user.image} alt="" style={{ width: 38, height: 38, borderRadius: '50%', flexShrink: 0 }} />
+                      : <div style={{ width: 38, height: 38, borderRadius: '50%', background: 'linear-gradient(135deg,#ff4757,#ff6b6b)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, color: '#fff', flexShrink: 0 }}>{(session.user?.name || 'U')[0].toUpperCase()}</div>
+                    }
+                    <div style={{ overflow: 'hidden' }}>
+                      <div style={{ fontWeight: 700, color: '#111', fontSize: '0.88rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{session.user?.name}</div>
+                      <div style={{ fontSize: '0.72rem', color: '#999', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{session.user?.email}</div>
                     </div>
                   </div>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* Cart button */}
-          <div className="relative">
-            <Link href="/cart"
+                  <Link href="/cart" onClick={() => setAccountOpen(false)}
+                    style={{ display: 'block', padding: '9px 12px', background: 'rgba(255,71,87,0.06)', borderRadius: 8, color: '#ff4757', fontWeight: 600, fontSize: '0.85rem', textDecoration: 'none', marginBottom: '0.5rem' }}
+                  >
+                    My Cart & Orders
+                  </Link>
+                  <button
+                    onClick={() => { signOut(); setAccountOpen(false) }}
+                    style={{ width: '100%', padding: '9px 12px', background: 'none', border: '1px solid rgba(0,0,0,0.1)', borderRadius: 8, color: '#777', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+                  >
+                    <LogOut size={14} /> Sign Out
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            /* Not signed in: link to /login */
+            <button
+              type="button"
+              onClick={() => router.push('/login')}
               style={btnStyle}
-              aria-label="Cart"
+              aria-label="Sign In"
               onMouseOver={hoverOn} onMouseOut={hoverOff}
             >
+              <User size={18} color="#fff" />
+            </button>
+          )}
+
+          {/* Cart */}
+          <div className="relative">
+            <Link href="/cart" style={btnStyle} aria-label="Cart" onMouseOver={hoverOn} onMouseOut={hoverOff}>
               <ShoppingCart size={18} color="#fff" />
             </Link>
             {count > 0 && (
@@ -240,10 +190,8 @@ export default function Navbar() {
             ))}
             <li className={`border-t ${mobDiv} pt-3 mt-1 flex gap-3`}>
               <Link href="/products/custom" className="btn btn-primary text-xs flex-1 text-center">Get Quote</Link>
-              <Link href="/cart" className="btn btn-outline text-xs flex items-center gap-1">
-                <ShoppingCart size={14} />
-                {count > 0 && <span className="font-bold text-primary">{count}</span>}
-                Cart
+              <Link href={session ? '/cart' : '/login'} className="btn btn-outline text-xs flex items-center gap-1">
+                {session ? <><ShoppingCart size={14} />{count > 0 && <span className="font-bold text-primary">{count}</span>} Cart</> : 'Sign In'}
               </Link>
             </li>
           </ul>
