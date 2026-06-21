@@ -21,7 +21,7 @@ export default function AboutPage() {
             <div className="section-label"><i className="fas fa-info-circle" /> Our Story</div>
             <h1 className="section-title">About ClothReady</h1>
             <p className="section-subtitle" style={{ margin: '0 auto' }}>
-              20+ years specializing in OEM fitness wear and streetwear for global brands
+              15+ years specializing in OEM fitness wear and streetwear for global brands
             </p>
           </Reveal>
         </div>
@@ -34,7 +34,7 @@ export default function AboutPage() {
             <div className="text-center">
               <h2 style={{ fontSize: 'clamp(1.8rem,4vw,2.5rem)', fontWeight: 800, marginBottom: '1.25rem' }}>Why Choose ClothReady?</h2>
               <p style={{ fontSize: '1.05rem', color: '#888', maxWidth: 720, margin: '0 auto 3rem', lineHeight: 1.8 }}>
-                We&apos;re not just a factory — we&apos;re your strategic OEM partner. With 20+ years of
+                We&apos;re not just a factory — we&apos;re your strategic OEM partner. With 15+ years of
                 specialized experience in fitness and leisure wear, we guide you from tech pack to bulk
                 shipment, with a minimum order of just 50 pieces.
               </p>

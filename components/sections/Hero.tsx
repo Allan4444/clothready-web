@@ -26,7 +26,7 @@ export default function Hero() {
         <h1 className="text-5xl md:text-7xl font-extrabold uppercase leading-tight tracking-tight animate-fade-up">
           Fitness &amp; Leisure<br />
           Wear Factory<br />
-          <span className="bg-gradient-primary bg-clip-text text-transparent">Since 2004</span>
+          <span className="bg-gradient-primary bg-clip-text text-transparent">Since 2010</span>
         </h1>
 
         <p className="mt-6 text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
@@ -45,7 +45,7 @@ export default function Hero() {
 
         <div className="mt-12 flex flex-wrap justify-center gap-8 md:gap-12">
           {[
-            { icon: '🏭', n: '20+', l: 'Years Experience' },
+            { icon: '🏭', n: '15+', l: 'Years Experience' },
             { icon: '📐', n: '50pcs', l: 'Minimum Order' },
             { icon: '⚡', n: '20–35d', l: 'Lead Time' },
             { icon: '✅', n: '100%', l: 'QC Inspected' },
