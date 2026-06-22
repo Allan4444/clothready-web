@@ -37,20 +37,24 @@ export default function Footer() {
             <h4 className="footer-heading">Company</h4>
             <ul className="footer-list">
               <li><Link href="/about" className="footer-link">About Us</Link></li>
-              <li><Link href="/products/custom" className="footer-link">Products</Link></li>
-              <li><Link href="/#social-feed" className="footer-link">Social Feed</Link></li>
+              <li><Link href="/products" className="footer-link">All Products</Link></li>
+              <li><Link href="/about#social-feed" className="footer-link">Social Feed</Link></li>
               <li><Link href="/contact" className="footer-link">Contact</Link></li>
             </ul>
           </div>
 
-          {/* Column 3: Services */}
+          {/* Column 3: Categories */}
           <div>
-            <h4 className="footer-heading">Services</h4>
+            <h4 className="footer-heading">Categories</h4>
             <ul className="footer-list">
-              <li><Link href="/sample-order" className="footer-link">Sample Order</Link></li>
-              <li><a href="https://www.faire.com" target="_blank" rel="noopener noreferrer" className="footer-link">Blank Bulk Order</a></li>
-              <li><Link href="/faq" className="footer-link">FAQ</Link></li>
-              <li><Link href="/tech-pack" className="footer-link">Tech Pack</Link></li>
+              <li><Link href="/products/gym-wear-manufacturer" className="footer-link">Gym Wear</Link></li>
+              <li><Link href="/products/custom-hoodies-manufacturer" className="footer-link">Custom Hoodies</Link></li>
+              <li><Link href="/products/yoga-pants-manufacturer" className="footer-link">Yoga Pants</Link></li>
+              <li><Link href="/products/activewear-manufacturer" className="footer-link">Activewear</Link></li>
+              <li><Link href="/products/streetwear-manufacturer" className="footer-link">Streetwear</Link></li>
+              <li><Link href="/products/custom-joggers" className="footer-link">Custom Joggers</Link></li>
+              <li><Link href="/products/sports-bra-manufacturer" className="footer-link">Sports Bras</Link></li>
+              <li><Link href="/products/oversized-tshirt-manufacturer" className="footer-link">Oversized T-Shirts</Link></li>
             </ul>
           </div>
 
