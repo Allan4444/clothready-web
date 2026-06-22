@@ -26,6 +26,20 @@ export default function CategoryPage({ params }: Props) {
 
   return (
     <main style={{ background: '#0a0a0a', color: '#fff', minHeight: '100vh' }}>
+      <style>{`
+        .cat-card { background:#111; border:1px solid #1e1e1e; border-radius:12px; overflow:hidden; transition:border-color 0.2s; }
+        .cat-card:hover { border-color:#333; }
+        .cat-why { background:#0a0a0a; border:1px solid #1e1e1e; border-radius:12px; padding:1.75rem; }
+        .cat-tag { font-size:0.7rem; padding:3px 8px; background:rgba(255,71,87,0.08); border:1px solid rgba(255,71,87,0.15); border-radius:4px; color:#ff6b6b; }
+        .cat-related-link { padding:0.6rem 1.25rem; border:1px solid #2e2e2e; border-radius:8px; color:#aaa; text-decoration:none; font-size:0.875rem; transition:border-color 0.2s, color 0.2s; display:inline-block; }
+        .cat-related-link:hover { border-color:#ff4757; color:#fff; }
+        .cat-sample-btn { display:block; text-align:center; padding:0.6rem; background:transparent; border:1px solid #333; border-radius:6px; color:#aaa; text-decoration:none; font-size:0.85rem; transition:background 0.2s, border-color 0.2s, color 0.2s; }
+        .cat-sample-btn:hover { background:#ff4757; border-color:#ff4757; color:#fff; }
+        .cat-ghost-btn { display:inline-flex; align-items:center; gap:0.5rem; padding:0.75rem 1.5rem; border:1px solid #333; border-radius:8px; color:#aaa; text-decoration:none; font-size:0.9rem; transition:border-color 0.2s, color 0.2s; }
+        .cat-ghost-btn:hover { border-color:#666; color:#fff; }
+        .cat-cta-btn { display:inline-flex; align-items:center; padding:0.875rem 2rem; border:1px solid #333; border-radius:8px; color:#aaa; text-decoration:none; font-size:1rem; transition:border-color 0.2s, color 0.2s; }
+        .cat-cta-btn:hover { border-color:#666; color:#fff; }
+      `}</style>
 
       {/* Hero */}
       <section style={{ paddingTop: '120px', paddingBottom: '60px', background: 'linear-gradient(180deg,#111 0%,#0a0a0a 100%)' }}>
@@ -45,9 +59,7 @@ export default function CategoryPage({ params }: Props) {
             <Link href="/contact" className="btn btn-primary">
               Get Free Quote →
             </Link>
-            <Link href="/products/custom" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.5rem', border: '1px solid #333', borderRadius: '8px', color: '#aaa', textDecoration: 'none', fontSize: '0.9rem', transition: 'border-color 0.2s, color 0.2s' }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = '#666'; (e.currentTarget as HTMLElement).style.color = '#fff' }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = '#333'; (e.currentTarget as HTMLElement).style.color = '#aaa' }}>
+            <Link href="/products/custom" className="cat-ghost-btn">
               View All Custom →
             </Link>
           </div>
@@ -61,9 +73,7 @@ export default function CategoryPage({ params }: Props) {
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1.5rem' }}>
           {cat.products.map((p) => (
-            <div key={p.id} style={{ background: '#111', border: '1px solid #1e1e1e', borderRadius: '12px', overflow: 'hidden', transition: 'border-color 0.2s' }}
-              onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.borderColor = '#333'}
-              onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.borderColor = '#1e1e1e'}>
+            <div key={p.id} className="cat-card">
               <div style={{ position: 'relative', aspectRatio: '4/3', overflow: 'hidden' }}>
                 <Image src={p.img} alt={p.name} fill style={{ objectFit: 'cover' }} />
                 <span style={{ position: 'absolute', top: '12px', left: '12px', background: '#ff4757', color: '#fff', fontSize: '0.7rem', fontWeight: 700, padding: '3px 8px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
@@ -72,9 +82,7 @@ export default function CategoryPage({ params }: Props) {
               </div>
               <div style={{ padding: '1.25rem' }}>
                 <h3 style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: '1rem' }}>{p.name}</h3>
-                <Link href="/contact" style={{ display: 'block', textAlign: 'center', padding: '0.6rem', background: 'transparent', border: '1px solid #333', borderRadius: '6px', color: '#aaa', textDecoration: 'none', fontSize: '0.85rem', transition: 'all 0.2s' }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#ff4757'; (e.currentTarget as HTMLElement).style.borderColor = '#ff4757'; (e.currentTarget as HTMLElement).style.color = '#fff' }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.borderColor = '#333'; (e.currentTarget as HTMLElement).style.color = '#aaa' }}>
+                <Link href="/contact" className="cat-sample-btn">
                   Request Sample
                 </Link>
               </div>
@@ -91,7 +99,7 @@ export default function CategoryPage({ params }: Props) {
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '2rem' }}>
             {cat.why.map((w, i) => (
-              <div key={i} style={{ background: '#0a0a0a', border: '1px solid #1e1e1e', borderRadius: '12px', padding: '1.75rem' }}>
+              <div key={i} className="cat-why">
                 <div style={{ width: 40, height: 40, background: 'linear-gradient(135deg,#ff4757,#ff6b6b)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem', fontSize: '1.1rem', fontWeight: 800, color: '#fff' }}>
                   {i + 1}
                 </div>
@@ -127,9 +135,7 @@ export default function CategoryPage({ params }: Props) {
           <h2 style={{ fontSize: '1.3rem', fontWeight: 700, marginBottom: '1.5rem' }}>Related Categories</h2>
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
             {cat.relatedCategories.map((slug) => (
-              <Link key={slug} href={`/products/${slug}`} style={{ padding: '0.6rem 1.25rem', border: '1px solid #2e2e2e', borderRadius: '8px', color: '#aaa', textDecoration: 'none', fontSize: '0.875rem', transition: 'all 0.2s' }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = '#ff4757'; (e.currentTarget as HTMLElement).style.color = '#fff' }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = '#2e2e2e'; (e.currentTarget as HTMLElement).style.color = '#aaa' }}>
+              <Link key={slug} href={`/products/${slug}`} className="cat-related-link">
                 {getCategoryName(slug)}
               </Link>
             ))}
@@ -150,7 +156,7 @@ export default function CategoryPage({ params }: Props) {
             <Link href="/contact" className="btn btn-primary" style={{ fontSize: '1rem', padding: '0.875rem 2rem' }}>
               Get a Free Quote
             </Link>
-            <Link href="/products/custom" style={{ display: 'inline-flex', alignItems: 'center', padding: '0.875rem 2rem', border: '1px solid #333', borderRadius: '8px', color: '#aaa', textDecoration: 'none', fontSize: '1rem' }}>
+            <Link href="/products/custom" className="cat-cta-btn">
               Explore All Products
             </Link>
           </div>
