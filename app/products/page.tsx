@@ -1,67 +1,127 @@
 import Link from 'next/link'
-import Reveal from '@/components/ui/Reveal'
+import type { Metadata } from 'next'
+import { CATEGORIES, getCategoryName } from '@/lib/categories'
 
-export const metadata = {
-  title: 'Products — Custom Manufacturing & In-Stock Shop',
-  description: 'Browse custom OEM manufacturing services and ready-to-ship fitness wear & streetwear. MOQ from 50 pieces or buy 1-50 from stock.',
+export const metadata: Metadata = {
+  title: 'Products — Custom Activewear & Streetwear Manufacturer | ClothReady',
+  description: 'ClothReady manufactures custom gym wear, hoodies, yoga pants, sports bras, joggers and streetwear in China. Browse all categories. MOQ 50 pieces.',
+  alternates: { canonical: 'https://clothready.com/products' },
+}
+
+const CATEGORY_ICONS: Record<string, string> = {
+  'gym-wear-manufacturer': '🏋️',
+  'custom-hoodies-manufacturer': '🧥',
+  'yoga-pants-manufacturer': '🧘',
+  'activewear-manufacturer': '⚡',
+  'streetwear-manufacturer': '🔥',
+  'custom-joggers': '👖',
+  'sports-bra-manufacturer': '💪',
+  'oversized-tshirt-manufacturer': '👕',
 }
 
 export default function ProductsPage() {
   return (
-    <section className="section" style={{ paddingTop: '8rem', minHeight: '80vh' }}>
-      <div className="container-1200">
-        <Reveal>
-          <div className="text-center" style={{ marginBottom: '3rem' }}>
-            <div className="section-label"><i className="fas fa-tshirt" /> Our Products</div>
-            <h1 className="section-title">How Would You Like to Order?</h1>
-            <p className="section-subtitle" style={{ margin: '0 auto' }}>
-              Custom manufacturing for your brand, or ready-to-ship from our stock
-            </p>
+    <main style={{ background: '#0a0a0a', color: '#fff', minHeight: '100vh' }}>
+
+      {/* Hero */}
+      <section style={{ paddingTop: '120px', paddingBottom: '60px', background: 'linear-gradient(180deg,#111 0%,#0a0a0a 100%)', borderBottom: '1px solid #1e1e1e' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 2rem', textAlign: 'center' }}>
+          <div style={{ display: 'inline-block', background: 'rgba(255,71,87,0.1)', border: '1px solid rgba(255,71,87,0.2)', borderRadius: '50px', padding: '0.4rem 1rem', fontSize: '0.75rem', color: '#ff4757', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '1.5rem' }}>
+            Factory Direct · MOQ 50 Pieces
           </div>
-        </Reveal>
-
-        <div className="grid-2" style={{ maxWidth: 900, margin: '0 auto' }}>
-          <Reveal>
-            <Link href="/products/custom" style={{ textDecoration: 'none' }}>
-              <div className="card" style={{ textAlign: 'center', padding: '3rem 2rem', cursor: 'pointer', minHeight: 320, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ fontSize: '3.5rem', marginBottom: '1.5rem' }}>🏭</div>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '0.75rem', color: '#fff' }}>Custom Manufacturing</h2>
-                <p style={{ color: '#888', lineHeight: 1.7, marginBottom: '1.5rem' }}>
-                  Your designs, your brand. We manufacture from your tech pack or sketch. MOQ 50 pieces.
-                </p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', justifyContent: 'center', marginBottom: '1.5rem' }}>
-                  {['OEM/ODM', 'Private Label', 'MOQ 50pcs', 'Your Design'].map(t => (
-                    <span key={t} style={{ fontSize: '0.7rem', padding: '4px 10px', background: 'rgba(255,71,87,0.1)', border: '1px solid rgba(255,71,87,0.2)', borderRadius: 50, color: '#ff4757' }}>{t}</span>
-                  ))}
-                </div>
-                <span className="btn btn-primary" style={{ pointerEvents: 'none' }}>
-                  Browse & Get Quote <i className="fas fa-arrow-right" />
-                </span>
-              </div>
+          <h1 style={{ fontSize: 'clamp(2rem,5vw,3.2rem)', fontWeight: 800, lineHeight: 1.1, marginBottom: '1.25rem' }}>
+            Custom Activewear &amp; Streetwear<br />
+            <span style={{ background: 'linear-gradient(135deg,#ff4757,#ff6b6b)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Manufacturer in China</span>
+          </h1>
+          <p style={{ color: '#aaa', fontSize: '1.1rem', lineHeight: 1.75, maxWidth: 600, margin: '0 auto 2rem' }}>
+            Browse our specialized manufacturing categories. Each category page covers fabrics, customization options, pricing guidance, and FAQs — everything you need to start your order.
+          </p>
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link href="/contact" className="btn btn-primary">Get a Free Quote →</Link>
+            <Link href="/products/custom" style={{ display: 'inline-flex', alignItems: 'center', padding: '0.75rem 1.5rem', border: '1px solid #333', borderRadius: '8px', color: '#aaa', textDecoration: 'none', fontSize: '0.9rem' }}>
+              Custom Manufacturing →
             </Link>
-          </Reveal>
-
-          <Reveal>
-            <Link href="/products/in-stock" style={{ textDecoration: 'none' }}>
-              <div className="card" style={{ textAlign: 'center', padding: '3rem 2rem', cursor: 'pointer', minHeight: 320, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ fontSize: '3.5rem', marginBottom: '1.5rem' }}>🛒</div>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '0.75rem', color: '#fff' }}>In-Stock Shop</h2>
-                <p style={{ color: '#888', lineHeight: 1.7, marginBottom: '1.5rem' }}>
-                  Ready-to-ship collection. Buy 1–50 pieces at tiered wholesale prices. Ships in 3 days.
-                </p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', justifyContent: 'center', marginBottom: '1.5rem' }}>
-                  {['No MOQ', '3-Day Ship', '15-30% Off', 'Buy Now'].map(t => (
-                    <span key={t} style={{ fontSize: '0.7rem', padding: '4px 10px', background: 'rgba(46,213,115,0.1)', border: '1px solid rgba(46,213,115,0.2)', borderRadius: 50, color: '#2ed573' }}>{t}</span>
-                  ))}
-                </div>
-                <span className="btn btn-outline" style={{ pointerEvents: 'none', borderColor: '#2ed573', color: '#2ed573' }}>
-                  Shop Now <i className="fas fa-shopping-bag" />
-                </span>
-              </div>
-            </Link>
-          </Reveal>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* Category Grid */}
+      <section style={{ maxWidth: 1200, margin: '0 auto', padding: '4rem 2rem' }}>
+        <h2 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '0.5rem' }}>Product Categories</h2>
+        <p style={{ color: '#666', fontSize: '0.9rem', marginBottom: '2.5rem' }}>Click any category to view products, fabrics, and customization details.</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.25rem' }}>
+          {CATEGORIES.map((cat) => (
+            <Link key={cat.slug} href={`/products/${cat.slug}`} style={{ textDecoration: 'none' }}>
+              <div style={{ background: '#111', border: '1px solid #1e1e1e', borderRadius: '14px', padding: '1.75rem', cursor: 'pointer', transition: 'border-color 0.2s, background 0.2s', height: '100%' }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = '#ff4757'; (e.currentTarget as HTMLElement).style.background = '#141414' }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = '#1e1e1e'; (e.currentTarget as HTMLElement).style.background = '#111' }}>
+                <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>
+                  {CATEGORY_ICONS[cat.slug] ?? '👗'}
+                </div>
+                <h3 style={{ color: '#fff', fontSize: '1rem', fontWeight: 700, marginBottom: '0.6rem' }}>
+                  {getCategoryName(cat.slug)}
+                </h3>
+                <p style={{ color: '#666', fontSize: '0.85rem', lineHeight: 1.6, marginBottom: '1.25rem' }}>
+                  {cat.metaDesc.split('.')[0]}.
+                </p>
+                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                  {cat.products.slice(0, 2).map((p) => (
+                    <span key={p.id} style={{ fontSize: '0.7rem', padding: '3px 8px', background: 'rgba(255,71,87,0.08)', border: '1px solid rgba(255,71,87,0.15)', borderRadius: '4px', color: '#ff6b6b' }}>
+                      {p.tag}
+                    </span>
+                  ))}
+                  <span style={{ fontSize: '0.7rem', padding: '3px 8px', background: '#1a1a1a', border: '1px solid #2e2e2e', borderRadius: '4px', color: '#555' }}>
+                    MOQ 50
+                  </span>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Order Types */}
+      <section style={{ background: '#111', borderTop: '1px solid #1e1e1e', borderBottom: '1px solid #1e1e1e' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '4rem 2rem' }}>
+          <h2 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '2rem', textAlign: 'center' }}>How Would You Like to Order?</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: '1.5rem' }}>
+            <Link href="/products/custom" style={{ textDecoration: 'none' }}>
+              <div style={{ background: '#0a0a0a', border: '1px solid #1e1e1e', borderRadius: '14px', padding: '2rem', transition: 'border-color 0.2s' }}
+                onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.borderColor = '#ff4757'}
+                onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.borderColor = '#1e1e1e'}>
+                <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🏭</div>
+                <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.6rem' }}>Custom Manufacturing</h3>
+                <p style={{ color: '#666', fontSize: '0.875rem', lineHeight: 1.65, marginBottom: '1rem' }}>Your designs, your brand. We produce from your tech pack or sketch. MOQ 50 pieces.</p>
+                <div style={{ color: '#ff4757', fontSize: '0.85rem', fontWeight: 600 }}>Browse Products →</div>
+              </div>
+            </Link>
+            <Link href="/products/in-stock" style={{ textDecoration: 'none' }}>
+              <div style={{ background: '#0a0a0a', border: '1px solid #1e1e1e', borderRadius: '14px', padding: '2rem', transition: 'border-color 0.2s' }}
+                onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.borderColor = '#2ed573'}
+                onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.borderColor = '#1e1e1e'}>
+                <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🛒</div>
+                <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.6rem' }}>In-Stock Shop</h3>
+                <p style={{ color: '#666', fontSize: '0.875rem', lineHeight: 1.65, marginBottom: '1rem' }}>Ready-to-ship wholesale. Buy 1–50 pieces at tiered prices. Ships within 3 days.</p>
+                <div style={{ color: '#2ed573', fontSize: '0.85rem', fontWeight: 600 }}>Shop Now →</div>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section style={{ maxWidth: 700, margin: '0 auto', padding: '5rem 2rem', textAlign: 'center' }}>
+        <h2 style={{ fontSize: 'clamp(1.5rem,3vw,2rem)', fontWeight: 800, marginBottom: '1rem' }}>
+          Not Sure Where to Start?
+        </h2>
+        <p style={{ color: '#aaa', marginBottom: '2rem', lineHeight: 1.7 }}>
+          Tell us what you need and our team will guide you through category selection, fabric choices, and pricing within 24 hours.
+        </p>
+        <Link href="/contact" className="btn btn-primary" style={{ fontSize: '1rem', padding: '0.875rem 2rem' }}>
+          Talk to Our Team →
+        </Link>
+      </section>
+
+    </main>
   )
 }
