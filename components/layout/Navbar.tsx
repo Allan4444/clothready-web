@@ -21,7 +21,6 @@ const CATEGORY_LINKS = [
 ]
 
 const SIMPLE_LINKS = [
-  { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ]
@@ -32,8 +31,8 @@ export default function Navbar() {
   const isLight   = pathname !== '/'
   const { count } = useCart()
   const { data: session } = useSession()
-  const [scrolled, setScrolled]       = useState(false)
-  const [mobileOpen, setMobileOpen]   = useState(false)
+  const [scrolled, setScrolled]         = useState(false)
+  const [mobileOpen, setMobileOpen]     = useState(false)
   const [productsOpen, setProductsOpen] = useState(false)
   const productsRef = useRef<HTMLLIElement>(null)
 
@@ -105,7 +104,7 @@ export default function Navbar() {
             {productsOpen && (
               <div
                 className="absolute top-full mt-3 rounded-xl overflow-hidden shadow-2xl"
-                style={{ left: '50%', transform: 'translateX(-50%)', width: 520, background: isLight ? '#fff' : '#141414', border: isLight ? '1px solid rgba(0,0,0,0.08)' : '1px solid rgba(255,255,255,0.1)' }}
+                style={{ left: '50%', transform: 'translateX(-50%)', width: 540, background: isLight ? '#fff' : '#141414', border: isLight ? '1px solid rgba(0,0,0,0.08)' : '1px solid rgba(255,255,255,0.1)' }}
               >
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
                   {/* Left: order types */}
@@ -125,7 +124,7 @@ export default function Navbar() {
                     <div style={{ padding: '10px 16px 6px', fontSize: '0.7rem', color: '#888', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>Categories</div>
                     {CATEGORY_LINKS.map((cat) => (
                       <Link key={cat.href} href={cat.href}
-                        className={`block px-4 py-2 text-sm transition-colors ${isLight ? 'text-gray-600 hover:text-gray-900 hover:bg-black/5' : 'text-white/70 hover:text-white hover:bg-white/5'}`}
+                        className={`block px-4 py-1.5 text-sm transition-colors ${isLight ? 'text-gray-600 hover:text-gray-900 hover:bg-black/5' : 'text-white/70 hover:text-white hover:bg-white/5'}`}
                       >
                         {cat.label}
                       </Link>
@@ -142,7 +141,7 @@ export default function Navbar() {
           </li>
 
           {/* About, Contact */}
-          {SIMPLE_LINKS.filter(l => l.href !== '/').map((l) => {
+          {SIMPLE_LINKS.map((l) => {
             const active = pathname === l.href
             return (
               <li key={l.href}>

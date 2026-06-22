@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 116">
+  <!-- Flat-top hexagon -->
+  <polygon points="50,2 95,27 95,89 50,114 5,89 5,27" fill="black"/>
+  <!-- Top crossbar -->
+  <rect x="23" y="28" width="54" height="13" fill="white"/>
+  <!-- Left pillar -->
+  <rect x="23" y="46" width="19" height="28" fill="white"/>
+  <!-- Right pillar -->
+  <rect x="58" y="46" width="19" height="28" fill="white"/>
+  <!-- Bottom left diagonal fill (inner white) -->
+  <polygon points="23,74 23,88 36,98 42,92 42,74" fill="white"/>
+  <!-- Bottom right diagonal fill (inner white) -->
+  <polygon points="77,74 77,88 64,98 58,92 58,74" fill="white"/>
+</svg>
