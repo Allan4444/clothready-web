@@ -239,6 +239,60 @@ export const CATEGORIES: Category[] = [
     ],
     relatedCategories: ['streetwear-manufacturer', 'custom-hoodies-manufacturer', 'custom-joggers'],
   },
+  {
+    slug: 'custom-jackets-manufacturer',
+    h1: 'Custom Jackets Manufacturer — Private Label Jackets from MOQ 50',
+    metaTitle: 'Custom Jackets Manufacturer China | Private Label Jackets MOQ 50 | ClothReady',
+    metaDesc: 'ClothReady manufactures custom jackets in China. Bomber, track, windbreaker, puffer — private label from MOQ 50pcs. OEM & ODM available.',
+    intro: 'ClothReady is a custom jackets manufacturer in Dongguan, China, producing bomber jackets, track jackets, windbreakers, puffer jackets, and coaches jackets for streetwear labels, sports brands, and outdoor apparel companies. Our factory handles all outerwear construction including bonded lining, water-resistant coatings, ribbed cuffs, and custom hardware — giving your brand a complete jacket manufacturing solution from MOQ 50 pieces.',
+    why: [
+      { title: 'Wide Jacket Category Coverage', desc: 'We manufacture bomber, track, windbreaker, puffer, varsity, coaches, and softshell jackets — all from one factory with consistent quality.' },
+      { title: 'Technical Outerwear Fabrics', desc: 'Water-resistant nylon, ripstop polyester, bonded fleece, and DWR-coated shells available. We source from certified mills in China and Taiwan.' },
+      { title: 'Custom Hardware & Trim', desc: 'YKK zippers, custom zipper pulls, snap buttons, rib-knit cuffs, woven patches, and embroidery — full trim customization included.' },
+      { title: 'Sample in 10-15 Days', desc: 'Outerwear samples typically ready in 10-15 business days. Bulk production in 35-45 days depending on jacket complexity.' },
+    ],
+    faqs: [
+      { q: 'What types of custom jackets do you manufacture?', a: 'We produce bomber jackets, track jackets, windbreakers, puffer jackets, coaches jackets, varsity jackets, and softshell jackets.' },
+      { q: 'What is the MOQ for custom jackets?', a: 'MOQ is 50 pieces per style per color. For jackets with complex construction (puffer, varsity), we may recommend starting at 100 pieces.' },
+      { q: 'Can you make water-resistant or waterproof jackets?', a: 'Yes. We offer DWR (Durable Water Repellent) coated nylon shells and fully seam-sealed waterproof jackets upon request.' },
+      { q: 'What lining options are available for custom jackets?', a: 'Options include mesh lining, taffeta lining, fleece bonded lining, and quilted padding for insulated styles.' },
+      { q: 'How long does custom jacket production take?', a: 'Sampling: 10-15 business days. Bulk production: 35-45 days from sample approval, depending on jacket complexity and quantity.' },
+    ],
+    products: [
+      { id: 'bomber-jacket', name: 'Custom Bomber Jacket', img: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&q=80', tag: 'Streetwear' },
+      { id: 'track-jacket', name: 'Track Jacket', img: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80', tag: 'MOQ 50' },
+      { id: 'windbreaker', name: 'Lightweight Windbreaker', img: 'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=600&q=80', tag: 'Water-Resistant' },
+      { id: 'puffer-jacket', name: 'Puffer Jacket', img: 'https://images.unsplash.com/photo-1547624643-3bf761b09502?w=600&q=80', tag: 'OEM Ready' },
+    ],
+    relatedCategories: ['streetwear-manufacturer', 'custom-hoodies-manufacturer', 'activewear-manufacturer'],
+  },
+  {
+    slug: 'custom-swimsuits-manufacturer',
+    h1: 'Custom Swimsuits Manufacturer — Private Label Swimwear from MOQ 50',
+    metaTitle: 'Custom Swimsuits Manufacturer China | Private Label Swimwear MOQ 50 | ClothReady',
+    metaDesc: 'ClothReady manufactures custom swimsuits and swimwear in China. One-piece, bikinis, rash guards — chlorine-resistant, MOQ 50pcs. Private label ready.',
+    intro: 'ClothReady is a custom swimsuits manufacturer in Dongguan, China, producing one-piece swimsuits, bikinis, swim shorts, rash guards, and swimwear sets for beach brands, resort labels, and activewear companies. Our swimwear fabrics are chlorine-resistant, UV-protective (UPF 50+), and quick-drying — built for both fashion and performance swim markets. With MOQ starting at 50 pieces, we help brands launch private label swimwear collections without large upfront minimums.',
+    why: [
+      { title: 'Chlorine-Resistant Fabrics', desc: 'We use Xtra Life LYCRA® and PBT polyester blends that resist chlorine, sunscreen, and saltwater degradation — maintaining shape and color longer.' },
+      { title: 'UPF 50+ Sun Protection', desc: 'Our swimwear fabrics carry UPF 50+ ratings, blocking 98% of UV rays — a selling point increasingly demanded by health-conscious swim consumers.' },
+      { title: 'Full Custom Printing', desc: 'Sublimation printing enables all-over custom patterns, brand graphics, and color-blocked designs with sharp detail on all swimwear styles.' },
+      { title: 'Matching Sets & Collections', desc: 'Order coordinating bikini tops, bottoms, cover-ups, and rash guards in matching prints for a cohesive swimwear collection — all from one factory.' },
+    ],
+    faqs: [
+      { q: 'What swimwear styles do you manufacture?', a: 'We produce one-piece swimsuits, bikini sets (top + bottom), swim shorts, boardshorts, rash guards, and swimwear cover-ups.' },
+      { q: 'What is the MOQ for custom swimsuits?', a: 'MOQ is 50 pieces per style per color. For sublimation print styles, 50 pieces per print design applies.' },
+      { q: 'Are your swimsuit fabrics chlorine-resistant?', a: 'Yes. We use Xtra Life LYCRA® blends and PBT polyester that are specifically engineered for chlorine resistance in pool environments.' },
+      { q: 'Can I get custom prints on swimsuits?', a: 'Yes — sublimation printing allows full all-over custom prints on all swimwear styles with vibrant, fade-resistant colors.' },
+      { q: 'Do you offer sustainable swimwear fabrics?', a: 'Yes. We offer swimwear made from ECONYL® regenerated nylon (from recycled ocean plastics) for brands with eco-conscious positioning.' },
+    ],
+    products: [
+      { id: 'onepiece-swimsuit', name: 'Custom One-Piece Swimsuit', img: 'https://images.unsplash.com/photo-1570976447640-ac859083963f?w=600&q=80', tag: 'UPF 50+' },
+      { id: 'bikini-set', name: 'Custom Bikini Set', img: 'https://images.unsplash.com/photo-1562183241-b937e95585b6?w=600&q=80', tag: 'Sublimation' },
+      { id: 'rash-guard', name: 'Long-Sleeve Rash Guard', img: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=600&q=80', tag: 'UPF 50+' },
+      { id: 'swim-shorts', name: 'Custom Swim Shorts', img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80', tag: 'MOQ 50' },
+    ],
+    relatedCategories: ['sports-bra-manufacturer', 'activewear-manufacturer', 'yoga-pants-manufacturer'],
+  },
 ]
 
 export function getCategoryBySlug(slug: string): Category | undefined {
@@ -255,6 +309,8 @@ export function getCategoryName(slug: string): string {
     'custom-joggers': 'Custom Joggers',
     'sports-bra-manufacturer': 'Sports Bras',
     'oversized-tshirt-manufacturer': 'Oversized T-Shirts',
+    'custom-jackets-manufacturer': 'Custom Jackets',
+    'custom-swimsuits-manufacturer': 'Custom Swimsuits',
   }
   return names[slug] ?? slug
 }

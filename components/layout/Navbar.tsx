@@ -16,6 +16,8 @@ const CATEGORY_LINKS = [
   { href: '/products/custom-joggers', label: 'Custom Joggers' },
   { href: '/products/sports-bra-manufacturer', label: 'Sports Bras' },
   { href: '/products/oversized-tshirt-manufacturer', label: 'Oversized T-Shirts' },
+  { href: '/products/custom-jackets-manufacturer', label: 'Custom Jackets' },
+  { href: '/products/custom-swimsuits-manufacturer', label: 'Custom Swimsuits' },
 ]
 
 const SIMPLE_LINKS = [

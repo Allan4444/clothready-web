@@ -55,6 +55,8 @@ export default function Footer() {
               <li><Link href="/products/custom-joggers" className="footer-link">Custom Joggers</Link></li>
               <li><Link href="/products/sports-bra-manufacturer" className="footer-link">Sports Bras</Link></li>
               <li><Link href="/products/oversized-tshirt-manufacturer" className="footer-link">Oversized T-Shirts</Link></li>
+              <li><Link href="/products/custom-jackets-manufacturer" className="footer-link">Custom Jackets</Link></li>
+              <li><Link href="/products/custom-swimsuits-manufacturer" className="footer-link">Custom Swimsuits</Link></li>
             </ul>
           </div>
 
