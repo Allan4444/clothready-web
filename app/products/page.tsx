@@ -27,9 +27,6 @@ export default function ProductsPage() {
       <style>{`
         .prod-cat-card { background:#111; border:1px solid #1e1e1e; border-radius:14px; padding:1.75rem; cursor:pointer; transition:border-color 0.2s, background 0.2s; height:100%; text-decoration:none; display:block; }
         .prod-cat-card:hover { border-color:#ff4757; background:#141414; }
-        .prod-order-card { background:#0a0a0a; border:1px solid #1e1e1e; border-radius:14px; padding:2rem; transition:border-color 0.2s; }
-        .prod-order-card:hover { border-color:#ff4757; }
-        .prod-order-card-green:hover { border-color:#2ed573; }
       `}</style>
 
       {/* Hero */}
@@ -82,31 +79,6 @@ export default function ProductsPage() {
               </div>
             </Link>
           ))}
-        </div>
-      </section>
-
-      {/* Order Types */}
-      <section style={{ background: '#111', borderTop: '1px solid #1e1e1e', borderBottom: '1px solid #1e1e1e' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '4rem 2rem' }}>
-          <h2 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '2rem', textAlign: 'center' }}>How Would You Like to Order?</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: '1.5rem' }}>
-            <Link href="/products/custom" style={{ textDecoration: 'none' }}>
-              <div className="prod-order-card">
-                <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🏭</div>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.6rem', color: '#fff' }}>Custom Manufacturing</h3>
-                <p style={{ color: '#666', fontSize: '0.875rem', lineHeight: 1.65, marginBottom: '1rem' }}>Your designs, your brand. We produce from your tech pack or sketch. MOQ 50 pieces.</p>
-                <div style={{ color: '#ff4757', fontSize: '0.85rem', fontWeight: 600 }}>Browse Products →</div>
-              </div>
-            </Link>
-            <Link href="/products/in-stock" style={{ textDecoration: 'none' }}>
-              <div className="prod-order-card prod-order-card-green">
-                <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🛒</div>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.6rem', color: '#fff' }}>In-Stock Shop</h3>
-                <p style={{ color: '#666', fontSize: '0.875rem', lineHeight: 1.65, marginBottom: '1rem' }}>Ready-to-ship wholesale. Buy 1–50 pieces at tiered prices. Ships within 3 days.</p>
-                <div style={{ color: '#2ed573', fontSize: '0.85rem', fontWeight: 600 }}>Shop Now →</div>
-              </div>
-            </Link>
-          </div>
         </div>
       </section>
 
