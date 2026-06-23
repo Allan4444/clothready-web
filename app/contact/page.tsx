@@ -25,12 +25,27 @@ export default function ContactPage() {
       message: String(fd.get('message') || ''),
     }
     try {
-      await enquiriesApi.create(data)
+      await Promise.all([
+        enquiriesApi.create(data),
+        fetch('/api/send-inquiry', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: data.first_name,
+            email: data.email,
+            company: data.company,
+            phone: data.phone,
+            product: data.product_category,
+            quantity: data.quantity_range,
+            message: data.message,
+          }),
+        }),
+      ])
       setSubmitted(true)
       toast.success("Enquiry sent! We'll reply within 24 hours.")
       ;(e.target as HTMLFormElement).reset()
     } catch (err: any) {
-      toast.error(err.message || 'Failed to send. Please try again.')
+      toast.error(err.message || 'Something went wrong. Please email us directly at info@clothready.com')
     } finally {
       setLoading(false)
     }
