@@ -109,14 +109,10 @@ export default function Navbar() {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
                   {/* Left: order types */}
                   <div style={{ borderRight: isLight ? '1px solid rgba(0,0,0,0.06)' : '1px solid rgba(255,255,255,0.06)' }}>
-                    <div style={{ padding: '10px 16px 6px', fontSize: '0.7rem', color: '#888', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>Order Type</div>
-                    <Link href="/products/custom" className={`block px-4 py-3 transition-colors border-b ${isLight ? 'border-black/5 hover:bg-black/5 text-gray-800' : 'border-white/5 hover:bg-white/5 text-white'}`}>
+                    <div style={{ padding: '10px 16px 6px', fontSize: '0.7rem', color: '#888', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>Custom</div>
+                    <Link href="/products/custom" className={`block px-4 py-3 transition-colors ${isLight ? 'hover:bg-black/5 text-gray-800' : 'hover:bg-white/5 text-white'}`}>
                       <div className="font-medium text-sm">Custom Manufacturing</div>
                       <div className={`text-xs mt-0.5 ${isLight ? 'text-gray-400' : 'text-white/40'}`}>MOQ 50pcs, your design</div>
-                    </Link>
-                    <Link href="/products/in-stock" className={`block px-4 py-3 transition-colors ${isLight ? 'hover:bg-black/5 text-gray-800' : 'hover:bg-white/5 text-white'}`}>
-                      <div className="font-medium text-sm">In Stock / Shop</div>
-                      <div className={`text-xs mt-0.5 ${isLight ? 'text-gray-400' : 'text-white/40'}`}>Ready to ship, 1-50pcs</div>
                     </Link>
                   </div>
                   {/* Right: categories */}
@@ -205,7 +201,6 @@ export default function Navbar() {
             <li className={`border-t ${mobDiv} pt-2 mt-1`}>
               <div className={`text-xs uppercase tracking-wider py-2 ${isLight ? 'text-gray-400' : 'text-white/40'}`}>Products</div>
               <Link href="/products/custom" className={`block py-2 pl-4 ${mobLink}`}>Custom Manufacturing</Link>
-              <Link href="/products/in-stock" className={`block py-2 pl-4 ${mobLink}`}>In Stock / Shop</Link>
               <div className={`text-xs uppercase tracking-wider py-2 pl-4 mt-1 ${isLight ? 'text-gray-300' : 'text-white/30'}`}>Categories</div>
               {CATEGORY_LINKS.map((cat) => (
                 <Link key={cat.href} href={cat.href} className={`block py-1.5 pl-8 text-sm ${isLight ? 'text-gray-500 hover:text-gray-900' : 'text-white/60 hover:text-white'}`}>
