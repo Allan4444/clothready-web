@@ -3,7 +3,7 @@
 export const dynamic = 'force-dynamic'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin-client'
 
 interface Inquiry {
   id: string
@@ -85,11 +85,11 @@ export default function DashboardPage() {
       const endOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59).toISOString()
 
       const [thisMonthRes, lastMonthRes, allRes, samplesRes, recentRes] = await Promise.all([
-        supabase.from('inquiries').select('id', { count: 'exact', head: true }).gte('created_at', startOfMonth),
-        supabase.from('inquiries').select('id', { count: 'exact', head: true }).gte('created_at', startOfLastMonth).lte('created_at', endOfLastMonth),
-        supabase.from('inquiries').select('status'),
-        supabase.from('sample_orders').select('id', { count: 'exact', head: true }).eq('status', 'Pending'),
-        supabase.from('inquiries').select('id,first_name,last_name,company,product_category,created_at,status').order('created_at', { ascending: false }).limit(5),
+        supabaseAdmin.from('enquiries').select('id', { count: 'exact', head: true }).gte('created_at', startOfMonth),
+        supabaseAdmin.from('enquiries').select('id', { count: 'exact', head: true }).gte('created_at', startOfLastMonth).lte('created_at', endOfLastMonth),
+        supabaseAdmin.from('enquiries').select('status'),
+        supabaseAdmin.from('sample_orders').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
+        supabaseAdmin.from('enquiries').select('id,first_name,last_name,company,product_category,created_at,status').order('created_at', { ascending: false }).limit(5),
       ])
 
       const allInquiries = allRes.data || []
@@ -102,7 +102,7 @@ export default function DashboardPage() {
       const total = allInquiries.length || 1
       const funnelStages: FunnelStage[] = [
         { label: 'New', count: statusCounts['new'] || 0, color: '#3b82f6' },
-        { label: 'Following Up', count: statusCounts['following up'] || 0, color: '#f59e0b' },
+        { label: 'Contacted', count: statusCounts['contacted'] || 0, color: '#f59e0b' },
         { label: 'Quoted', count: statusCounts['quoted'] || 0, color: '#8b5cf6' },
         { label: 'Won', count: statusCounts['won'] || 0, color: '#10b981' },
       ]

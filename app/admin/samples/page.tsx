@@ -3,7 +3,7 @@
 export const dynamic = 'force-dynamic'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin-client'
 
 interface SampleOrder {
   id: string
@@ -21,13 +21,20 @@ interface SampleOrder {
   company?: string
 }
 
-const STATUSES = ['Pending', 'In Production', 'Shipped', 'Completed']
+const STATUSES = ['pending', 'in_production', 'shipped', 'approved']
+
+const STATUS_DISPLAY: Record<string, string> = {
+  pending: 'Pending',
+  in_production: 'In Production',
+  shipped: 'Shipped',
+  approved: 'Approved',
+}
 
 const STATUS_COLORS: Record<string, string> = {
   pending: '#f59e0b',
-  'in production': '#8b5cf6',
+  in_production: '#8b5cf6',
   shipped: '#3b82f6',
-  completed: '#10b981',
+  approved: '#10b981',
 }
 
 function StatusBadge({ status }: { status: string }) {
@@ -42,7 +49,7 @@ function StatusBadge({ status }: { status: string }) {
       fontSize: 12,
       fontWeight: 500,
     }}>
-      {status || 'Pending'}
+      {STATUS_DISPLAY[status?.toLowerCase()] || status || 'Pending'}
     </span>
   )
 }
@@ -55,7 +62,7 @@ export default function SamplesPage() {
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabase
+      const { data } = await supabaseAdmin
         .from('sample_orders')
         .select('*')
         .order('created_at', { ascending: false })
@@ -70,12 +77,12 @@ export default function SamplesPage() {
   }, [])
 
   async function updateStatus(id: string, status: string) {
-    await supabase.from('sample_orders').update({ status }).eq('id', id)
+    await supabaseAdmin.from('sample_orders').update({ status }).eq('id', id)
     setOrders(prev => prev.map(o => o.id === id ? { ...o, status } : o))
   }
 
   async function saveNotes(id: string) {
-    await supabase.from('sample_orders').update({ notes: notes[id] }).eq('id', id)
+    await supabaseAdmin.from('sample_orders').update({ notes: notes[id] }).eq('id', id)
   }
 
   function getCustomerName(o: SampleOrder) {
@@ -135,7 +142,7 @@ export default function SamplesPage() {
                           cursor: 'pointer',
                         }}
                       >
-                        {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
+                        {STATUSES.map(s => <option key={s} value={s}>{STATUS_DISPLAY[s] || s}</option>)}
                       </select>
                     </td>
                   </tr>
