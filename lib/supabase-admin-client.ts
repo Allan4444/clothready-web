@@ -5,6 +5,6 @@ import { createClient } from '@supabase/supabase-js'
 // NEXT_PUBLIC_SUPABASE_SERVICE_KEY must be set in your environment to the
 // Supabase service_role secret (same value as SUPABASE_SERVICE_ROLE_KEY).
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
-const supabaseServiceKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_KEY || 'placeholder'
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder'
 
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey)
+export const supabaseAdmin = createClient(supabaseUrl, supabaseKey)
