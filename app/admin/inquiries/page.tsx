@@ -3,7 +3,7 @@
 export const dynamic = 'force-dynamic'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin-client'
 
 interface Inquiry {
   id: string
@@ -21,11 +21,19 @@ interface Inquiry {
   status: string
 }
 
-const STATUSES = ['All', 'New', 'Following Up', 'Quoted', 'Won', 'Lost']
+const STATUSES = ['All', 'new', 'contacted', 'quoted', 'won', 'lost']
+
+const STATUS_DISPLAY: Record<string, string> = {
+  new: 'New',
+  contacted: 'Contacted',
+  quoted: 'Quoted',
+  won: 'Won',
+  lost: 'Lost',
+}
 
 const STATUS_COLORS: Record<string, string> = {
   new: '#3b82f6',
-  'following up': '#f59e0b',
+  contacted: '#f59e0b',
   quoted: '#8b5cf6',
   won: '#10b981',
   lost: '#6b7280',
@@ -61,8 +69,8 @@ export default function InquiriesPage() {
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabase
-        .from('inquiries')
+      const { data } = await supabaseAdmin
+        .from('enquiries')
         .select('*')
         .order('created_at', { ascending: false })
 
@@ -89,7 +97,7 @@ export default function InquiriesPage() {
   }, [statusFilter, inquiries])
 
   async function updateStatus(id: string, status: string) {
-    await supabase.from('inquiries').update({ status }).eq('id', id)
+    await supabaseAdmin.from('enquiries').update({ status }).eq('id', id)
     setInquiries(prev => prev.map(i => i.id === id ? { ...i, status } : i))
   }
 
@@ -128,7 +136,7 @@ export default function InquiriesPage() {
               cursor: 'pointer',
             }}
           >
-            {s}
+            {s === 'All' ? 'All' : STATUS_DISPLAY[s] || s}
           </button>
         ))}
       </div>
@@ -177,7 +185,7 @@ export default function InquiriesPage() {
                         }}
                       >
                         {STATUSES.filter(s => s !== 'All').map(s => (
-                          <option key={s} value={s}>{s}</option>
+                          <option key={s} value={s}>{STATUS_DISPLAY[s] || s}</option>
                         ))}
                       </select>
                     </td>

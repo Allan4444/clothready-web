@@ -3,7 +3,7 @@
 export const dynamic = 'force-dynamic'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin-client'
 
 interface TechPack {
   id: string
@@ -54,7 +54,7 @@ export default function TechPacksPage() {
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabase
+      const { data } = await supabaseAdmin
         .from('tech_packs')
         .select('*')
         .order('created_at', { ascending: false })
@@ -74,12 +74,12 @@ export default function TechPacksPage() {
   }, [])
 
   async function updateStatus(id: string, status: string) {
-    await supabase.from('tech_packs').update({ status }).eq('id', id)
+    await supabaseAdmin.from('tech_packs').update({ status }).eq('id', id)
     setTechPacks(prev => prev.map(t => t.id === id ? { ...t, status } : t))
   }
 
   async function saveNotes(id: string) {
-    await supabase.from('tech_packs').update({ notes: notes[id] }).eq('id', id)
+    await supabaseAdmin.from('tech_packs').update({ notes: notes[id] }).eq('id', id)
   }
 
   if (loading) return <div style={{ color: '#555', padding: 40 }}>Loading...</div>

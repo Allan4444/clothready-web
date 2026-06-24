@@ -3,7 +3,7 @@
 export const dynamic = 'force-dynamic'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin-client'
 
 interface Customer {
   id: string
@@ -33,8 +33,8 @@ export default function CustomersPage() {
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabase
-        .from('customers')
+      const { data } = await supabaseAdmin
+        .from('clients')
         .select('*')
         .order('created_at', { ascending: false })
       const rows = (data || []) as Customer[]
@@ -59,8 +59,8 @@ export default function CustomersPage() {
 
   async function loadInquiries(email: string, customerId: string) {
     if (customerInquiries[customerId]) return
-    const { data } = await supabase
-      .from('inquiries')
+    const { data } = await supabaseAdmin
+      .from('enquiries')
       .select('id,product_category,quantity_range,created_at,status')
       .eq('email', email)
       .order('created_at', { ascending: false })
