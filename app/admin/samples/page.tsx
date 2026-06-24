@@ -3,7 +3,6 @@
 export const dynamic = 'force-dynamic'
 
 import { useEffect, useState } from 'react'
-import { supabaseAdmin } from '@/lib/supabase-admin-client'
 
 interface SampleOrder {
   id: string
@@ -62,11 +61,9 @@ export default function SamplesPage() {
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabaseAdmin
-        .from('sample_orders')
-        .select('*')
-        .order('created_at', { ascending: false })
-      const rows = (data || []) as SampleOrder[]
+      const res = await fetch('/api/admin/samples')
+      const json = await res.json()
+      const rows = (json.data || []) as SampleOrder[]
       setOrders(rows)
       const n: Record<string, string> = {}
       rows.forEach(r => { n[r.id] = r.notes || '' })
@@ -77,12 +74,12 @@ export default function SamplesPage() {
   }, [])
 
   async function updateStatus(id: string, status: string) {
-    await supabaseAdmin.from('sample_orders').update({ status }).eq('id', id)
+    await fetch('/api/admin/samples', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, status }) })
     setOrders(prev => prev.map(o => o.id === id ? { ...o, status } : o))
   }
 
   async function saveNotes(id: string) {
-    await supabaseAdmin.from('sample_orders').update({ notes: notes[id] }).eq('id', id)
+    await fetch('/api/admin/samples', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, notes: notes[id] }) })
   }
 
   function getCustomerName(o: SampleOrder) {

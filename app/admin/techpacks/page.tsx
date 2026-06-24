@@ -3,7 +3,6 @@
 export const dynamic = 'force-dynamic'
 
 import { useEffect, useState } from 'react'
-import { supabaseAdmin } from '@/lib/supabase-admin-client'
 
 interface TechPack {
   id: string
@@ -54,11 +53,9 @@ export default function TechPacksPage() {
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabaseAdmin
-        .from('tech_packs')
-        .select('*')
-        .order('created_at', { ascending: false })
-      const rows = (data || []) as TechPack[]
+      const res = await fetch('/api/admin/techpacks')
+      const json = await res.json()
+      const rows = (json.data || []) as TechPack[]
       setTechPacks(rows)
       const n: Record<string, string> = {}
       rows.forEach(r => { n[r.id] = r.notes || '' })
@@ -74,12 +71,12 @@ export default function TechPacksPage() {
   }, [])
 
   async function updateStatus(id: string, status: string) {
-    await supabaseAdmin.from('tech_packs').update({ status }).eq('id', id)
+    await fetch('/api/admin/techpacks', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, status }) })
     setTechPacks(prev => prev.map(t => t.id === id ? { ...t, status } : t))
   }
 
   async function saveNotes(id: string) {
-    await supabaseAdmin.from('tech_packs').update({ notes: notes[id] }).eq('id', id)
+    await fetch('/api/admin/techpacks', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, notes: notes[id] }) })
   }
 
   if (loading) return <div style={{ color: '#555', padding: 40 }}>Loading...</div>

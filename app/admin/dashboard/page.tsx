@@ -3,7 +3,6 @@
 export const dynamic = 'force-dynamic'
 
 import { useEffect, useState } from 'react'
-import { supabaseAdmin } from '@/lib/supabase-admin-client'
 
 interface Inquiry {
   id: string
@@ -79,27 +78,10 @@ export default function DashboardPage() {
 
   useEffect(() => {
     async function load() {
-      const now = new Date()
-      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
-      const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString()
-      const endOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59).toISOString()
+      const res = await fetch('/api/admin/dashboard')
+      const json = await res.json()
+      const { thisMonth, lastMonth, statusCounts, pendingSamples, recent } = json
 
-      const [thisMonthRes, lastMonthRes, allRes, samplesRes, recentRes] = await Promise.all([
-        supabaseAdmin.from('enquiries').select('id', { count: 'exact', head: true }).gte('created_at', startOfMonth),
-        supabaseAdmin.from('enquiries').select('id', { count: 'exact', head: true }).gte('created_at', startOfLastMonth).lte('created_at', endOfLastMonth),
-        supabaseAdmin.from('enquiries').select('status'),
-        supabaseAdmin.from('sample_orders').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
-        supabaseAdmin.from('enquiries').select('id,first_name,last_name,company,product_category,created_at,status').order('created_at', { ascending: false }).limit(5),
-      ])
-
-      const allInquiries = allRes.data || []
-      const statusCounts: Record<string, number> = {}
-      for (const row of allInquiries) {
-        const s = (row.status || 'New').toLowerCase()
-        statusCounts[s] = (statusCounts[s] || 0) + 1
-      }
-
-      const total = allInquiries.length || 1
       const funnelStages: FunnelStage[] = [
         { label: 'New', count: statusCounts['new'] || 0, color: '#3b82f6' },
         { label: 'Contacted', count: statusCounts['contacted'] || 0, color: '#f59e0b' },
@@ -108,14 +90,14 @@ export default function DashboardPage() {
       ]
 
       setStats({
-        thisMonth: thisMonthRes.count || 0,
-        lastMonth: lastMonthRes.count || 0,
+        thisMonth: thisMonth || 0,
+        lastMonth: lastMonth || 0,
         newCount: statusCounts['new'] || 0,
         wonCount: statusCounts['won'] || 0,
-        pendingSamples: samplesRes.count || 0,
+        pendingSamples: pendingSamples || 0,
       })
       setFunnel(funnelStages)
-      setRecent((recentRes.data || []) as Inquiry[])
+      setRecent((recent || []) as Inquiry[])
       setLoading(false)
     }
     load()

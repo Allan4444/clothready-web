@@ -3,7 +3,6 @@
 export const dynamic = 'force-dynamic'
 
 import { useEffect, useState } from 'react'
-import { supabaseAdmin } from '@/lib/supabase-admin-client'
 
 interface Customer {
   id: string
@@ -33,11 +32,9 @@ export default function CustomersPage() {
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabaseAdmin
-        .from('clients')
-        .select('*')
-        .order('created_at', { ascending: false })
-      const rows = (data || []) as Customer[]
+      const res = await fetch('/api/admin/clients')
+      const json = await res.json()
+      const rows = (json.data || []) as Customer[]
       setCustomers(rows)
       setFiltered(rows)
       setLoading(false)
@@ -59,12 +56,9 @@ export default function CustomersPage() {
 
   async function loadInquiries(email: string, customerId: string) {
     if (customerInquiries[customerId]) return
-    const { data } = await supabaseAdmin
-      .from('enquiries')
-      .select('id,product_category,quantity_range,created_at,status')
-      .eq('email', email)
-      .order('created_at', { ascending: false })
-    setCustomerInquiries(prev => ({ ...prev, [customerId]: (data || []) as Inquiry[] }))
+    const res = await fetch(`/api/admin/enquiries?email=${encodeURIComponent(email)}`)
+    const json = await res.json()
+    setCustomerInquiries(prev => ({ ...prev, [customerId]: (json.data || []) as Inquiry[] }))
   }
 
   function handleExpand(c: Customer) {
