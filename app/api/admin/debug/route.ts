@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 
 export async function GET() {
@@ -11,21 +10,27 @@ export async function GET() {
 
   const debug = {
     authed: cookieVal === 'true',
-    url_prefix: url.slice(0, 30),
-    service_key_prefix: serviceKey ? serviceKey.slice(0, 20) : 'NOT_SET',
-    anon_key_prefix: anonKey ? anonKey.slice(0, 20) : 'NOT_SET',
-    key_used_prefix: keyUsed.slice(0, 20),
+    url_prefix: url.slice(0, 40),
+    service_key_set: !!serviceKey,
+    service_key_length: serviceKey.length,
+    anon_key_length: anonKey.length,
+    keys_identical: serviceKey === anonKey,
   }
 
-  if (cookieVal !== 'true') {
-    return NextResponse.json({ error: 'not authed', debug })
-  }
-
+  // Try direct REST fetch
+  let fetchResult: any = null
   try {
-    const sb = createClient(url, keyUsed)
-    const { data, error } = await sb.from('products').select('id').limit(1)
-    return NextResponse.json({ debug, supabase_error: error?.message || null, data })
+    const res = await fetch(`${url}/rest/v1/products?select=id&limit=1`, {
+      headers: {
+        'apikey': keyUsed,
+        'Authorization': `Bearer ${keyUsed}`,
+      }
+    })
+    const text = await res.text()
+    fetchResult = { status: res.status, body: text.slice(0, 200) }
   } catch (e: any) {
-    return NextResponse.json({ debug, catch_error: e.message })
+    fetchResult = { catch_error: e.message }
   }
+
+  return NextResponse.json({ debug, fetchResult })
 }

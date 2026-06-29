@@ -1,12 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
-
-function getAdminClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  return createClient(url, key)
-}
+import { sbSelect, sbUpdate } from '@/lib/supabase-admin-fetch'
 
 function isAuthed() {
   return cookies().get('admin_auth')?.value === 'true'
@@ -14,17 +8,21 @@ function isAuthed() {
 
 export async function GET() {
   if (!isAuthed()) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const sb = getAdminClient()
-  const { data, error } = await sb.from('tech_packs').select('*').order('created_at', { ascending: false })
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json({ data })
+  try {
+    const data = await sbSelect('tech_packs', 'select=*&order=created_at.desc')
+    return NextResponse.json({ data })
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 500 })
+  }
 }
 
 export async function PUT(req: NextRequest) {
   if (!isAuthed()) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { id, ...body } = await req.json()
-  const sb = getAdminClient()
-  const { data, error } = await sb.from('tech_packs').update(body).eq('id', id).select().single()
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json({ data })
+  try {
+    const { id, ...body } = await req.json()
+    const data = await sbUpdate('tech_packs', id, body)
+    return NextResponse.json({ data })
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 500 })
+  }
 }
