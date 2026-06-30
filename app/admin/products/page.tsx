@@ -2,7 +2,7 @@
 
 export const dynamic = 'force-dynamic'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 interface Product {
   id: string
@@ -59,8 +59,31 @@ export default function ProductsPage() {
   const [editProduct, setEditProduct] = useState<Product | null>(null)
   const [form, setForm] = useState<typeof EMPTY_FORM>(EMPTY_FORM)
   const [saving, setSaving] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const fileRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => { loadProducts() }, [])
+
+  async function handleUpload(e: React.ChangeEvent<HTMLInputElement>, target: 'image_url' | 'images') {
+    const files = e.target.files
+    if (!files?.length) return
+    setUploading(true)
+    const urls: string[] = []
+    for (const file of Array.from(files)) {
+      const fd = new FormData()
+      fd.append('file', file)
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      const json = await res.json()
+      if (json.url) urls.push(json.url)
+    }
+    if (target === 'image_url' && urls[0]) {
+      setForm(prev => ({ ...prev, image_url: urls[0] }))
+    } else if (target === 'images') {
+      setForm(prev => ({ ...prev, images: [(prev as any).images, ...urls].filter(Boolean).join('\n') }))
+    }
+    setUploading(false)
+    e.target.value = ''
+  }
 
   async function loadProducts() {
     setLoading(true)
@@ -191,7 +214,7 @@ export default function ProductsPage() {
                 { key: 'description', label: 'Description', type: 'text' },
                 { key: 'moq', label: 'MOQ', type: 'number' },
                 { key: 'lead_time', label: 'Lead Time', type: 'text' },
-                { key: 'image_url', label: 'Main Image URL', type: 'text' },
+                { key: 'image_url', label: 'Main Image URL (or upload below)', type: 'text' },
               ] as { key: keyof typeof EMPTY_FORM; label: string; type: string }[]).map(field => (
                 <div key={field.key}>
                   <label style={{ display: 'block', color: '#888', fontSize: 12, marginBottom: 5 }}>{field.label}</label>
@@ -217,6 +240,18 @@ export default function ProductsPage() {
                   <option value="discontinued">Discontinued</option>
                 </select>
               </div>
+              {/* Upload main image */}
+              <div>
+                <label style={{ display: 'block', color: '#888', fontSize: 12, marginBottom: 5 }}>Upload Main Image</label>
+                <label style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#1a1a1a', border: '1px solid #2e2e2e', borderRadius: 6, padding: '7px 14px', color: '#aaa', fontSize: 13, cursor: 'pointer' }}>
+                  {uploading ? 'Uploading...' : '📁 Choose File'}
+                  <input type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handleUpload(e, 'image_url')} disabled={uploading} />
+                </label>
+                {(form as any).image_url && (
+                  <img src={(form as any).image_url} alt="" style={{ marginTop: 8, height: 60, borderRadius: 6, objectFit: 'cover', display: 'block' }} />
+                )}
+              </div>
+
               <div>
                 <label style={{ display: 'block', color: '#888', fontSize: 12, marginBottom: 5 }}>Colors (comma-separated)</label>
                 <input type="text" value={(form as any).colors}
@@ -235,10 +270,14 @@ export default function ProductsPage() {
               </div>
               <div>
                 <label style={{ display: 'block', color: '#888', fontSize: 12, marginBottom: 5 }}>Additional Images (one URL per line)</label>
+                <label style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#1a1a1a', border: '1px solid #2e2e2e', borderRadius: 6, padding: '7px 14px', color: '#aaa', fontSize: 13, cursor: 'pointer', marginBottom: 8 }}>
+                  {uploading ? 'Uploading...' : '📁 Upload Images (multi-select)'}
+                  <input type="file" accept="image/*" multiple style={{ display: 'none' }} onChange={e => handleUpload(e, 'images')} disabled={uploading} />
+                </label>
                 <textarea value={(form as any).images}
                   onChange={e => setForm(prev => ({ ...prev, images: e.target.value }))}
                   rows={3}
-                  placeholder="https://..."
+                  placeholder="https://... (auto-filled after upload, or paste URLs manually)"
                   style={{ width: '100%', background: '#1a1a1a', border: '1px solid #2e2e2e', borderRadius: 6, padding: '8px 12px', color: '#fff', fontSize: 14, boxSizing: 'border-box', outline: 'none', resize: 'vertical' }}
                 />
               </div>
