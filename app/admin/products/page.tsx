@@ -36,11 +36,16 @@ const FILTER_CATEGORIES = [{ value: 'All', label: 'All' }, ...CATEGORY_OPTIONS]
 const EMPTY_FORM = {
   name: '',
   sku: '',
+  slug: '',
   category: 'fitness',
   description: '',
   moq: 100,
   lead_time: '',
   image_url: '',
+  price: 0,
+  colors: 'Black, White, Navy, Charcoal, Red, Royal Blue, Forest Green, Burgundy, Beige, Pink, Olive, Camel',
+  sizes: 'XS, S, M, L, XL, XXL, XXXL',
+  images: '',
   status: 'active',
 }
 
@@ -81,17 +86,24 @@ export default function ProductsPage() {
 
   function openEdit(p: Product) {
     setEditProduct(p)
-    setForm({ name: p.name, sku: p.sku, category: p.category, description: p.description, moq: p.moq, lead_time: p.lead_time, image_url: p.image_url, status: p.status || 'active' })
+    const pa = p as any
+    setForm({ name: p.name, sku: p.sku, slug: pa.slug || '', category: p.category, description: p.description, moq: p.moq, lead_time: p.lead_time, image_url: p.image_url, price: pa.price || 0, colors: Array.isArray(pa.colors) ? pa.colors.join(', ') : (pa.colors || ''), sizes: Array.isArray(pa.sizes) ? pa.sizes.join(', ') : (pa.sizes || ''), images: Array.isArray(pa.images) ? pa.images.join('\n') : (pa.images || ''), status: p.status || 'active' })
     setShowModal(true)
   }
 
   async function handleSave() {
     setSaving(true)
     try {
+      const payload = {
+        ...form,
+        colors: form.colors ? form.colors.split(',').map((s: string) => s.trim()).filter(Boolean) : [],
+        sizes: form.sizes ? form.sizes.split(',').map((s: string) => s.trim()).filter(Boolean) : [],
+        images: form.images ? form.images.split('\n').map((s: string) => s.trim()).filter(Boolean) : [],
+      }
       if (editProduct) {
-        await fetch('/api/admin/products', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: editProduct.id, ...form }) })
+        await fetch('/api/admin/products', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: editProduct.id, ...payload }) })
       } else {
-        await fetch('/api/admin/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
+        await fetch('/api/admin/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
       }
       await loadProducts()
       setShowModal(false)
@@ -174,10 +186,12 @@ export default function ProductsPage() {
               {([
                 { key: 'name', label: 'Name', type: 'text' },
                 { key: 'sku', label: 'SKU (required, unique)', type: 'text' },
+                { key: 'slug', label: 'Slug (URL key, e.g. leggings)', type: 'text' },
+                { key: 'price', label: 'Base Price (USD)', type: 'number' },
                 { key: 'description', label: 'Description', type: 'text' },
                 { key: 'moq', label: 'MOQ', type: 'number' },
                 { key: 'lead_time', label: 'Lead Time', type: 'text' },
-                { key: 'image_url', label: 'Image URL', type: 'text' },
+                { key: 'image_url', label: 'Main Image URL', type: 'text' },
               ] as { key: keyof typeof EMPTY_FORM; label: string; type: string }[]).map(field => (
                 <div key={field.key}>
                   <label style={{ display: 'block', color: '#888', fontSize: 12, marginBottom: 5 }}>{field.label}</label>
@@ -202,6 +216,31 @@ export default function ProductsPage() {
                   <option value="draft">Draft</option>
                   <option value="discontinued">Discontinued</option>
                 </select>
+              </div>
+              <div>
+                <label style={{ display: 'block', color: '#888', fontSize: 12, marginBottom: 5 }}>Colors (comma-separated)</label>
+                <input type="text" value={(form as any).colors}
+                  onChange={e => setForm(prev => ({ ...prev, colors: e.target.value }))}
+                  placeholder="Black, White, Navy, Red..."
+                  style={{ width: '100%', background: '#1a1a1a', border: '1px solid #2e2e2e', borderRadius: 6, padding: '8px 12px', color: '#fff', fontSize: 14, boxSizing: 'border-box', outline: 'none' }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', color: '#888', fontSize: 12, marginBottom: 5 }}>Sizes (comma-separated)</label>
+                <input type="text" value={(form as any).sizes}
+                  onChange={e => setForm(prev => ({ ...prev, sizes: e.target.value }))}
+                  placeholder="XS, S, M, L, XL, XXL, XXXL"
+                  style={{ width: '100%', background: '#1a1a1a', border: '1px solid #2e2e2e', borderRadius: 6, padding: '8px 12px', color: '#fff', fontSize: 14, boxSizing: 'border-box', outline: 'none' }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', color: '#888', fontSize: 12, marginBottom: 5 }}>Additional Images (one URL per line)</label>
+                <textarea value={(form as any).images}
+                  onChange={e => setForm(prev => ({ ...prev, images: e.target.value }))}
+                  rows={3}
+                  placeholder="https://..."
+                  style={{ width: '100%', background: '#1a1a1a', border: '1px solid #2e2e2e', borderRadius: 6, padding: '8px 12px', color: '#fff', fontSize: 14, boxSizing: 'border-box', outline: 'none', resize: 'vertical' }}
+                />
               </div>
             </div>
             <div style={{ display: 'flex', gap: 10, marginTop: 24 }}>
