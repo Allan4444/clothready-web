@@ -13,14 +13,16 @@ export async function POST(req: NextRequest) {
 
   const formData = await req.formData()
   const file = formData.get('file') as File | null
+  const bucket = (formData.get('bucket') as string) || 'product-images'
   if (!file) return NextResponse.json({ error: 'No file provided' }, { status: 400 })
 
   const ext = file.name.split('.').pop() || 'jpg'
-  const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+  const originalName = file.name.replace(/[^a-zA-Z0-9._-]/g, '-')
+  const fileName = `${Date.now()}-${originalName}`
   const arrayBuffer = await file.arrayBuffer()
 
   const res = await fetch(
-    `${SUPABASE_URL}/storage/v1/object/product-images/${fileName}`,
+    `${SUPABASE_URL}/storage/v1/object/${bucket}/${fileName}`,
     {
       method: 'POST',
       headers: {
@@ -38,6 +40,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: err }, { status: 500 })
   }
 
-  const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/product-images/${fileName}`
+  const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/${bucket}/${fileName}`
   return NextResponse.json({ url: publicUrl })
 }
