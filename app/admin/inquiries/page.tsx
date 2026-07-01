@@ -3,7 +3,6 @@
 export const dynamic = 'force-dynamic'
 
 import { useEffect, useState } from 'react'
-import { supabaseAdmin } from '@/lib/supabase-admin-client'
 
 interface Inquiry {
   id: string
@@ -69,12 +68,9 @@ export default function InquiriesPage() {
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabaseAdmin
-        .from('enquiries')
-        .select('*')
-        .order('created_at', { ascending: false })
-
-      const rows = (data || []) as Inquiry[]
+      const res = await fetch('/api/admin/enquiries')
+      const json = await res.json()
+      const rows = (json.data || []) as Inquiry[]
       setInquiries(rows)
       setFiltered(rows)
 
@@ -97,7 +93,7 @@ export default function InquiriesPage() {
   }, [statusFilter, inquiries])
 
   async function updateStatus(id: string, status: string) {
-    await supabaseAdmin.from('enquiries').update({ status }).eq('id', id)
+    await fetch('/api/admin/enquiries', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, status }) })
     setInquiries(prev => prev.map(i => i.id === id ? { ...i, status } : i))
   }
 

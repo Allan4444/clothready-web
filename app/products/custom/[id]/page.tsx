@@ -1,14 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { toast } from 'sonner'
 import { useCart } from '@/components/CartContext'
 
-const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL']
-
-const COLORS = [
+const ALL_COLORS = [
   { name: 'Black',        hex: '#1a1a1a' },
   { name: 'White',        hex: '#f0f0f0', border: true },
   { name: 'Navy',         hex: '#1e3a5f' },
@@ -22,6 +20,9 @@ const COLORS = [
   { name: 'Olive',        hex: '#6d7c3a' },
   { name: 'Camel',        hex: '#c8a96e' },
 ]
+
+const COLOR_HEX: Record<string, string> = Object.fromEntries(ALL_COLORS.map(c => [c.name, c.hex]))
+const COLOR_BORDER: Record<string, boolean> = { White: true }
 
 const TIERS = [
   { label: '≥ 1 pcs',  disc: '',        mult: 1.00 },
@@ -88,21 +89,56 @@ const MOCK: Record<string, { name: string; sku: string; basePrice: number; imgs:
   },
 }
 
+interface ProductData {
+  name: string; sku: string; basePrice: number; imgs: string[]; description: string; details: string[]
+  colors: string[]; sizes: string[]
+}
+
+function mockToProduct(m: typeof MOCK[string]): ProductData {
+  return {
+    ...m,
+    colors: ALL_COLORS.map(c => c.name),
+    sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
+  }
+}
+
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>()
-  const product = MOCK[id as string]
   const { addItem } = useCart()
 
+  const [product, setProduct]             = useState<ProductData | null>(MOCK[id as string] ? mockToProduct(MOCK[id as string]) : null)
+  const [loading, setLoading]             = useState(true)
   const [activeImg, setActiveImg]         = useState(0)
   const [qty, setQty]                     = useState(1)
   const [selectedColor, setSelectedColor] = useState<string | null>(null)
   const [selectedSize, setSelectedSize]   = useState<string | null>(null)
 
+  useEffect(() => {
+    fetch(`/api/products/${id}`)
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data && data.name) {
+          setProduct({
+            name: data.name,
+            sku: data.sku,
+            basePrice: data.price || MOCK[id as string]?.basePrice || 0,
+            imgs: data.images?.length ? data.images : (MOCK[id as string]?.imgs || []),
+            description: data.description || MOCK[id as string]?.description || '',
+            details: MOCK[id as string]?.details || [],
+            colors: data.colors?.length ? data.colors : ALL_COLORS.map(c => c.name),
+            sizes: data.sizes?.length ? data.sizes : ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
+          })
+        }
+        setLoading(false)
+      })
+      .catch(() => setLoading(false))
+  }, [id])
+
   if (!product) {
     return (
       <main style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '5rem' }}>
         <div style={{ textAlign: 'center' }}>
-          <h1 style={{ color: '#111', marginBottom: '1rem' }}>Product not found</h1>
+          <h1 style={{ color: '#111', marginBottom: '1rem' }}>{loading ? 'Loading...' : 'Product not found'}</h1>
           <Link href="/products/custom" style={{ color: '#ff4757', textDecoration: 'none' }}>← Back to Products</Link>
         </div>
       </main>
@@ -191,9 +227,9 @@ export default function ProductDetailPage() {
             <div style={{ marginBottom: '1.25rem' }}>
               <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#777', fontWeight: 600, marginBottom: '0.6rem' }}>Color{selectedColor ? `: ${selectedColor}` : ''}</div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                {COLORS.map(c => (
-                  <button key={c.name} title={c.name} onClick={() => setSelectedColor(c.name)}
-                    style={{ width: 30, height: 30, borderRadius: 7, background: c.hex, border: selectedColor === c.name ? '2.5px solid #ff4757' : `1.5px solid ${c.border ? '#ccc' : 'transparent'}`, cursor: 'pointer', outline: selectedColor === c.name ? '2px solid rgba(255,71,87,0.25)' : 'none', outlineOffset: 2, transition: 'all 0.15s' }}
+                {product.colors.map(name => (
+                  <button key={name} title={name} onClick={() => setSelectedColor(name)}
+                    style={{ width: 30, height: 30, borderRadius: 7, background: COLOR_HEX[name] || '#ccc', border: selectedColor === name ? '2.5px solid #ff4757' : `1.5px solid ${COLOR_BORDER[name] ? '#ccc' : 'transparent'}`, cursor: 'pointer', outline: selectedColor === name ? '2px solid rgba(255,71,87,0.25)' : 'none', outlineOffset: 2, transition: 'all 0.15s' }}
                   />
                 ))}
               </div>
@@ -203,7 +239,7 @@ export default function ProductDetailPage() {
             <div style={{ marginBottom: '2rem' }}>
               <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#777', fontWeight: 600, marginBottom: '0.6rem' }}>Size</div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                {SIZES.map(s => (
+                {product.sizes.map(s => (
                   <button key={s} onClick={() => setSelectedSize(s)}
                     style={{ padding: '8px 16px', borderRadius: 8, border: `1.5px solid ${selectedSize === s ? '#ff4757' : 'rgba(0,0,0,0.14)'}`, background: selectedSize === s ? 'rgba(255,71,87,0.06)' : '#fff', color: selectedSize === s ? '#ff4757' : '#333', fontWeight: selectedSize === s ? 700 : 500, fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.15s' }}
                   >{s}</button>
