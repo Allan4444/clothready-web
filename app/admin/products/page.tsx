@@ -60,6 +60,7 @@ export default function ProductsPage() {
   const [form, setForm] = useState<typeof EMPTY_FORM>(EMPTY_FORM)
   const [saving, setSaving] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [seeding, setSeeding] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => { loadProducts() }, [])
@@ -154,6 +155,18 @@ export default function ProductsPage() {
             </button>
           ))}
         </div>
+        <button onClick={async () => {
+          if (!confirm('This will create/update the 8 standard products with correct slugs. Continue?')) return
+          setSeeding(true)
+          const res = await fetch('/api/admin/seed-products', { method: 'POST' })
+          const json = await res.json()
+          setSeeding(false)
+          if (res.ok) { alert('Done! Products seeded.'); loadProducts() }
+          else alert('Error: ' + (json.error || 'Unknown'))
+        }}
+          style={{ background: '#333', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 16px', fontSize: 14, fontWeight: 600, cursor: 'pointer', marginLeft: 12, whiteSpace: 'nowrap' }}>
+          {seeding ? 'Seeding...' : 'Seed Standard Products'}
+        </button>
         <button onClick={openAdd}
           style={{ background: '#ff4757', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 16px', fontSize: 14, fontWeight: 600, cursor: 'pointer', marginLeft: 12, whiteSpace: 'nowrap' }}>
           + Add Product
