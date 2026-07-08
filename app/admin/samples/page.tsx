@@ -73,9 +73,23 @@ export default function SamplesPage() {
     load()
   }, [])
 
-  async function updateStatus(id: string, status: string) {
-    await fetch('/api/admin/samples', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, status }) })
-    setOrders(prev => prev.map(o => o.id === id ? { ...o, status } : o))
+  async function updateStatus(row: SampleOrder, status: string) {
+    await fetch('/api/admin/samples', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: row.id, status }) })
+    setOrders(prev => prev.map(o => o.id === row.id ? { ...o, status } : o))
+
+    if (!row.email) return
+    const name = getCustomerName(row)
+    const orderNo = (row as any).order_no || row.id.slice(0, 8).toUpperCase()
+
+    if (status === 'in_production') {
+      await fetch('/api/admin/send-email', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ to: row.email, subject: `Sample Order Confirmed — ${orderNo}`, type: 'sample_confirmed', data: { name, orderNo } }) })
+    } else if (status === 'shipped') {
+      const trackingNo = (row as any).tracking_no || ''
+      const courier = (row as any).courier || 'DHL'
+      await fetch('/api/admin/send-email', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ to: row.email, subject: `Your Sample is Shipped! — ${orderNo}`, type: 'sample_shipped', data: { name, orderNo, courier, trackingNo } }) })
+    }
   }
 
   async function saveNotes(id: string) {
@@ -128,7 +142,7 @@ export default function SamplesPage() {
                     <td style={{ padding: '10px 14px' }} onClick={e => e.stopPropagation()}>
                       <select
                         value={row.status || 'Pending'}
-                        onChange={e => updateStatus(row.id, e.target.value)}
+                        onChange={e => updateStatus(row, e.target.value)}
                         style={{
                           background: '#1a1a1a',
                           border: '1px solid #2e2e2e',
