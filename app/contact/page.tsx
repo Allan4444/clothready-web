@@ -5,6 +5,9 @@ import { toast } from 'sonner'
 import Reveal from '@/components/ui/Reveal'
 import FileUpload, { UploadedFile } from '@/components/ui/FileUpload'
 
+const PRODUCT_TYPES = ['T-Shirt', 'Hoodie', 'Leggings', 'Sports Bra', 'Joggers', 'Tank Top', 'Jacket', 'Custom']
+const QUANTITY_RANGES = ['50-300', '300-1000', '1000-5000', '5000+']
+
 export default function ContactPage() {
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -16,6 +19,15 @@ export default function ContactPage() {
     setLoading(true)
     const fd = new FormData(e.currentTarget)
     let message = String(fd.get('message') || '')
+    if (subject === 'Custom Manufacturing') {
+      const productType = String(fd.get('product_type') || '')
+      const targetDate = String(fd.get('target_date') || '')
+      const extras = [
+        productType && `Product Type: ${productType}`,
+        targetDate && `Target Date: ${targetDate}`,
+      ].filter(Boolean)
+      if (extras.length) message = `${extras.join('\n')}\n\n${message}`
+    }
     if (attachments.length) {
       message += `\n\nAttachments:\n${attachments.map(a => `- ${a.name}: ${a.url}`).join('\n')}`
     }
@@ -25,9 +37,10 @@ export default function ContactPage() {
       company: String(fd.get('company') || ''),
       email: String(fd.get('email') || ''),
       phone: String(fd.get('phone') || ''),
-      country: '',
-      product_category: String(fd.get('subject') || ''),
-      quantity_range: '',
+      country: String(fd.get('country') || ''),
+      product_category: subject === 'Custom Manufacturing' ? String(fd.get('product_type') || '') : String(fd.get('subject') || ''),
+      quantity_range: subject === 'Custom Manufacturing' ? String(fd.get('quantity_range') || '') : '',
+      target_delivery: subject === 'Custom Manufacturing' ? (String(fd.get('target_date') || '') || undefined) : undefined,
       message,
     }
     try {
@@ -179,6 +192,9 @@ export default function ContactPage() {
                       <Field label="Company Name" name="company" placeholder="Your Company Ltd." />
                       <Field label="Phone Number" name="phone" type="tel" placeholder="+1 (555) 123-4567" />
                     </div>
+                    <div style={{ marginBottom: '1.1rem', maxWidth: '50%' }}>
+                      <Field label="Country" name="country" placeholder="United States" />
+                    </div>
 
                     <div style={{ marginBottom: subject === 'Sample Request' ? '0.75rem' : '1.1rem' }}>
                       <label style={labelStyle}>Subject *</label>
@@ -192,6 +208,29 @@ export default function ContactPage() {
                         <option value="Other">Other</option>
                       </select>
                     </div>
+
+                    {subject === 'Custom Manufacturing' && (
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px,1fr))', gap: '1rem', marginBottom: '1.1rem' }}>
+                        <div>
+                          <label style={labelStyle}>Product Type</label>
+                          <select name="product_type" style={inputStyle}>
+                            <option value="">Select...</option>
+                            {PRODUCT_TYPES.map(p => <option key={p} value={p}>{p}</option>)}
+                          </select>
+                        </div>
+                        <div>
+                          <label style={labelStyle}>Estimated Quantity</label>
+                          <select name="quantity_range" style={inputStyle}>
+                            <option value="">Select...</option>
+                            {QUANTITY_RANGES.map(q => <option key={q} value={q}>{q}</option>)}
+                          </select>
+                        </div>
+                        <div>
+                          <label style={labelStyle}>Target Date</label>
+                          <input type="date" name="target_date" style={inputStyle} />
+                        </div>
+                      </div>
+                    )}
 
                     {subject === 'Sample Request' && (
                       <div style={{
@@ -219,6 +258,14 @@ export default function ContactPage() {
                     <div style={{ marginBottom: '1.5rem' }}>
                       <FileUpload onChange={setAttachments} />
                     </div>
+
+                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', marginBottom: '1.25rem', fontSize: '0.8rem', color: '#666', lineHeight: 1.5, cursor: 'pointer' }}>
+                      <input type="checkbox" name="consent" required style={{ marginTop: 3, flexShrink: 0 }} />
+                      <span>
+                        I agree to the <a href="/privacy" target="_blank" rel="noopener noreferrer" style={{ color: '#ff4757', textDecoration: 'none' }}>Privacy Policy</a> and
+                        {' '}consent to my data being used to process my inquiry.
+                      </span>
+                    </label>
 
                     <button type="submit" disabled={loading}
                       style={{ width: '100%', padding: '14px', borderRadius: 50, background: loading ? 'rgba(255,71,87,0.5)' : 'linear-gradient(135deg,#ff4757,#ff6b6b)', color: '#fff', fontWeight: 700, fontSize: '0.95rem', border: 'none', cursor: loading ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', boxShadow: '0 8px 24px rgba(255,71,87,0.25)' }}>
