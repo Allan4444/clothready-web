@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 import Reveal from '@/components/ui/Reveal'
 import FileUpload, { UploadedFile } from '@/components/ui/FileUpload'
-import { samplesApi } from '@/lib/api'
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
@@ -51,9 +50,15 @@ export default function SampleOrderPage() {
     }
 
     try {
-      const res = await samplesApi.create(data)
-      setResult({ order_no: res.order_no })
-      toast.success(`Sample order ${res.order_no} created!`)
+      const res = await fetch('/api/samples', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+      const json = await res.json()
+      if (!res.ok || !json.success) throw new Error(json.error || 'Submission failed')
+      setResult({ order_no: json.order_no })
+      toast.success(`Sample order ${json.order_no} created!`)
     } catch (err: any) {
       toast.error(err.message || 'Submission failed')
     } finally {

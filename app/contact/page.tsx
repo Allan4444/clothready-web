@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 import Reveal from '@/components/ui/Reveal'
 import FileUpload, { UploadedFile } from '@/components/ui/FileUpload'
-import { enquiriesApi } from '@/lib/api'
 
 export default function ContactPage() {
   const [loading, setLoading] = useState(false)
@@ -33,7 +32,11 @@ export default function ContactPage() {
     }
     try {
       await Promise.all([
-        enquiriesApi.create(data),
+        fetch('/api/enquiries', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        }),
         fetch('/api/send-inquiry', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
