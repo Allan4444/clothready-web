@@ -3,16 +3,23 @@
 import { useState } from 'react'
 import { toast } from 'sonner'
 import Reveal from '@/components/ui/Reveal'
+import FileUpload, { UploadedFile } from '@/components/ui/FileUpload'
 import { enquiriesApi } from '@/lib/api'
 
 export default function ContactPage() {
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [attachments, setAttachments] = useState<UploadedFile[]>([])
+  const [subject, setSubject] = useState('')
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setLoading(true)
     const fd = new FormData(e.currentTarget)
+    let message = String(fd.get('message') || '')
+    if (attachments.length) {
+      message += `\n\nAttachments:\n${attachments.map(a => `- ${a.name}: ${a.url}`).join('\n')}`
+    }
     const data = {
       first_name: String(fd.get('name') || ''),
       last_name: '',
@@ -22,7 +29,7 @@ export default function ContactPage() {
       country: '',
       product_category: String(fd.get('subject') || ''),
       quantity_range: '',
-      message: String(fd.get('message') || ''),
+      message,
     }
     try {
       await Promise.all([
@@ -42,6 +49,8 @@ export default function ContactPage() {
         }),
       ])
       setSubmitted(true)
+      setAttachments([])
+      setSubject('')
       toast.success("Enquiry sent! We'll reply within 24 hours.")
       ;(e.target as HTMLFormElement).reset()
     } catch (err: any) {
@@ -146,7 +155,10 @@ export default function ContactPage() {
                       <i className="fas fa-check" style={{ color: '#2a9d5c', fontSize: '1.5rem' }} />
                     </div>
                     <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '0.5rem', color: '#111' }}>Thank You!</h3>
-                    <p style={{ color: '#777' }}>Your enquiry has been received. We&apos;ll reply within 24 hours.</p>
+                    <p style={{ color: '#777', marginBottom: '0.4rem' }}>Your enquiry has been received. We&apos;ll reply within 24 hours.</p>
+                    <p style={{ color: '#999', fontSize: '0.85rem' }}>
+                      For urgent matters, WhatsApp us: <a href="https://wa.me/8613412044008" target="_blank" rel="noopener noreferrer" style={{ color: '#ff4757', textDecoration: 'none', fontWeight: 600 }}>+86 134 1204 4008</a>
+                    </p>
                     <button onClick={() => setSubmitted(false)}
                       style={{ marginTop: '1.5rem', padding: '10px 28px', borderRadius: 50, border: '1px solid rgba(0,0,0,0.15)', background: 'transparent', color: '#111', cursor: 'pointer', fontSize: '0.85rem' }}>
                       Send Another
@@ -165,9 +177,9 @@ export default function ContactPage() {
                       <Field label="Phone Number" name="phone" type="tel" placeholder="+1 (555) 123-4567" />
                     </div>
 
-                    <div style={{ marginBottom: '1.1rem' }}>
+                    <div style={{ marginBottom: subject === 'Sample Request' ? '0.75rem' : '1.1rem' }}>
                       <label style={labelStyle}>Subject *</label>
-                      <select name="subject" required style={inputStyle}>
+                      <select name="subject" required style={inputStyle} value={subject} onChange={e => setSubject(e.target.value)}>
                         <option value="">Select a subject</option>
                         <option value="Custom Manufacturing">Custom Manufacturing</option>
                         <option value="In-Stock Order">In-Stock Order</option>
@@ -178,12 +190,31 @@ export default function ContactPage() {
                       </select>
                     </div>
 
-                    <div style={{ marginBottom: '1.5rem' }}>
+                    {subject === 'Sample Request' && (
+                      <div style={{
+                        marginBottom: '1.1rem', padding: '12px 16px', borderRadius: 10,
+                        background: 'rgba(255,71,87,0.06)', border: '1px solid rgba(255,71,87,0.2)',
+                      }}>
+                        <p style={{ margin: '0 0 8px', fontSize: '0.82rem', color: '#555', lineHeight: 1.6 }}>
+                          For sample orders, our dedicated form gets you a faster quote (garment type, fabric, quantity, shipping).
+                        </p>
+                        <a href="/sample-order"
+                          style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#ff4757', fontWeight: 700, fontSize: '0.82rem', textDecoration: 'none' }}>
+                          Go to Sample Order Page <i className="fas fa-arrow-right" />
+                        </a>
+                      </div>
+                    )}
+
+                    <div style={{ marginBottom: '1.1rem' }}>
                       <label style={labelStyle}>Your Message *</label>
                       <textarea name="message" rows={5} required
                         placeholder="Tell us about your project requirements, estimated quantities, product types, and timeline..."
                         style={{ ...inputStyle, resize: 'vertical' as const, minHeight: 120 }}
                       />
+                    </div>
+
+                    <div style={{ marginBottom: '1.5rem' }}>
+                      <FileUpload onChange={setAttachments} />
                     </div>
 
                     <button type="submit" disabled={loading}

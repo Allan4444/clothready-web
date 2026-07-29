@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { toast } from 'sonner'
 import Reveal from '@/components/ui/Reveal'
+import FileUpload, { UploadedFile } from '@/components/ui/FileUpload'
 import { samplesApi } from '@/lib/api'
 
 const inputStyle: React.CSSProperties = {
@@ -26,11 +27,16 @@ const dividerStyle: React.CSSProperties = {
 export default function SampleOrderPage() {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<{ order_no: string } | null>(null)
+  const [attachments, setAttachments] = useState<UploadedFile[]>([])
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setLoading(true)
     const fd = new FormData(e.currentTarget)
+    let requirements = String(fd.get('requirements') || '')
+    if (attachments.length) {
+      requirements += `\n\nAttachments:\n${attachments.map(a => `- ${a.name}: ${a.url}`).join('\n')}`
+    }
     const data = {
       contact_name: String(fd.get('contact_name') || ''),
       company: String(fd.get('company') || ''),
@@ -40,7 +46,7 @@ export default function SampleOrderPage() {
       fabric: String(fd.get('fabric') || ''),
       sample_qty: parseInt(String(fd.get('sample_qty') || '1')),
       bulk_qty: String(fd.get('bulk_qty') || ''),
-      requirements: String(fd.get('requirements') || ''),
+      requirements,
       courier: String(fd.get('courier') || 'DHL'),
     }
 
@@ -66,14 +72,17 @@ export default function SampleOrderPage() {
             <h1 className="text-3xl md:text-4xl font-bold mb-3">Order Submitted!</h1>
             <p className="text-gray-custom mb-2">Your sample order number is:</p>
             <div className="text-3xl font-mono font-bold text-primary mb-6">{result.order_no}</div>
-            <p className="text-sm text-gray-custom mb-6">
+            <p className="text-sm text-gray-custom mb-2">
               Save this number to track your order. We&apos;ll send a confirmation email shortly.
+            </p>
+            <p style={{ color: '#999', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
+              For urgent matters, WhatsApp us: <a href="https://wa.me/8613412044008" target="_blank" rel="noopener noreferrer" style={{ color: '#ff4757', textDecoration: 'none', fontWeight: 600 }}>+86 134 1204 4008</a>
             </p>
             <div className="flex gap-3 justify-center flex-wrap">
               <a href={`/tracking?order=${result.order_no}`} className="btn btn-primary">
                 Track Order <i className="fas fa-arrow-right" />
               </a>
-              <button onClick={() => setResult(null)} className="btn btn-outline">
+              <button onClick={() => { setResult(null); setAttachments([]) }} className="btn btn-outline">
                 Submit Another
               </button>
             </div>
@@ -135,6 +144,9 @@ export default function SampleOrderPage() {
                     placeholder="Colors, sizes, branding, prints, embroidery..."
                     style={{ ...inputStyle, resize: 'vertical' }}
                   />
+                </div>
+                <div style={{ marginTop: '1rem' }}>
+                  <FileUpload onChange={setAttachments} />
                 </div>
               </div>
 
