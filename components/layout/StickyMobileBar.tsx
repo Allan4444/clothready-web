@@ -7,33 +7,35 @@ export default function StickyMobileBar() {
     <div
       className="md:hidden"
       style={{
-        position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 60,
-        display: 'flex', borderTop: '1px solid rgba(0,0,0,0.08)',
-        background: '#fff', boxShadow: '0 -4px 20px rgba(0,0,0,0.08)',
-        paddingBottom: 'env(safe-area-inset-bottom)',
+        position: 'fixed', right: 16, bottom: '18%', zIndex: 60,
+        display: 'flex', flexDirection: 'column', gap: 12,
       }}
     >
       <a
         href="https://wa.me/8613412044008"
         target="_blank"
         rel="noopener noreferrer"
+        aria-label="Chat on WhatsApp"
         style={{
-          flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-          padding: '14px 0', background: '#25D366', color: '#fff', fontWeight: 700, fontSize: '0.9rem',
-          textDecoration: 'none',
+          width: 52, height: 52, borderRadius: '50%',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          background: '#25D366', color: '#fff', fontSize: '1.5rem',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.25)', textDecoration: 'none',
         }}
       >
-        <i className="fab fa-whatsapp" style={{ fontSize: '1.1rem' }} /> WhatsApp
+        <i className="fab fa-whatsapp" />
       </a>
       <Link
         href="/contact"
+        aria-label="Get a Quote"
         style={{
-          flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-          padding: '14px 0', background: 'linear-gradient(135deg,#ff4757,#ff6b6b)', color: '#fff',
-          fontWeight: 700, fontSize: '0.9rem', textDecoration: 'none',
+          width: 52, height: 52, borderRadius: '50%',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          background: 'linear-gradient(135deg,#ff4757,#ff6b6b)', color: '#fff', fontSize: '1.2rem',
+          boxShadow: '0 4px 16px rgba(255,71,87,0.4)', textDecoration: 'none',
         }}
       >
-        Get Quote <i className="fas fa-arrow-right" />
+        <i className="fas fa-file-invoice-dollar" />
       </Link>
     </div>
   )
