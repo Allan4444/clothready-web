@@ -55,7 +55,7 @@ export const ALL_FAQS: FAQItem[] = [
   },
   {
     q: 'How do you control product quality?',
-    a: 'Quality control is performed throughout production. Our QC process includes:\n\n- Fabric inspection\n- Cutting inspection\n- Sewing inspection\n- Measurement checking\n- Logo/application checking\n- Final product inspection\n- Packing inspection\n\nWe focus on consistent quality from the first sample to bulk production.',
+    a: 'Quality control is performed throughout production.\n\nOur QC process includes:\n\n1. Fabric inspection\n2. Cutting inspection\n3. Sewing inspection\n4. Measurement checking\n5. Logo/application checking\n6. Final product inspection\n7. Packing inspection\n\nWe focus on consistent quality from the first sample to bulk production.',
   },
   {
     q: 'Can you provide product photos or samples?',
@@ -63,7 +63,7 @@ export const ALL_FAQS: FAQItem[] = [
   },
   {
     q: 'Do you ship internationally?',
-    a: 'Yes.\n\nWe work with customers worldwide and can assist with shipping solutions including:\n\n- Express shipping\n- Air freight\n- Sea freight\n\nShipping options depend on destination country, order volume, and required delivery time.',
+    a: 'Yes.\n\nWe work with customers worldwide and can assist with shipping solutions including:\n\n- Express shipping\n- Air freight\n- Sea freight\n\nShipping options depend on:\n\n- Destination country\n- Order volume\n- Required delivery time',
   },
   {
     q: 'What payment methods do you accept?',
