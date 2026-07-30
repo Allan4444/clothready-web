@@ -9,7 +9,7 @@ const FEATURES = [
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-12">
+    <section className="relative min-h-[68vh] flex items-center justify-center overflow-hidden pt-24 pb-8">
       <video
         autoPlay
         muted
@@ -26,12 +26,12 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black" />
 
       <div className="container-1200 relative z-10 text-center">
-        <h1 style={{ fontSize: 'clamp(2.2rem, 5vw, 3.2rem)', fontWeight: 900, lineHeight: 1.15, color: '#fff', margin: '0 auto', maxWidth: 780 }}>
+        <h1 style={{ fontSize: 'clamp(2.2rem, 5vw, 3.2rem)', fontWeight: 900, lineHeight: 1.15, color: '#fff', margin: 0 }}>
           Custom Activewear &amp; Streetwear Manufacturer<br />
           <span style={{ color: '#ff4757' }}>for Growing Brands</span>
         </h1>
 
-        <p style={{ marginTop: '1.5rem', color: 'rgba(255,255,255,0.8)', fontSize: '1.05rem', lineHeight: 1.75, maxWidth: 640, margin: '1.5rem auto 0' }}>
+        <p style={{ marginTop: '1.5rem', color: 'rgba(255,255,255,0.8)', fontSize: '1.05rem', lineHeight: 1.75 }}>
           Launch your clothing collection with a trusted China manufacturing partner.
           From 50-piece MOQ to full-scale production, ClothReady helps emerging brands create
           premium apparel with flexible customization and reliable quality control.
