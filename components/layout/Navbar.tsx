@@ -28,7 +28,7 @@ const SIMPLE_LINKS = [
 export default function Navbar() {
   const pathname  = usePathname()
   const router    = useRouter()
-  const isLight   = true
+  const isLight   = pathname !== '/'
   const { count } = useCart()
   const { data: session } = useSession()
   const [scrolled, setScrolled]         = useState(false)
