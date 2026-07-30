@@ -14,7 +14,7 @@ export default function Process() {
     <section className="section">
       <div className="container-1200">
         <Reveal>
-          <div className="text-center mb-12">
+          <div className="text-center mb-10">
             <div className="section-label"><i className="fas fa-cogs" /> Our Process</div>
             <h2 className="section-title">How We Work Together</h2>
             <p className="section-subtitle mx-auto">
@@ -23,43 +23,37 @@ export default function Process() {
           </div>
         </Reveal>
 
-        <div className="relative max-w-[1200px] mx-auto">
-          {/* center vertical line */}
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-white/10 -translate-x-1/2" />
-
-          {STEPS.map((s, i) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {STEPS.map((s) => (
             <Reveal key={s.n}>
-              <div className={`relative mb-12 md:flex ${i % 2 === 0 ? 'md:justify-start md:pr-[55%]' : 'md:justify-end md:pl-[55%]'}`}>
-                {/* center dot */}
-                <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 top-8 w-14 h-14 bg-white rounded-full items-center justify-center z-10">
-                  <i className="fas fa-circle text-dark text-sm" />
-                </div>
-
-                <div className="card max-w-full md:max-w-[520px]">
-                  <div className="text-5xl font-extrabold text-primary/30 mb-2">{s.n}</div>
-                  <h3 className="text-xl font-bold mb-2">{s.title}</h3>
-                  <p className="text-gray-custom mb-3">{s.desc}</p>
-                  <div className="inline-flex items-center gap-2 bg-primary/15 px-3 py-1.5 rounded-full text-xs mb-3">
-                    <i className="fas fa-stopwatch text-primary" /> {s.time}
+              <div className="card h-full">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-9 h-9 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0">
+                    <span className="text-primary text-xs font-extrabold">{s.n}</span>
                   </div>
-                  <ul className="space-y-1 text-sm text-gray-custom pl-5 list-disc">
-                    {s.items.map((it) => <li key={it}>{it}</li>)}
-                  </ul>
+                  <h3 className="text-base font-bold leading-tight">{s.title}</h3>
                 </div>
+                <p className="text-gray-custom text-sm mb-2">{s.desc}</p>
+                <div className="inline-flex items-center gap-1.5 bg-primary/15 px-2.5 py-1 rounded-full text-[0.7rem] mb-2.5">
+                  <i className="fas fa-stopwatch text-primary" /> {s.time}
+                </div>
+                <ul className="space-y-0.5 text-xs text-gray-custom pl-4 list-disc">
+                  {s.items.map((it) => <li key={it}>{it}</li>)}
+                </ul>
               </div>
             </Reveal>
           ))}
+        </div>
 
-          <div className="text-center mt-8">
-            <div className="inline-block bg-white text-dark px-10 py-6 rounded-2xl">
-              <div className="text-xs font-bold uppercase tracking-widest mb-1">Total Timeline</div>
-              <div className="text-4xl font-extrabold">20-35 Days</div>
-              <div className="text-sm text-gray-500">From First Call to Delivery</div>
-            </div>
-            <p className="mt-4 text-gray-custom">
-              <i className="fas fa-bolt text-warning" /> <strong className="text-white">Rush orders available:</strong> Contact us for urgent projects
-            </p>
+        <div className="text-center mt-8">
+          <div className="inline-block bg-white text-dark px-10 py-5 rounded-2xl">
+            <div className="text-xs font-bold uppercase tracking-widest mb-1">Total Timeline</div>
+            <div className="text-3xl font-extrabold">20-35 Days</div>
+            <div className="text-sm text-gray-500">From First Call to Delivery</div>
           </div>
+          <p className="mt-4 text-gray-custom">
+            <i className="fas fa-bolt text-warning" /> <strong className="text-white">Rush orders available:</strong> Contact us for urgent projects
+          </p>
         </div>
       </div>
     </section>
