@@ -4,6 +4,7 @@ import { Toaster } from 'sonner'
 import { Analytics } from '@vercel/analytics/react'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import StickyMobileBar from '@/components/layout/StickyMobileBar'
 import PageThemeSync from '@/components/layout/PageThemeSync'
 import { Providers } from '@/components/Providers'
 import './globals.css'
@@ -87,6 +88,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer />
           <Toaster position="top-center" theme="dark" />
         </Providers>
+        <StickyMobileBar />
         <Analytics />
       </body>
     </html>

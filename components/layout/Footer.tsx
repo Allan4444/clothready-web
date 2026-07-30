@@ -58,6 +58,10 @@ export default function Footer() {
                 { href: '/products/custom-jackets-manufacturer',   label: 'Custom Jackets' },
                 { href: '/products/streetwear-manufacturer',       label: 'Streetwear' },
                 { href: '/products/custom-swimsuits-manufacturer', label: 'Custom Swimsuits' },
+                { href: '/activewear-manufacturer-china',           label: 'Activewear Mfr. China' },
+                { href: '/private-label-gym-wear',                  label: 'Private Label Gym Wear' },
+                { href: '/custom-hoodie-manufacturer',              label: 'Custom Hoodie Mfr.' },
+                { href: '/low-moq-clothing-factory',                label: 'Low MOQ Clothing Factory' },
               ].map(({ href, label }) => (
                 <Link key={href} href={href} className="footer-link" style={{ fontSize: '0.875rem' }}>
                   {label}

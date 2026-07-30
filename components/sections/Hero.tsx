@@ -23,39 +23,28 @@ export default function Hero() {
           <i className="fas fa-fire" /> OEM · ODM · Private Label
         </div>
 
-        <h1 className="text-5xl md:text-7xl font-extrabold uppercase leading-tight tracking-tight animate-fade-up">
-          Fitness &amp; Leisure<br />
-          Wear Factory<br />
-          <span className="bg-gradient-primary bg-clip-text text-transparent">Since 2010</span>
+        <h1 className="text-4xl md:text-6xl font-extrabold uppercase leading-tight tracking-tight animate-fade-up">
+          Premium Activewear &amp; Streetwear<br />
+          <span className="bg-gradient-primary bg-clip-text text-transparent">Manufacturer For Emerging Brands</span>
         </h1>
 
-        <p className="mt-6 text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
-          MOQ 50 pieces &nbsp;•&nbsp; Tech pack support included<br />
-          Direct to factory owner · Dongguan, China
+        <p className="mt-6 text-lg md:text-xl text-white font-semibold">
+          Low MOQ Starting From 50pcs
+        </p>
+        <p className="mt-2 text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
+          Helping Fitness &amp; Streetwear Brands Launch Faster
+        </p>
+        <p className="mt-3 text-sm text-white/60 max-w-2xl mx-auto">
+          Located in Dongguan, China&apos;s largest apparel manufacturing hub
         </p>
 
         <div className="mt-8 flex flex-wrap gap-3 justify-center">
-          <Link href="/sample-order" className="btn btn-white">
-            Start Sample Order <i className="fas fa-arrow-right" />
+          <Link href="/contact" className="btn btn-white">
+            Get Quote <i className="fas fa-arrow-right" />
           </Link>
           <Link href="/products/custom" className="btn btn-outline">
             <i className="fas fa-th-large" /> View Products
           </Link>
-        </div>
-
-        <div className="mt-12 flex flex-wrap justify-center gap-8 md:gap-12">
-          {[
-            { icon: '🏭', n: '15+', l: 'Years Experience' },
-            { icon: '📐', n: '50pcs', l: 'Minimum Order' },
-            { icon: '⚡', n: '20–35d', l: 'Lead Time' },
-            { icon: '✅', n: '100%', l: 'QC Inspected' },
-          ].map((s, i) => (
-            <div key={i} className="text-center min-w-[120px]">
-              <div className="text-3xl mb-1">{s.icon}</div>
-              <div className="text-xl md:text-2xl font-extrabold text-primary">{s.n}</div>
-              <div className="text-xs text-gray-custom mt-1">{s.l}</div>
-            </div>
-          ))}
         </div>
       </div>
     </section>

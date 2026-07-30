@@ -1,4 +1,5 @@
 import Hero from '@/components/sections/Hero'
+import TrustBar from '@/components/sections/TrustBar'
 import Guarantees from '@/components/sections/Guarantees'
 import WhoWeWorkWith from '@/components/sections/WhoWeWorkWith'
 import Process from '@/components/sections/Process'
@@ -10,6 +11,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <TrustBar />
       <Guarantees />
       <WhoWeWorkWith />
       <Process />

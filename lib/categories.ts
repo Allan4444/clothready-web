@@ -29,7 +29,7 @@ export interface Category {
   ctaText: string
 }
 
-const standardPricing: { label: string; value: string }[] = [
+export const standardPricing: { label: string; value: string }[] = [
   { label: 'MOQ', value: '50 pieces per style per color' },
   { label: 'Sample Lead Time', value: '7–10 business days' },
   { label: 'Bulk Lead Time', value: '25–35 business days after sample approval' },
@@ -38,7 +38,7 @@ const standardPricing: { label: string; value: string }[] = [
   { label: 'Shipping', value: 'FOB Shenzhen — air or sea freight available' },
 ]
 
-const standardProcess = (item: string): { title: string; desc: string }[] => [
+export const standardProcess = (item: string): { title: string; desc: string }[] => [
   { title: 'Send Us Your Brief', desc: `Share your designs, tech pack, reference samples, or just a concept for your ${item}. We'll review and reply within 24 hours.` },
   { title: 'Fabric & Trim Selection', desc: 'Choose from our fabric library or we source to your spec. We send swatches before sampling starts.' },
   { title: 'Sample Production', desc: `We produce a physical ${item} sample in 7–10 days. You review fit, fabric, branding, and construction.` },
@@ -642,6 +642,10 @@ export function getCategoryName(slug: string): string {
     'oversized-tshirt-manufacturer': 'Oversized T-Shirts',
     'custom-jackets-manufacturer': 'Custom Jackets',
     'custom-swimsuits-manufacturer': 'Custom Swimsuits',
+    'activewear-manufacturer-china': 'Activewear Manufacturer China',
+    'private-label-gym-wear': 'Private Label Gym Wear',
+    'custom-hoodie-manufacturer': 'Custom Hoodie Manufacturer',
+    'low-moq-clothing-factory': 'Low MOQ Clothing Factory',
   }
   return names[slug] ?? slug
 }
