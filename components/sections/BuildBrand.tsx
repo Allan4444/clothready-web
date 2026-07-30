@@ -41,24 +41,62 @@ export default function BuildBrand() {
               Start Your Million-Dollar Brand Today
             </h3>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-              <Link href="/sample-order?type=new" style={{ textDecoration: 'none' }}>
-                <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, padding: '2rem 1.5rem', textAlign: 'center', cursor: 'pointer', transition: 'border-color 0.3s' }}>
+              <Link href="/sample-order?type=new" className="bb-choice-card" style={{ textDecoration: 'none' }}>
+                <div className="bb-choice-inner">
                   <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>{'\uD83C\uDF31'}</div>
                   <div style={{ fontWeight: 700, fontSize: '1rem', marginBottom: '0.5rem', color: '#fff' }}>New Brand / First Time</div>
                   <p style={{ color: '#888', fontSize: '0.85rem', lineHeight: 1.6 }}>I'm launching my first clothing brand or testing the market</p>
+                  <span className="bb-choice-arrow">Get Started <i className="fas fa-arrow-right" /></span>
                 </div>
               </Link>
-              <Link href="/sample-order?type=experienced" style={{ textDecoration: 'none' }}>
-                <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, padding: '2rem 1.5rem', textAlign: 'center', cursor: 'pointer', transition: 'border-color 0.3s' }}>
+              <Link href="/sample-order?type=experienced" className="bb-choice-card" style={{ textDecoration: 'none' }}>
+                <div className="bb-choice-inner">
                   <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>{'\uD83D\uDE80'}</div>
                   <div style={{ fontWeight: 700, fontSize: '1rem', marginBottom: '0.5rem', color: '#fff' }}>Experienced Brand</div>
                   <p style={{ color: '#888', fontSize: '0.85rem', lineHeight: 1.6 }}>I already have a brand and I'm looking to scale or switch manufacturers</p>
+                  <span className="bb-choice-arrow">Get Started <i className="fas fa-arrow-right" /></span>
                 </div>
               </Link>
             </div>
           </div>
         </Reveal>
       </div>
+
+      <style>{`
+        .bb-choice-inner {
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 14px;
+          padding: 2rem 1.5rem;
+          text-align: center;
+          cursor: pointer;
+          transition: border-color 0.25s, background 0.25s, transform 0.25s, box-shadow 0.25s;
+        }
+        .bb-choice-arrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          margin-top: 1rem;
+          color: #ff4757;
+          font-weight: 700;
+          font-size: 0.8rem;
+          text-transform: uppercase;
+          letter-spacing: 0.04em;
+          opacity: 0;
+          transform: translateY(4px);
+          transition: opacity 0.25s, transform 0.25s;
+        }
+        .bb-choice-card:hover .bb-choice-inner {
+          border-color: rgba(255,71,87,0.5);
+          background: rgba(255,71,87,0.06);
+          transform: translateY(-6px);
+          box-shadow: 0 12px 30px rgba(255,71,87,0.2);
+        }
+        .bb-choice-card:hover .bb-choice-arrow {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      `}</style>
     </section>
   )
 }
