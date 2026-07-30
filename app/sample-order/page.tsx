@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 import Reveal from '@/components/ui/Reveal'
 import FileUpload, { UploadedFile } from '@/components/ui/FileUpload'
+import { useFormAnalytics } from '@/lib/analytics'
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
@@ -27,6 +28,18 @@ export default function SampleOrderPage() {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<{ order_no: string } | null>(null)
   const [attachments, setAttachments] = useState<UploadedFile[]>([])
+  const fa = useFormAnalytics('sample_order')
+
+  function handleFieldFocus(e: React.FocusEvent<HTMLFormElement>) {
+    const name = (e.target as HTMLElement).getAttribute('name')
+    if (name) fa.onFieldFocus(name)
+  }
+
+  function handleFieldBlur(e: React.FocusEvent<HTMLFormElement>) {
+    const target = e.target as unknown as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    const name = target.getAttribute('name')
+    if (name) fa.onFieldBlur(name, target.value || '')
+  }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -59,8 +72,11 @@ export default function SampleOrderPage() {
       if (!res.ok || !json.success) throw new Error(json.error || 'Submission failed')
       setResult({ order_no: json.order_no })
       toast.success(`Sample order ${json.order_no} created!`)
+      fa.onSubmitSuccess({ garment_type: data.garment_type })
     } catch (err: any) {
-      toast.error(err.message || 'Submission failed')
+      const msg = err.message || 'Submission failed'
+      toast.error(msg)
+      fa.onSubmitError(msg)
     } finally {
       setLoading(false)
     }
@@ -114,7 +130,7 @@ export default function SampleOrderPage() {
       <section className="section pt-0">
         <div className="container-1200">
           <div className="card max-w-3xl mx-auto">
-            <form onSubmit={onSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <form onSubmit={onSubmit} onFocus={handleFieldFocus} onBlur={handleFieldBlur} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 
               {/* Contact */}
               <div>

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 import Reveal from '@/components/ui/Reveal'
 import FileUpload, { UploadedFile } from '@/components/ui/FileUpload'
+import { useFormAnalytics } from '@/lib/analytics'
 
 const PRODUCT_TYPES = ['T-Shirt', 'Hoodie', 'Leggings', 'Sports Bra', 'Joggers', 'Tank Top', 'Jacket', 'Custom']
 const QUANTITY_RANGES = ['50-300', '300-1000', '1000-5000', '5000+']
@@ -13,6 +14,18 @@ export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false)
   const [attachments, setAttachments] = useState<UploadedFile[]>([])
   const [subject, setSubject] = useState('')
+  const fa = useFormAnalytics('contact')
+
+  function handleFieldFocus(e: React.FocusEvent<HTMLFormElement>) {
+    const name = (e.target as HTMLElement).getAttribute('name')
+    if (name) fa.onFieldFocus(name)
+  }
+
+  function handleFieldBlur(e: React.FocusEvent<HTMLFormElement>) {
+    const target = e.target as unknown as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    const name = target.getAttribute('name')
+    if (name) fa.onFieldBlur(name, target.value || '')
+  }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -68,9 +81,12 @@ export default function ContactPage() {
       setAttachments([])
       setSubject('')
       toast.success("Enquiry sent! We'll reply within 24 hours.")
+      fa.onSubmitSuccess({ subject: data.product_category })
       ;(e.target as HTMLFormElement).reset()
     } catch (err: any) {
-      toast.error(err.message || 'Something went wrong. Please email us directly at info@clothready.com')
+      const msg = err.message || 'Something went wrong. Please email us directly at info@clothready.com'
+      toast.error(msg)
+      fa.onSubmitError(msg)
     } finally {
       setLoading(false)
     }
@@ -181,7 +197,7 @@ export default function ContactPage() {
                     </button>
                   </div>
                 ) : (
-                  <form onSubmit={onSubmit}>
+                  <form onSubmit={onSubmit} onFocus={handleFieldFocus} onBlur={handleFieldBlur}>
                     <h2 style={{ fontWeight: 800, fontSize: '1.25rem', marginBottom: '1.5rem', color: '#111' }}>Send Us a Message</h2>
 
                     <div style={formRow}>
