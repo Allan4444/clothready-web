@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Reveal from '@/components/ui/Reveal'
-import { HOMEPAGE_FAQS } from '@/lib/faqs'
+import { HOMEPAGE_FAQS, HOMEPAGE_FAQ_SUMMARIES } from '@/lib/faqs'
 import FaqJsonLd from '@/components/seo/FaqJsonLd'
 
 export default function FaqPreview() {
@@ -20,11 +20,11 @@ export default function FaqPreview() {
 
         <Reveal>
           <div className="grid-2" style={{ maxWidth: 900, margin: '0 auto' }}>
-            {HOMEPAGE_FAQS.map((item) => (
+            {HOMEPAGE_FAQS.map((item, i) => (
               <div key={item.q} className="card">
                 <h3 className="font-bold mb-2" style={{ fontSize: '0.95rem' }}>{item.q}</h3>
-                <p className="text-gray-custom text-sm" style={{ lineHeight: 1.7, whiteSpace: 'pre-line' }}>
-                  {item.a.length > 180 ? `${item.a.slice(0, 180).replace(/\n[\s\S]*/, '')}…` : item.a}
+                <p className="text-gray-custom text-sm" style={{ lineHeight: 1.7 }}>
+                  {HOMEPAGE_FAQ_SUMMARIES[i]}
                 </p>
               </div>
             ))}

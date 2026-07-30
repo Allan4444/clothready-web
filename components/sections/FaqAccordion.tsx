@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import type { FAQItem } from '@/lib/faqs'
+import FaqAnswer from './FaqAnswer'
 
 interface Props {
   items: FAQItem[]
@@ -40,9 +41,9 @@ export default function FaqAccordion({ items, startIndexAt = 0 }: Props) {
           </button>
           {open === i && (
             <div style={{ padding: '0 1.5rem 1.5rem 1.5rem' }}>
-              <p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.75, margin: 0, paddingLeft: '2.25rem', whiteSpace: 'pre-line' }}>
-                {item.a}
-              </p>
+              <div style={{ paddingLeft: '2.25rem' }}>
+                <FaqAnswer text={item.a} />
+              </div>
             </div>
           )}
         </div>

@@ -24,7 +24,7 @@ export const FAQ_LANDING_PAGES: FaqLandingPage[] = [
       ...pick([2, 1, 10, 11, 8, 9, 12, 4, 14, 16]),
       {
         q: 'Do you offer performance testing on activewear fabrics?',
-        a: 'Yes. For orders using compression or moisture-wicking fabrics, we can arrange stretch recovery, pilling, and colorfastness testing before bulk production, and share lab reports on request.',
+        a: 'Yes.\n\nFor orders using compression or moisture-wicking fabrics, we can arrange:\n\n- Stretch recovery testing\n- Pilling testing\n- Colorfastness testing\n\nLab reports are shared with you on request before bulk production.',
       },
     ],
   },
@@ -38,7 +38,7 @@ export const FAQ_LANDING_PAGES: FaqLandingPage[] = [
       ...pick([4, 3, 6, 11, 18, 15, 17, 16, 19, 2]),
       {
         q: 'Do you offer packaging design help, or just apply my existing artwork?',
-        a: "Both. If you already have label and packaging artwork, we apply it directly to production. If you don't, our team can suggest layouts and packaging formats commonly used by activewear and streetwear brands, which you then approve before we produce."
+        a: "Both.\n\nIf you already have label and packaging artwork, we apply it directly to production.\n\nIf you don't, our team can suggest layouts and packaging formats commonly used by activewear and streetwear brands, which you then approve before we produce."
       },
     ],
   },
