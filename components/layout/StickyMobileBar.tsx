@@ -3,7 +3,6 @@
 export default function StickyMobileBar() {
   return (
     <div
-      className="md:hidden"
       style={{
         position: 'fixed', right: 16, bottom: '18%', zIndex: 60,
       }}
