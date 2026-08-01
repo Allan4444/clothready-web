@@ -2,7 +2,7 @@ import Reveal from '@/components/ui/Reveal'
 
 const SHOTS = [
   {
-    img: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=900&q=85',
+    img: 'https://tnsrlwrpwynpridhsbmt.supabase.co/storage/v1/object/public/product-images/1785600457382-----_2026-05-27_093520_393.jpg',
     title: 'Automated Cutting',
     desc: 'Computer-controlled cutting tables ensure every panel is cut to spec — precision that hand-cutting cannot match.',
   },
@@ -12,7 +12,7 @@ const SHOTS = [
     desc: 'Overhead hanging conveyor system moves garments through sewing stations without creasing or handling damage.',
   },
   {
-    img: 'https://images.unsplash.com/photo-1556906781-9a412961c28c?w=900&q=85',
+    img: 'https://tnsrlwrpwynpridhsbmt.supabase.co/storage/v1/object/public/product-images/1785600570146-----_2026-05-27_093501_037.jpg',
     title: 'Manual Quality Inspection',
     desc: 'Every garment is hand-measured against the spec sheet — tape measure in hand, no shortcuts before it reaches packing.',
   },
