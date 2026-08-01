@@ -3,7 +3,6 @@ import Reveal from '@/components/ui/Reveal'
 const SEGMENTS = [
   { emoji: '🚀', title: 'Fitness Startups' },
   { emoji: '💪', title: 'Gym Apparel Brands' },
-  { emoji: '📦', title: 'Amazon Sellers' },
   { emoji: '👗', title: 'Fashion Labels' },
   { emoji: '📱', title: 'Influencer Brands' },
 ]
