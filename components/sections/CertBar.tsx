@@ -1,8 +1,8 @@
 const CERTS = [
-  { icon: 'fa-people-group', label: 'BSCI', sub: 'Social Compliance Audited' },
-  { icon: 'fa-certificate', label: 'ISO 9001', sub: 'Quality Management' },
-  { icon: 'fa-leaf', label: 'OEKO-TEX', sub: 'Standard 100 Fabrics' },
-  { icon: 'fa-file-shield', label: 'BV / SGS', sub: 'Third-Party Inspection Ready' },
+  { icon: 'fa-vial', label: 'Color Fastness Testing', sub: 'In-house fabric lab' },
+  { icon: 'fa-magnet', label: 'Needle Detection', sub: '100% metal-free scan' },
+  { icon: 'fa-ruler', label: 'AQL 2.5 Inspection', sub: 'Every bulk order' },
+  { icon: 'fa-file-shield', label: 'BV / SGS', sub: 'Third-party inspection on request' },
 ]
 
 export default function CertBar() {
