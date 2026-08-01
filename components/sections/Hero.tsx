@@ -10,19 +10,10 @@ const FEATURES = [
 export default function Hero() {
   return (
     <section className="relative min-h-[68vh] flex items-center justify-center overflow-hidden pt-24 pb-8">
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        poster="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&q=80"
-        className="absolute inset-0 w-full h-full object-cover opacity-50"
-      >
-        <source
-          src="https://assets.mixkit.co/videos/preview/mixkit-woman-doing-squats-with-a-barbell-40711-large.mp4"
-          type="video/mp4"
-        />
-      </video>
+      <div
+        className="absolute inset-0 w-full h-full bg-cover bg-center opacity-50"
+        style={{ backgroundImage: "url('https://tnsrlwrpwynpridhsbmt.supabase.co/storage/v1/object/public/product-images/1785580004231-bar05.jpg')" }}
+      />
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black" />
 
       <div className="container-1200 relative z-10 text-center">
