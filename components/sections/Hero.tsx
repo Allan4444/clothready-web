@@ -9,7 +9,7 @@ const FEATURES = [
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[92vh] flex items-center justify-center overflow-hidden pt-40 pb-8">
+    <section className="hero-section relative flex items-center justify-center overflow-hidden pt-40 pb-8">
       <div
         className="absolute inset-0 w-full h-full bg-cover bg-center opacity-95"
         style={{ backgroundImage: "url('https://tnsrlwrpwynpridhsbmt.supabase.co/storage/v1/object/public/product-images/1785580004231-bar05.jpg')" }}
@@ -58,6 +58,13 @@ export default function Hero() {
           </Link>
         </div>
       </div>
+
+      <style>{`
+        .hero-section { height: 1020px; }
+        @media (max-width: 900px) {
+          .hero-section { height: auto; min-height: 92vh; }
+        }
+      `}</style>
     </section>
   )
 }
