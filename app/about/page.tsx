@@ -2,7 +2,9 @@
 
 import Reveal from '@/components/ui/Reveal'
 import Link from 'next/link'
-import SocialFeed from '@/components/sections/SocialFeed'
+import ProductionCapability from '@/components/sections/ProductionCapability'
+import DongguanCluster from '@/components/sections/DongguanCluster'
+import FactoryVideo from '@/components/sections/FactoryVideo'
 
 const FEATURES = [
   { icon: 'fa-handshake', title: 'Direct Factory Access', desc: 'No middlemen. You work directly with factory owners and production managers in Dongguan.' },
@@ -57,8 +59,14 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Social Feed — white variant */}
-      <SocialFeed light />
+      {/* Dongguan supply chain cluster + production capacity */}
+      <DongguanCluster />
+
+      {/* Factory walkthrough video */}
+      <FactoryVideo />
+
+      {/* Production Capability — white variant */}
+      <ProductionCapability light />
 
       {/* CTA */}
       <section className="section">

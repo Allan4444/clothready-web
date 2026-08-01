@@ -39,6 +39,7 @@ export default function Footer() {
               <li><Link href="/about" className="footer-link">About Us</Link></li>
               <li><Link href="/products" className="footer-link">All Products</Link></li>
               <li><Link href="/about#social-feed" className="footer-link">Social Feed</Link></li>
+              <li><Link href="/fabric-library" className="footer-link">Fabric Library</Link></li>
               <li><Link href="/faq" className="footer-link">FAQ</Link></li>
               <li><Link href="/contact" className="footer-link">Contact</Link></li>
             </ul>
