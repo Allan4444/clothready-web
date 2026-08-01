@@ -40,20 +40,10 @@ export default function Hero() {
         </div>
 
         <div style={{ display: 'flex', gap: '1rem', marginTop: '3.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <Link href="/contact" style={{
-            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-            padding: '1rem 2.25rem', background: '#ff4757', color: '#fff',
-            fontWeight: 700, fontSize: '0.85rem', letterSpacing: '0.04em',
-            textTransform: 'uppercase', textDecoration: 'none', borderRadius: 4,
-          }}>
+          <Link href="/contact" className="hero-cta hero-cta-primary">
             Get Your Free Quote
           </Link>
-          <Link href="/products/custom" style={{
-            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-            padding: '1rem 2.25rem', background: 'transparent', color: '#fff',
-            border: '1px solid rgba(255,255,255,0.4)', fontWeight: 700, fontSize: '0.85rem',
-            letterSpacing: '0.04em', textTransform: 'uppercase', textDecoration: 'none', borderRadius: 4,
-          }}>
+          <Link href="/products/custom" className="hero-cta hero-cta-outline">
             Explore Our Products
           </Link>
         </div>
@@ -64,6 +54,16 @@ export default function Hero() {
         @media (max-width: 900px) {
           .hero-section { height: auto; min-height: 92vh; }
         }
+        .hero-cta {
+          display: inline-flex; align-items: center; justify-content: center;
+          padding: 1rem 2.25rem; font-weight: 700; font-size: 0.85rem;
+          letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none;
+          border-radius: 50px; transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+        }
+        .hero-cta-primary { background: #ff4757; color: #fff; }
+        .hero-cta-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(255,71,87,0.4); }
+        .hero-cta-outline { background: rgba(255,255,255,0.04); color: #fff; border: 1px solid rgba(255,255,255,0.25); }
+        .hero-cta-outline:hover { transform: translateY(-3px); background: rgba(255,255,255,0.1); box-shadow: 0 10px 28px rgba(0,0,0,0.3); }
       `}</style>
     </section>
   )

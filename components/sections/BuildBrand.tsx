@@ -33,7 +33,7 @@ export default function BuildBrand() {
         <Reveal>
           <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20, padding: '2.5rem 2rem' }}>
             <div className="text-center" style={{ marginBottom: '2rem' }}>
-              <Link href="/sample-order" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'linear-gradient(135deg, #ff4757, #ff6b6b)', color: '#fff', padding: '14px 32px', borderRadius: 50, fontWeight: 700, fontSize: '0.9rem', textDecoration: 'none', letterSpacing: '0.05em', textTransform: 'uppercase', boxShadow: '0 8px 30px rgba(255,71,87,0.35)' }}>
+              <Link href="/sample-order" className="hero-cta hero-cta-primary" style={{ gap: '0.5rem', boxShadow: '0 8px 30px rgba(255,71,87,0.35)' }}>
                 {'\uD83D\uDE80'} GET YOUR QUOTE IN 24 HOURS
               </Link>
             </div>
