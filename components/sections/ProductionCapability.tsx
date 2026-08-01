@@ -7,7 +7,7 @@ const SHOTS = [
     desc: 'Computer-controlled cutting tables ensure every panel is cut to spec — precision that hand-cutting cannot match.',
   },
   {
-    img: 'https://images.unsplash.com/photo-1434682881908-b43d0467b798?w=900&q=85',
+    img: 'https://tnsrlwrpwynpridhsbmt.supabase.co/storage/v1/object/public/product-images/1785600073777-----_20260801181820_68_39.jpg',
     title: 'Hanging Conveyor Line',
     desc: 'Overhead hanging conveyor system moves garments through sewing stations without creasing or handling damage.',
   },
