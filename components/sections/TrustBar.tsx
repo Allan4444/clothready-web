@@ -7,15 +7,15 @@ const STATS = [
 
 export default function TrustBar() {
   return (
-    <section style={{ background: 'var(--dark)' }}>
+    <section style={{ background: '#fff', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
       <div className="container-1200" style={{ padding: '3rem 2rem' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '3rem' }}>
           {STATS.map((s) => (
             <div key={s.l} style={{ display: 'flex', alignItems: 'center', gap: '1rem', minWidth: 180 }}>
               <i className={`fas ${s.icon}`} style={{ color: '#ff4757', fontSize: '1.8rem', flexShrink: 0 }} />
               <div>
-                <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>{s.n}</div>
-                <div style={{ fontSize: '0.8rem', color: '#999', letterSpacing: '0.02em' }}>{s.l}</div>
+                <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#111', lineHeight: 1.2 }}>{s.n}</div>
+                <div style={{ fontSize: '0.8rem', color: '#777', letterSpacing: '0.02em' }}>{s.l}</div>
               </div>
             </div>
           ))}

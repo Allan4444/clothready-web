@@ -9,7 +9,7 @@ const SEGMENTS = [
 
 export default function WhoWeWorkWith() {
   return (
-    <section className="section bg-darker">
+    <section className="section" style={{ background: '#f7f7f7' }}>
       <div className="container-1200">
         <Reveal>
           <div className="text-center mb-10">

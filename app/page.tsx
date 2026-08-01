@@ -15,7 +15,7 @@ export default function HomePage() {
       <WhyChooseUs />
       <WhoWeWorkWith />
       <Process />
-      <SocialFeed />
+      <SocialFeed light />
       <FaqPreview />
       <BuildBrand />
     </>

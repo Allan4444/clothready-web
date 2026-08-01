@@ -25,10 +25,10 @@ const ITEMS = [
 
 export default function WhyChooseUs() {
   return (
-    <section style={{ background: 'var(--dark)' }}>
+    <section style={{ background: '#fff' }}>
       <div className="container-1200" style={{ padding: '4rem 2rem' }}>
         <Reveal>
-          <h2 style={{ textAlign: 'center', color: '#fff', fontSize: 'clamp(1.5rem, 3vw, 2rem)', fontWeight: 800, marginBottom: '3rem' }}>
+          <h2 style={{ textAlign: 'center', color: '#111', fontSize: 'clamp(1.5rem, 3vw, 2rem)', fontWeight: 800, marginBottom: '3rem' }}>
             Why Brands Choose ClothReady
           </h2>
         </Reveal>
@@ -36,16 +36,16 @@ export default function WhyChooseUs() {
         <Reveal>
           <div className="why-grid">
             {ITEMS.map((item, i) => (
-              <div key={item.title} className="why-item" style={{ borderLeft: i === 0 ? 'none' : '1px solid rgba(255,255,255,0.1)' }}>
+              <div key={item.title} className="why-item" style={{ borderLeft: i === 0 ? 'none' : '1px solid rgba(0,0,0,0.08)' }}>
                 <div style={{
                   width: 56, height: 56, borderRadius: '50%', margin: '0 auto 1.25rem',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  boxShadow: '0 0 0 8px rgba(255,71,87,0.08), 0 0 24px rgba(255,71,87,0.25)',
+                  boxShadow: '0 0 0 8px rgba(255,71,87,0.06), 0 0 24px rgba(255,71,87,0.18)',
                 }}>
                   <i className={`fas ${item.icon}`} style={{ color: '#ff4757', fontSize: '1.6rem' }} />
                 </div>
-                <h3 style={{ color: '#fff', fontWeight: 700, fontSize: '1rem', marginBottom: '0.75rem' }}>{item.title}</h3>
-                <p style={{ color: '#999', fontSize: '0.85rem', lineHeight: 1.7 }}>{item.desc}</p>
+                <h3 style={{ color: '#111', fontWeight: 700, fontSize: '1rem', marginBottom: '0.75rem' }}>{item.title}</h3>
+                <p style={{ color: '#666', fontSize: '0.85rem', lineHeight: 1.7 }}>{item.desc}</p>
               </div>
             ))}
           </div>

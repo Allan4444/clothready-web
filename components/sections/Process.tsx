@@ -18,7 +18,7 @@ export default function Process() {
             <div className="section-label"><i className="fas fa-cogs" /> Our Process</div>
             <h2 className="section-title">How We Work Together</h2>
             <p className="section-subtitle mx-auto">
-              Our proven <strong className="text-white">6-step process</strong> from concept to your customers
+              Our proven <strong style={{ color: '#111' }}>6-step process</strong> from concept to your customers
             </p>
           </div>
         </Reveal>
@@ -46,13 +46,13 @@ export default function Process() {
         </div>
 
         <div className="text-center mt-8">
-          <div className="inline-block bg-white text-dark px-10 py-5 rounded-2xl">
+          <div className="inline-block bg-dark text-white px-10 py-5 rounded-2xl">
             <div className="text-xs font-bold uppercase tracking-widest mb-1">Total Timeline</div>
             <div className="text-3xl font-extrabold">20-35 Days</div>
             <div className="text-sm text-gray-500">From First Call to Delivery</div>
           </div>
           <p className="mt-4 text-gray-custom">
-            <i className="fas fa-bolt text-warning" /> <strong className="text-white">Rush orders available:</strong> Contact us for urgent projects
+            <i className="fas fa-bolt text-warning" /> <strong style={{ color: '#111' }}>Rush orders available:</strong> Contact us for urgent projects
           </p>
         </div>
       </div>
