@@ -16,6 +16,7 @@ const STEPS = [
 
 const PRODUCTS = [
   { id: 'leggings',   name: 'Leggings & Yoga Pants',   cat: 'Fitness',    img: 'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=800&q=85', moq: 50,  lead: '20–30 days', price: 'USD 8–18 / pc',    fabrics: ['Nylon/Spandex', '4-way stretch', 'Moisture-wicking'] },
+  { id: 'compression-leggings', name: 'Compression Leggings', cat: 'Fitness', img: 'https://images.unsplash.com/photo-1548690312-e3b507d8c110?w=800&q=85', moq: 500, lead: '20–30 days', price: 'USD 9–19 / pc', fabrics: ['Nylon/Spandex', 'Four-way stretch', 'Squat proof'] },
   { id: 'sports-bra', name: 'Sports Bras & Tops',      cat: 'Fitness',    img: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&q=85', moq: 50,  lead: '20–30 days', price: 'USD 6–14 / pc',    fabrics: ['Polyester/Spandex', 'Breathable mesh', 'Removable pads'] },
   { id: 'hoodie',     name: 'Hoodies & Sweatshirts',   cat: 'Streetwear', img: 'https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800&q=85', moq: 50,  lead: '25–35 days', price: 'USD 12–28 / pc',   fabrics: ['French terry', 'Fleece 280–380gsm', 'Organic cotton'] },
   { id: 'joggers',    name: 'Joggers & Track Pants',   cat: 'Streetwear', img: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800&q=85', moq: 50,  lead: '20–30 days', price: 'USD 10–22 / pc',   fabrics: ['Cotton blend', 'Ripstop nylon', 'French terry'] },

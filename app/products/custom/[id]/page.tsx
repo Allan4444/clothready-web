@@ -38,59 +38,73 @@ function getActiveTier(qty: number) {
   return 0
 }
 
-const MOCK: Record<string, { name: string; sku: string; basePrice: number; imgs: string[]; description: string; details: string[] }> = {
+interface TechSpec {
+  fabric: string
+  weight: string
+  features: string[]
+  moq: string
+  sampling: string
+}
+
+const MOCK: Record<string, { name: string; sku: string; basePrice: number; imgs: string[]; description: string; techSpec: TechSpec }> = {
   leggings: {
     name: 'Leggings & Yoga Pants', sku: 'CL-LEG-001', basePrice: 14,
     imgs: ['https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=800&q=85','https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=800&q=85','https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&q=85'],
     description: 'High-performance leggings and yoga pants crafted from premium Nylon/Spandex blend. 4-way stretch construction allows full freedom of movement during any workout. Flatlock seams prevent chafing. Available in custom colors with your brand label.',
-    details: ['Fabric: 80% Nylon / 20% Spandex','Weight: 230–280 gsm','4-way stretch, moisture-wicking','Wide elastic waistband, no-roll','MOQ: 50 pcs per colorway','Lead time: 20–30 days'],
+    techSpec: { fabric: '80% Nylon / 20% Spandex', weight: '230–280 GSM', features: ['Four-way stretch', 'Moisture wicking', 'Wide elastic waistband, no-roll'], moq: '50 pcs/color', sampling: '7–10 days' },
+  },
+  'compression-leggings': {
+    name: 'Compression Leggings', sku: 'CL-LEG-002', basePrice: 15,
+    imgs: ['https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=800&q=85','https://images.unsplash.com/photo-1548690312-e3b507d8c110?w=800&q=85','https://images.unsplash.com/photo-1594381898411-846e7d193883?w=800&q=85'],
+    description: 'High-compression leggings engineered for serious training. Graduated compression supports muscle recovery while a squat-proof, four-way-stretch build holds its shape through the toughest workouts.',
+    techSpec: { fabric: '75% Nylon / 25% Spandex', weight: '250 GSM', features: ['Four-way stretch', 'Moisture wicking', 'Squat proof'], moq: '500 pcs/color', sampling: '7–10 days' },
   },
   'sports-bra': {
     name: 'Sports Bras & Tops', sku: 'CL-BRA-001', basePrice: 10,
     imgs: ['https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&q=85','https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=800&q=85','https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=800&q=85'],
     description: 'Supportive sports bras and crop tops engineered for high-impact activities. Breathable mesh panels enhance airflow. Removable pads included. Custom logo, label, and colorways available.',
-    details: ['Fabric: 75% Polyester / 25% Spandex','Weight: 200–240 gsm','Breathable mesh lining','Removable padding included','MOQ: 50 pcs per colorway','Lead time: 20–30 days'],
+    techSpec: { fabric: '75% Polyester / 25% Spandex', weight: '200–240 GSM', features: ['Breathable mesh lining', 'Removable padding included'], moq: '50 pcs/color', sampling: '7–10 days' },
   },
   hoodie: {
     name: 'Hoodies & Sweatshirts', sku: 'CL-HOD-001', basePrice: 20,
     imgs: ['https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800&q=85','https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=85','https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800&q=85'],
     description: 'Premium hoodies and sweatshirts in heavyweight French terry and fleece. Drop-shoulder or standard fit. Embroidery, screen print, and heat transfer customization available.',
-    details: ['Fabric: French Terry / Fleece','Weight: 280–380 gsm','Ribbed cuffs and hem','Kangaroo pocket optional','MOQ: 50 pcs per colorway','Lead time: 25–35 days'],
+    techSpec: { fabric: 'French Terry / Fleece', weight: '280–380 GSM', features: ['Ribbed cuffs and hem', 'Kangaroo pocket optional'], moq: '50 pcs/color', sampling: '10–14 days' },
   },
   joggers: {
     name: 'Joggers & Track Pants', sku: 'CL-JOG-001', basePrice: 16,
     imgs: ['https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800&q=85','https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800&q=85','https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=85'],
     description: 'Comfortable joggers and track pants in cotton blend and ripstop nylon. Elastic waistband with drawstring. Tapered or straight leg. Side pockets and back pocket available.',
-    details: ['Fabric: Cotton Blend / Ripstop Nylon','Weight: 250–320 gsm','Elastic waistband + drawstring','Side zip pockets optional','MOQ: 50 pcs per colorway','Lead time: 20–30 days'],
+    techSpec: { fabric: 'Cotton Blend / Ripstop Nylon', weight: '250–320 GSM', features: ['Elastic waistband + drawstring', 'Side zip pockets optional'], moq: '50 pcs/color', sampling: '7–10 days' },
   },
   tshirt: {
     name: 'T-Shirts & Tanks', sku: 'CL-TEE-001', basePrice: 7,
     imgs: ['https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=85','https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800&q=85','https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=800&q=85'],
     description: 'Classic and fashion-fit tees and tanks in 100% cotton and cotton-poly blends. Screen print, DTG, embroidery, and heat transfer options. Your brand woven label and hang tag included.',
-    details: ['Fabric: 100% Cotton / Cotton-Poly Blend','Weight: 160–220 gsm','Crew neck / V-neck / round hem','Pre-shrunk','MOQ: 50 pcs per colorway','Lead time: 15–25 days'],
+    techSpec: { fabric: '100% Cotton / Cotton-Poly Blend', weight: '160–220 GSM', features: ['Crew neck / V-neck / round hem', 'Pre-shrunk'], moq: '50 pcs/color', sampling: '7–10 days' },
   },
   jacket: {
     name: 'Jackets & Outerwear', sku: 'CL-JAC-001', basePrice: 38,
     imgs: ['https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&q=85','https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800&q=85','https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800&q=85'],
     description: 'Technical and fashion outerwear in windbreaker nylon, softshell, and down-fill construction. YKK zippers. Custom lining, logo patch, and labeling available.',
-    details: ['Fabric: Windbreaker Nylon / Softshell','Water-resistant DWR coating','YKK zippers','Custom lining options','MOQ: 100 pcs per colorway','Lead time: 30–40 days'],
+    techSpec: { fabric: 'Windbreaker Nylon / Softshell', weight: 'DWR-coated, water-resistant', features: ['YKK zippers', 'Custom lining options'], moq: '100 pcs/color', sampling: '10–14 days' },
   },
   shorts: {
     name: 'Shorts & Skorts', sku: 'CL-SHO-001', basePrice: 9,
     imgs: ['https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=800&q=85','https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=800&q=85','https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&q=85'],
     description: 'Quick-dry shorts and skorts for running, training, and casual wear. Built-in liner available. Side pockets and back zip pocket options. Full color sublimation available.',
-    details: ['Fabric: Quick-dry Polyester / Woven Stretch','Weight: 140–180 gsm','Built-in liner optional','Side + back zip pockets','MOQ: 50 pcs per colorway','Lead time: 15–25 days'],
+    techSpec: { fabric: 'Quick-dry Polyester / Woven Stretch', weight: '140–180 GSM', features: ['Built-in liner optional', 'Side + back zip pockets'], moq: '50 pcs/color', sampling: '7–10 days' },
   },
   sets: {
     name: 'Matching Sets', sku: 'CL-SET-001', basePrice: 29,
     imgs: ['https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=800&q=85','https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=800&q=85','https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&q=85'],
     description: "Coordinated two-piece matching sets in seamless knit and ribbed fabric. Perfect for your brand's core activewear collection. All pieces color-matched from the same dye lot.",
-    details: ['Fabric: Seamless Knit / Ribbed Jersey','Weight: 220–260 gsm','Same-dye-lot color matching','Bra + leggings / shorts options','MOQ: 50 sets per colorway','Lead time: 25–35 days'],
+    techSpec: { fabric: 'Seamless Knit / Ribbed Jersey', weight: '220–260 GSM', features: ['Same-dye-lot color matching', 'Bra + leggings / shorts options'], moq: '50 sets/color', sampling: '10–14 days' },
   },
 }
 
 interface ProductData {
-  name: string; sku: string; basePrice: number; imgs: string[]; description: string; details: string[]
+  name: string; sku: string; basePrice: number; imgs: string[]; description: string; techSpec: TechSpec
   colors: string[]; sizes: string[]
 }
 
@@ -124,7 +138,7 @@ export default function ProductDetailPage() {
             basePrice: data.price || MOCK[id as string]?.basePrice || 0,
             imgs: data.images?.length ? data.images : (MOCK[id as string]?.imgs || []),
             description: data.description || MOCK[id as string]?.description || '',
-            details: MOCK[id as string]?.details || [],
+            techSpec: MOCK[id as string]?.techSpec || { fabric: '', weight: '', features: [], moq: '', sampling: '' },
             colors: data.colors?.length ? data.colors : ALL_COLORS.map(c => c.name),
             sizes: data.sizes?.length ? data.sizes : ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
           })
@@ -267,12 +281,43 @@ export default function ProductDetailPage() {
             {/* Description */}
             <div style={{ borderTop: '1px solid rgba(0,0,0,0.08)', paddingTop: '1.75rem' }}>
               <h3 style={{ fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#111', marginBottom: '0.9rem' }}>Description</h3>
-              <p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.8, marginBottom: '1.1rem' }}>{product.description}</p>
-              <ul style={{ paddingLeft: '1.2rem', margin: 0, display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
-                {product.details.map(d => (
-                  <li key={d} style={{ color: '#666', fontSize: '0.85rem', lineHeight: 1.5 }}>{d}</li>
-                ))}
-              </ul>
+              <p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.8 }}>{product.description}</p>
+            </div>
+
+            {/* Tech Spec */}
+            <div style={{ borderTop: '1px solid rgba(0,0,0,0.08)', paddingTop: '1.75rem' }}>
+              <h3 style={{ fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#111', marginBottom: '1.1rem' }}>Tech Spec</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
+                <div>
+                  <div style={{ color: '#999', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.2rem' }}>Fabric</div>
+                  <div style={{ color: '#111', fontSize: '0.9rem', fontWeight: 600 }}>{product.techSpec.fabric}</div>
+                </div>
+                <div>
+                  <div style={{ color: '#999', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.2rem' }}>Weight</div>
+                  <div style={{ color: '#111', fontSize: '0.9rem', fontWeight: 600 }}>{product.techSpec.weight}</div>
+                </div>
+                <div>
+                  <div style={{ color: '#999', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>Features</div>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                    {product.techSpec.features.map(f => (
+                      <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', color: '#333', fontSize: '0.9rem', fontWeight: 600 }}>
+                        <i className="fas fa-check" style={{ color: '#2a9d5c', fontSize: '0.8rem', marginTop: '0.3rem', flexShrink: 0 }} />
+                        <span>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div style={{ display: 'flex', gap: '2rem' }}>
+                  <div>
+                    <div style={{ color: '#999', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.2rem' }}>MOQ</div>
+                    <div style={{ color: '#111', fontSize: '0.9rem', fontWeight: 600 }}>{product.techSpec.moq}</div>
+                  </div>
+                  <div>
+                    <div style={{ color: '#999', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.2rem' }}>Sampling</div>
+                    <div style={{ color: '#111', fontSize: '0.9rem', fontWeight: 600 }}>{product.techSpec.sampling}</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
