@@ -12,8 +12,8 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <CertBar />
       <TrustBar />
+      <CertBar />
       <WhyChooseUs />
       <WhoWeWorkWith />
       <Process />
